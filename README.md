@@ -22,7 +22,7 @@ The load history chart is tinted with the following colors to reflect the system
 
 If available, battery charge is displayed on the right.
 
-![Screenshot](http://i.imgur.com/XhtmoTY.png)
+![Screenshot](http://i.imgur.com/XhtmoTY.png?1)
 
 # USAGE
 
