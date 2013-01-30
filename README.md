@@ -8,7 +8,7 @@ version 0.1
 
 # SYNOPSIS
 
-    rainbarf --tmux --width 20 --no-battery
+    rainbarf --tmux --width 40 --no-battery
 
 # DESCRIPTION
 
@@ -27,12 +27,18 @@ Just go to [https://github.com/creaktive/rainbarf](https://github.com/creaktive/
 # USAGE
 
 Put `rainbarf` into your `$PATH`.
-Add the following lines to your `~/.tmux.conf` file:
+Add the following line to your `~/.tmux.conf` file:
 
     set -g status-right '#(rainbarf --tmux)'
-    set -g status-interval 30
 
 Reload the tmux config by running `tmux source-file ~/.tmux.conf`.
+
+# CAVEAT
+
+Load stats are persistently stored in the `~/.rainbarf.dat` file.
+Every `rainbarf` execution will update and rotate that file.
+Since `tmux` calls `rainbarf` periodically (every 15 seconds, by default), the graph will display load for the last ~9.5 minutes (15 \* 38).
+Thus, several `tmux` instances running simultaneously for the same user will result in a faster graph scrolling.
 
 # SEE ALSO
 

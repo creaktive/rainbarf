@@ -9,7 +9,7 @@ use File::Spec::Functions;
 use Getopt::Long;
 use List::Util qw(max sum);
 use Pod::Usage;
-use Storable;
+use Storable qw(lock_retrieve lock_store);
 use Term::ANSIColor;
 
 ## no critic (ProhibitBacktickOperators, ProhibitComplexRegexes)
@@ -25,14 +25,12 @@ GetOptions(
 ) or pod2usage(q(-verbose) => 1);
 pod2usage(q(-verbose) => 2) if $help;
 $show_battery = 1 unless defined $show_battery;
-$width = 40 unless defined $width;
+$width = 38 unless defined $width;
 
 my $history = catfile($ENV{HOME}, q(.rainbarf.dat));
 
-my $graph = eval { retrieve $history };
+my $graph = eval { lock_retrieve $history };
 $graph = [ (0) x $width ] unless defined $graph;
-
-shift @$graph;
 
 my @load;
 if (open my $loadavg, q{<}, q{/proc/loadavg}) {
@@ -43,9 +41,8 @@ if (open my $loadavg, q{<}, q{/proc/loadavg}) {
 }
 
 push @$graph => $load[0];
-store $graph => $history;
-
 splice @$graph, 0, @$graph - $width;
+lock_store $graph => $history;
 
 my $norm = max @$graph;
 $norm = $norm <= @ticks
@@ -154,7 +151,7 @@ version 0.1
 
 =head1 SYNOPSIS
 
- rainbarf --tmux --width 20 --no-battery
+ rainbarf --tmux --width 40 --no-battery
 
 =head1 DESCRIPTION
 
@@ -180,12 +177,18 @@ Just go to L<https://github.com/creaktive/rainbarf> to see some screenshots.
 =head1 USAGE
 
 Put F<rainbarf> into your C<$PATH>.
-Add the following lines to your F<~/.tmux.conf> file:
+Add the following line to your F<~/.tmux.conf> file:
 
  set -g status-right '#(rainbarf --tmux)'
- set -g status-interval 30
 
 Reload the tmux config by running C<tmux source-file ~/.tmux.conf>.
+
+=head1 CAVEAT
+
+Load stats are persistently stored in the F<~/.rainbarf.dat> file.
+Every C<rainbarf> execution will update and rotate that file.
+Since C<tmux> calls C<rainbarf> periodically (every 15 seconds, by default), the graph will display load for the last ~9.5 minutes (15 * 38).
+Thus, several C<tmux> instances running simultaneously for the same user will result in a faster graph scrolling.
 
 =head1 SEE ALSO
 
