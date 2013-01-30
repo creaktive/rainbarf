@@ -22,7 +22,7 @@ The load history chart is tinted with the following colors to reflect the system
 
 If available, battery charge is displayed on the right.
 
-Just go to [https://github.com/creaktive/rainbarf](https://github.com/creaktive/rainbarf) to see some screenshots.
+![Screenshot](http://i.imgur.com/XhtmoTY.png)
 
 # USAGE
 
