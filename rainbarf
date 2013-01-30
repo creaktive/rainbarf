@@ -1,0 +1,185 @@
+#!/usr/bin/perl
+use 5.008;
+use open q(:locale);
+use strict;
+use utf8;
+use warnings qw(all);
+
+use File::Spec::Functions;
+use Getopt::Long;
+use List::Util qw(max sum);
+use POSIX qw(nice);
+use Pod::Usage;
+use Storable;
+use Term::ANSIColor;
+
+## no critic (ProhibitBacktickOperators, ProhibitComplexRegexes)
+nice 20;
+
+my @ticks = qw[▁ ▂ ▃ ▄ ▅ ▆ ▇ █];
+
+GetOptions(
+    q(help)     => \my $help,
+    q(battery!) => \my $show_battery,
+    q(tmux!)    => \my $tmux,
+    q(width=i)  => \my $width,
+) or pod2usage(q(-verbose) => 1);
+pod2usage(q(-verbose) => 2) if $help;
+$show_battery = 1 unless defined $show_battery;
+$width = 40 unless defined $width;
+
+my $history = catfile($ENV{HOME}, q(.rainbarf.dat));
+
+my $graph = eval { retrieve $history };
+$graph = [ (0) x $width ] unless defined $graph;
+
+shift @$graph;
+
+my @load;
+if (open my $loadavg, q{<}, q{/proc/loadavg}) {
+    @load = (split /\s+/x, <$loadavg>)[0 .. 2];
+    close $loadavg;
+} elsif (-x q{/usr/bin/uptime}) {
+    @load = (split /\s+/x, qx{/usr/bin/uptime})[-3 .. -1];
+}
+
+push @$graph => $load[0];
+store $graph => $history;
+
+splice @$graph, 0, @$graph - $width;
+
+my $norm = max @$graph;
+$norm = $norm <= @ticks
+    ? 1
+    : @ticks / $norm;
+
+my %colors = qw(
+    f   green
+    w   red
+    c   red
+    a   yellow
+    i   blue
+);
+
+my %memory;
+if (-x q{/usr/bin/vm_stat}) {
+    %memory = map {
+        /\bPages\s+(free|active|inactive|speculative|wired\s+down):\s*(\d+)/ix
+            ? (chr ord $1 => $2 << 2)
+            : ();
+    } qx{/usr/bin/vm_stat};
+    $memory{f} += delete $memory{s};
+} elsif (open my $meminfo, q{<}, q{/proc/meminfo}) {
+    %memory = map {
+        /\b(?:Mem)?(Free|Cached|SwapCached|Active|Inactive):\s*(\d+)/ix
+            ? (lc chr ord $1 => $2)
+            : ();
+    } <$meminfo>;
+    $memory{c} -= delete $memory{s};
+    close $meminfo;
+}
+
+my $scale = @$graph / sum values %memory;
+my $c = 0;
+for my $type (sort keys %memory) {
+    print my_color(($colors{$type}) x 2);
+    for (1 .. max(1 => sprintf q(%.0f) => $scale * $memory{$type})) {
+        last if $c++ >= $width;
+        print $ticks[$norm * shift @$graph];
+    }
+}
+print $ticks[$norm * $load[2]] if $c < $width;
+
+battery() if $show_battery;
+
+print my_color(q(reset)) => qq(\n);
+
+sub my_color {
+    my ($fg, $bg) = @_;
+    my $out;
+
+    if (defined $tmux) {
+        return '' if $fg eq q(reset);
+        $out = qq(#[fg=$fg]);
+        $out .= qq(#[bg=$bg]) if defined $bg;
+    } else {
+        $out = color defined($bg) ? qq($fg on_$bg) : $fg;
+    }
+
+    return $out;
+}
+
+sub battery {
+    my ($battery, $charging);
+    if (-x q{/usr/sbin/ioreg}) {
+        my @battery = map {
+            /"(?:(?:Max|Current)Capacity|ExternalConnected)"\s*=\s*(\d+|Yes|No)/ix
+                ? $1
+                : ()
+        } qx{/usr/sbin/ioreg -n AppleSmartBattery -r};
+        $charging = ($battery[2] =~ /^y/ix);
+        $battery = $battery[1] / $battery[0];
+    } elsif (
+        -x q{/usr/bin/acpi}
+        and qx{/usr/bin/acpi} =~ /^Battery\s+0:\s+(\w+),\s+(\d+)%/ix
+    ) {
+        $charging = $1 ne q{Discharging};
+        $battery = $2 / 100;
+    }
+
+    if (defined $battery) {
+        print my_color(($charging ? q(green) : q(red)), q(black)) => q(|);
+        if ($battery < 0.333) {
+            print my_color(q(red));
+        } elsif ($battery < 0.666) {
+            print my_color(q(yellow));
+        } else {
+            print my_color(q(green));
+        }
+        print $ticks[$#ticks * $battery];
+    }
+
+    return;
+}
+
+__DATA__
+=pod
+
+=head1 NAME
+
+rainbarf - CPU/RAM stats for TUI
+
+=head1 VERSION
+
+version 0.1
+
+=head1 SYNOPSIS
+
+rainbarf --tmux --width 20 --no-battery
+
+=head1 DESCRIPTION
+
+Fancy load graphs to put into L<tmux> status line.
+
+=head1 SEE ALSO
+
+=over 4
+
+=item L<Battery|https://github.com/Goles/Battery>
+
+=item L<Spark|http://zachholman.com/spark/>
+
+=back
+
+=head1 AUTHOR
+
+Stanislaw Pusep <stas@sysd.org>
+
+=head1 COPYRIGHT AND LICENSE
+
+This software is copyright (c) 2013 by Stanislaw Pusep.
+
+This is free software; you can redistribute it and/or modify it under
+the same terms as the Perl 5 programming language system itself.
+
+=cut
