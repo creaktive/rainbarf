@@ -8,13 +8,12 @@ use warnings qw(all);
 use File::Spec::Functions;
 use Getopt::Long;
 use List::Util qw(max sum);
-use POSIX qw(nice);
 use Pod::Usage;
 use Storable;
 use Term::ANSIColor;
 
 ## no critic (ProhibitBacktickOperators, ProhibitComplexRegexes)
-nice 20;
+our $VERSION = 0.1;
 
 my @ticks = qw[▁ ▂ ▃ ▄ ▅ ▆ ▇ █];
 
@@ -155,11 +154,38 @@ version 0.1
 
 =head1 SYNOPSIS
 
-rainbarf --tmux --width 20 --no-battery
+ rainbarf --tmux --width 20 --no-battery
 
 =head1 DESCRIPTION
 
-Fancy load graphs to put into L<tmux> status line.
+Fancy load graphs to put into L<tmux|http://tmux.sourceforge.net/> status line.
+The load history graph is tinted with the following colors to reflect the memory allocation:
+
+=over 4
+
+=item * B<green>: free memory;
+
+=item * B<red>: wired memory on I<Mac OS X>, cached memory on I<Linux>;
+
+=item * B<yellow>: active memory;
+
+=item * B<blue>: inactive memory.
+
+=back
+
+If available, battery charge is displayed on the right.
+
+Just go to L<https://github.com/creaktive/rainbarf> to see some screenshots.
+
+=head1 USAGE
+
+Put F<rainbarf> into your C<$PATH>.
+Add the following lines to your F<~/.tmux.conf> file:
+
+ set -g status-right '#(rainbarf --tmux)'
+ set -g status-interval 30
+
+Reload the tmux config by running C<tmux source-file ~/.tmux.conf>.
 
 =head1 SEE ALSO
 
