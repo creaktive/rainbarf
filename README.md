@@ -12,8 +12,8 @@ version 0.1
 
 # DESCRIPTION
 
-Fancy load graphs to put into [tmux](http://tmux.sourceforge.net/) status line.
-The load history graph is tinted with the following colors to reflect the memory allocation:
+Fancy resource usage charts to put into the [tmux](http://tmux.sourceforge.net/) status line.
+The load history chart is tinted with the following colors to reflect the system memory allocation:
 
 - __green__: free memory;
 - __red__: wired memory on _Mac OS X_, cached memory on _Linux_;
@@ -33,12 +33,35 @@ Add the following line to your `~/.tmux.conf` file:
 
 Reload the tmux config by running `tmux source-file ~/.tmux.conf`.
 
+# OPTIONS
+
+- \--help
+
+    This.
+
+- \--\[no\]battery
+
+    Display the battery charge indicator.
+
+- \--load
+
+    Normalize chart if load exceeds this (default: 4).
+
+- \--tmux
+
+    `tmux` colors mode.
+
+- \--width
+
+    Chart width. Default is 38, so both the chart and the battery indicator fit the `tmux` status line.
+    Higher values may require disabling the battery indicator or raising the `status-right-length` value in `~/.tmux.conf`.
+
 # CAVEAT
 
 Load stats are persistently stored in the `~/.rainbarf.dat` file.
 Every `rainbarf` execution will update and rotate that file.
-Since `tmux` calls `rainbarf` periodically (every 15 seconds, by default), the graph will display load for the last ~9.5 minutes (15 \* 38).
-Thus, several `tmux` instances running simultaneously for the same user will result in a faster graph scrolling.
+Since `tmux` calls `rainbarf` periodically (every 15 seconds, by default), the chart will display load for the last ~9.5 minutes (15 \* 38).
+Thus, several `tmux` instances running simultaneously for the same user will result in a faster chart scrolling.
 
 # SEE ALSO
 
