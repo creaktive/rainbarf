@@ -69,7 +69,7 @@ print $ticks[$norm * $load[2]] if $c < $width;
 
 battery() if $show_battery;
 
-print my_color(q(reset)) => qq(\n) unless $tmux;
+print color(q(reset)) => qq(\n) unless $tmux;
 
 sub my_color {
     my ($fg, $bg) = @_;
