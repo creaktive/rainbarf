@@ -12,21 +12,22 @@ use Pod::Usage;
 use Storable qw(lock_retrieve lock_store);
 use Term::ANSIColor;
 
-## no critic (ProhibitBacktickOperators, ProhibitComplexRegexes)
+## no critic (ProhibitBacktickOperators ProhibitComplexRegexes ProhibitInteractiveTest)
 our $VERSION = 0.1;
 
 my @ticks = qw[▁ ▂ ▃ ▄ ▅ ▆ ▇ █];
 
+my $tmux = not -t \*STDOUT;
 GetOptions(
-    q(help)         => \my $help,
-    q(battery!)     => \my $show_battery,
-    q(load=i)       => \my $threshold,
-    q(tmux!)        => \my $tmux,
-    q(width=i)      => \my $width,
+    q(help)     => \my $help,
+    q(battery!) => \my $show_battery,
+    q(max=i)    => \my $threshold,
+    q(tmux!)    => \$tmux,
+    q(width=i)  => \my $width,
 ) or pod2usage(q(-verbose) => 1);
 pod2usage(q(-verbose) => 2) if $help;
 $show_battery = 1 unless defined $show_battery;
-$threshold = 4 unless defined $threshold;
+$threshold = 1 unless defined $threshold;
 $width = 38 unless defined $width;
 
 my $history = catfile($ENV{HOME}, q(.rainbarf.dat));
@@ -43,13 +44,10 @@ if (open my $loadavg, q{<}, q{/proc/loadavg}) {
 }
 
 push @$chart => $load[0];
-splice @$chart, 0, @$chart - $width;
+splice @$chart => 0, @$chart - $width if @$chart > $width;
 lock_store $chart => $history;
 
-my $norm = max @$chart;
-$norm = $norm <= $threshold
-    ? 1
-    : @ticks / $norm;
+unshift @$chart => (0) x ($width - @$chart);
 
 my %colors = qw(
     f   green
@@ -78,6 +76,7 @@ if (-x q{/usr/bin/vm_stat}) {
 }
 
 my $scale = @$chart / sum values %memory;
+my $norm = $#ticks / max @$chart => $threshold;
 my $c = 0;
 for my $type (sort keys %memory) {
     print my_color(($colors{$type}) x 2);
@@ -96,7 +95,7 @@ sub my_color {
     my ($fg, $bg) = @_;
     my $out;
 
-    if (defined $tmux) {
+    if ($tmux) {
         return '' if $fg eq q(reset);
         $out = qq(#[fg=$fg]);
         $out .= qq(#[bg=$bg]) if defined $bg;
@@ -197,13 +196,14 @@ This.
 
 Display the battery charge indicator.
 
-=item --load
+=item --max
 
-Normalize chart if load exceeds this (default: 4).
+Maximum load you expect before rescaling the chart (default: 1).
 
-=item --tmux
+=item --[no]tmux
 
-C<tmux> colors mode.
+Force C<tmux> colors mode.
+By default, C<rainbarf> detects automatically if it is being called from C<tmux> or from the interactive shell.
 
 =item --width
 

@@ -43,13 +43,14 @@ Reload the tmux config by running `tmux source-file ~/.tmux.conf`.
 
     Display the battery charge indicator.
 
-- \--load
+- \--max
 
-    Normalize chart if load exceeds this (default: 4).
+    Maximum load you expect before rescaling the chart (default: 1).
 
-- \--tmux
+- \--\[no\]tmux
 
-    `tmux` colors mode.
+    Force `tmux` colors mode.
+    By default, `rainbarf` detects automatically if it is being called from `tmux` or from the interactive shell.
 
 - \--width
 
