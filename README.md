@@ -29,7 +29,11 @@ If available, battery charge is displayed on the right.
 Put `rainbarf` into your `$PATH`.
 Add the following line to your `~/.tmux.conf` file:
 
-    set -g status-right '#(rainbarf --tmux)'
+    set -g status-right '#(rainbarf)'
+
+Or, under _GNOME Terminal_:
+
+    set -g status-right '#(rainbarf --bright)'
 
 Reload the tmux config by running `tmux source-file ~/.tmux.conf`.
 
@@ -42,6 +46,10 @@ Reload the tmux config by running `tmux source-file ~/.tmux.conf`.
 - \--\[no\]battery
 
     Display the battery charge indicator.
+
+- \--\[no\]bright
+
+    Tricky one. Disabled by default. See ["CAVEAT"](#CAVEAT).
 
 - \--max
 

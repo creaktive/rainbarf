@@ -21,6 +21,7 @@ my $tmux = not -t \*STDOUT;
 GetOptions(
     q(help)     => \my $help,
     q(battery!) => \my $show_battery,
+    q(bright!)  => \my $bright,
     q(max=i)    => \my $threshold,
     q(tmux!)    => \$tmux,
     q(width=i)  => \my $width,
@@ -29,19 +30,14 @@ pod2usage(q(-verbose) => 2) if $help;
 $show_battery = 1 unless defined $show_battery;
 $threshold = 1 unless defined $threshold;
 $width = 38 unless defined $width;
+$bright = 0 unless defined $bright;
 
 my $history = catfile($ENV{HOME}, q(.rainbarf.dat));
 
 my $chart = eval { lock_retrieve $history };
 $chart = [ (0) x $width ] unless defined $chart;
 
-my @load;
-if (open my $loadavg, q{<}, q{/proc/loadavg}) {
-    @load = (split /\s+/x, <$loadavg>)[0 .. 2];
-    close $loadavg;
-} elsif (-x q{/usr/bin/uptime}) {
-    @load = (split /\s+/x, qx{/usr/bin/uptime})[-3 .. -1];
-}
+my @load = load();
 
 push @$chart => $load[0];
 splice @$chart => 0, @$chart - $width if @$chart > $width;
@@ -57,23 +53,7 @@ my %colors = qw(
     i   blue
 );
 
-my %memory;
-if (-x q{/usr/bin/vm_stat}) {
-    %memory = map {
-        /\bPages\s+(free|active|inactive|speculative|wired\s+down):\s*(\d+)/ix
-            ? (chr ord $1 => $2 << 2)
-            : ();
-    } qx{/usr/bin/vm_stat};
-    $memory{f} += delete $memory{s};
-} elsif (open my $meminfo, q{<}, q{/proc/meminfo}) {
-    %memory = map {
-        /\b(?:Mem)?(Free|Cached|SwapCached|Active|Inactive):\s*(\d+)/ix
-            ? (lc chr ord $1 => $2)
-            : ();
-    } <$meminfo>;
-    $memory{c} -= delete $memory{s};
-    close $meminfo;
-}
+my %memory = memory();
 
 my $scale = @$chart / sum values %memory;
 my $norm = $#ticks / max @$chart => $threshold;
@@ -89,21 +69,54 @@ print $ticks[$norm * $load[2]] if $c < $width;
 
 battery() if $show_battery;
 
-print my_color(q(reset)) => qq(\n);
+print my_color(q(reset)) => qq(\n) unless $tmux;
 
 sub my_color {
     my ($fg, $bg) = @_;
     my $out;
 
     if ($tmux) {
-        return '' if $fg eq q(reset);
+        $fg .= q(,bright) if $bright;
         $out = qq(#[fg=$fg]);
         $out .= qq(#[bg=$bg]) if defined $bg;
     } else {
+        $fg = qq(bright_$fg) if $bright;
         $out = color defined($bg) ? qq($fg on_$bg) : $fg;
     }
 
     return $out;
+}
+
+sub load {
+    my @l;
+    if (open my $loadavg, q{<}, q{/proc/loadavg}) {
+        @l = (split /\s+/x, <$loadavg>)[0 .. 2];
+        close $loadavg;
+    } elsif (-x q{/usr/bin/uptime}) {
+        @l = (split /\s+/x, qx{/usr/bin/uptime})[-3 .. -1];
+    }
+    return @l;
+}
+
+sub memory {
+    my %m;
+    if (-x q{/usr/bin/vm_stat}) {
+        %m = map {
+            /\bPages\s+(free|active|inactive|speculative|wired\s+down):\s*(\d+)/ix
+                ? (chr ord $1 => $2 << 2)
+                : ();
+        } qx{/usr/bin/vm_stat};
+        $m{f} += delete $m{s};
+    } elsif (open my $meminfo, q{<}, q{/proc/meminfo}) {
+        %m = map {
+            /\b(?:Mem)?(Free|Cached|SwapCached|Active|Inactive):\s*(\d+)/ix
+                ? (lc chr ord $1 => $2)
+                : ();
+        } <$meminfo>;
+        $m{c} -= delete $m{s};
+        close $meminfo;
+    }
+    return %m;
 }
 
 sub battery {
@@ -180,7 +193,11 @@ Just go to L<https://github.com/creaktive/rainbarf> to see some screenshots.
 Put F<rainbarf> into your C<$PATH>.
 Add the following line to your F<~/.tmux.conf> file:
 
- set -g status-right '#(rainbarf --tmux)'
+ set -g status-right '#(rainbarf)'
+
+Or, under I<GNOME Terminal>:
+
+ set -g status-right '#(rainbarf --bright)'
 
 Reload the tmux config by running C<tmux source-file ~/.tmux.conf>.
 
@@ -195,6 +212,10 @@ This.
 =item --[no]battery
 
 Display the battery charge indicator.
+
+=item --[no]bright
+
+Tricky one. Disabled by default. See L</CAVEAT>.
 
 =item --max
 
