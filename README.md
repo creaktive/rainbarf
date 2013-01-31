@@ -22,7 +22,15 @@ The load history chart is tinted with the following colors to reflect the system
 
 If available, battery charge is displayed on the right.
 
-![Screenshot](http://i.imgur.com/XhtmoTY.png?1)
+# SCREENSHOTS
+
+## iTerm2 with solarized theme and ProFont:
+
+![Mac OS X screenshot](http://i.imgur.com/XhtmoTY.png?1)
+
+## Ubuntu Terminal with default settings:
+
+![Ubuntu screenshot](http://i.imgur.com/jOZtOdl.png)
 
 # USAGE
 
