@@ -63,16 +63,24 @@ Reload the tmux config by running `tmux source-file ~/.tmux.conf`.
 
     Tricky one. Disabled by default. See ["CAVEAT"](#CAVEAT).
 
-- \--max
+- \--fg COLOR\_NAME
 
-    Maximum load you expect before rescaling the chart (default: 1).
+    Force chart foreground color.
+
+- \--bg COLOR\_NAME
+
+    Force chart background color.
+
+- \--max NUMBER
+
+    Maximum load you expect before rescaling the chart. Default is 1.
 
 - \--\[no\]tmux
 
     Force `tmux` colors mode.
     By default, `rainbarf` detects automatically if it is being called from `tmux` or from the interactive shell.
 
-- \--width
+- \--width NUMBER
 
     Chart width. Default is 38, so both the chart and the battery indicator fit the `tmux` status line.
     Higher values may require disabling the battery indicator or raising the `status-right-length` value in `~/.tmux.conf`.

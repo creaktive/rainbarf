@@ -22,6 +22,8 @@ GetOptions(
     q(help)     => \my $help,
     q(battery!) => \my $show_battery,
     q(bolt!)    => \my $bolt,
+    q(bg=s)     => \my $chart_bg,
+    q(fg=s)     => \my $chart_fg,
     q(bright!)  => \my $bright,
     q(max=i)    => \my $threshold,
     q(tmux!)    => \$tmux,
@@ -61,7 +63,11 @@ my $scale = @$chart / sum values %memory;
 my $norm = $#ticks / max @$chart => $threshold;
 my $c = 0;
 for my $type (sort keys %memory) {
-    print my_color(($colors{$type}) x 2);
+    print my_color(
+        map { defined $_ ? $_ : $colors{$type} }
+        $chart_fg => $chart_bg
+    );
+
     for (1 .. max(1 => sprintf q(%.0f) => $scale * $memory{$type})) {
         last if $c++ >= $width;
         print $ticks[$norm * shift @$chart];
@@ -223,16 +229,24 @@ Display even fancier battery indicator.
 
 Tricky one. Disabled by default. See L</CAVEAT>.
 
-=item --max
+=item --fg COLOR_NAME
 
-Maximum load you expect before rescaling the chart (default: 1).
+Force chart foreground color.
+
+=item --bg COLOR_NAME
+
+Force chart background color.
+
+=item --max NUMBER
+
+Maximum load you expect before rescaling the chart. Default is 1.
 
 =item --[no]tmux
 
 Force C<tmux> colors mode.
 By default, C<rainbarf> detects automatically if it is being called from C<tmux> or from the interactive shell.
 
-=item --width
+=item --width NUMBER
 
 Chart width. Default is 38, so both the chart and the battery indicator fit the C<tmux> status line.
 Higher values may require disabling the battery indicator or raising the C<status-right-length> value in F<~/.tmux.conf>.
