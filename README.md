@@ -57,7 +57,7 @@ Reload the tmux config by running `tmux source-file ~/.tmux.conf`.
 
 - \--\[no\]bolt
 
-    Display even fancier battery indicator C<⚡>.
+    Display even fancier battery indicator `⚡`.
 
 - \--\[no\]bright
 
