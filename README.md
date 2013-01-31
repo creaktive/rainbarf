@@ -75,6 +75,21 @@ Reload the tmux config by running `tmux source-file ~/.tmux.conf`.
 
 # CAVEAT
 
+## Color scheme
+
+If you only see the memory usage bars but no load chart, that's because your terminal's color scheme need an explicit distinction between foreground and background colors.
+For instance, "red on red background" will be displayed as a red block on such terminals.
+Thus, you may need the ANSI __bright__ attribute for greater contrast.
+There are two problems with it, though:
+
+1. Other color schemes (notably, [solarized](http://ethanschoonover.com/solarized)) have different meaning for the ANSI __bright__ attribute.
+So using it will result in a quite psychedelic appearance.
+2. The older versions of [Term::ANSIColor](http://search.cpan.org/perldoc?Term::ANSIColor) dependency do not recognize it at all, resulting in a confusing error message _Invalid attribute name bright\_yellow at ..._.
+However, the whole [Term::ANSIColor](http://search.cpan.org/perldoc?Term::ANSIColor) is optional, it is only required to preview the effects of the ["OPTIONS"](#OPTIONS) via command line before actually editing the `~/.tmux.conf`.
+That is, `rainbarf --bright --tmux` __is guaranteed to work__ despite the outdated [Term::ANSIColor](http://search.cpan.org/perldoc?Term::ANSIColor)!
+
+## Persistent storage
+
 Load stats are persistently stored in the `~/.rainbarf.dat` file.
 Every `rainbarf` execution will update and rotate that file.
 Since `tmux` calls `rainbarf` periodically (every 15 seconds, by default), the chart will display load for the last ~9.5 minutes (15 \* 38).

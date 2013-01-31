@@ -235,6 +235,30 @@ Higher values may require disabling the battery indicator or raising the C<statu
 
 =head1 CAVEAT
 
+=head2 Color scheme
+
+If you only see the memory usage bars but no load chart, that's because your terminal's color scheme need an explicit distinction between foreground and background colors.
+For instance, "red on red background" will be displayed as a red block on such terminals.
+Thus, you may need the ANSI B<bright> attribute for greater contrast.
+There are two problems with it, though:
+
+=over 4
+
+=item 1.
+
+Other color schemes (notably, L<solarized|http://ethanschoonover.com/solarized>) have different meaning for the ANSI B<bright> attribute.
+So using it will result in a quite psychedelic appearance.
+
+=item 2.
+
+The older versions of L<Term::ANSIColor> dependency do not recognize it at all, resulting in a confusing error message I<Invalid attribute name bright_yellow at ...>.
+However, the whole L<Term::ANSIColor> is optional, it is only required to preview the effects of the L</OPTIONS> via command line before actually editing the F<~/.tmux.conf>.
+That is, C<rainbarf --bright --tmux> B<is guaranteed to work> despite the outdated L<Term::ANSIColor>!
+
+=back
+
+=head2 Persistent storage
+
 Load stats are persistently stored in the F<~/.rainbarf.dat> file.
 Every C<rainbarf> execution will update and rotate that file.
 Since C<tmux> calls C<rainbarf> periodically (every 15 seconds, by default), the chart will display load for the last ~9.5 minutes (15 * 38).
