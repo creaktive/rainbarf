@@ -55,6 +55,10 @@ Reload the tmux config by running `tmux source-file ~/.tmux.conf`.
 
     Display the battery charge indicator.
 
+- \--\[no\]bolt
+
+    Display even fancier battery indicator ⚡.
+
 - \--\[no\]bright
 
     Tricky one. Disabled by default. See ["CAVEAT"](#CAVEAT).
