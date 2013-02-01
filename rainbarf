@@ -17,6 +17,7 @@ our $VERSION = 0.1;
 
 my @ticks = qw[▁ ▂ ▃ ▄ ▅ ▆ ▇ █];
 
+my $screen = 0;
 my $tmux = not -t \*STDOUT;
 GetOptions(
     q(help)     => \my $help,
@@ -26,6 +27,7 @@ GetOptions(
     q(fg=s)     => \my $chart_fg,
     q(bright!)  => \my $bright,
     q(max=i)    => \my $threshold,
+    q(screen!)  => \$screen,
     q(tmux!)    => \$tmux,
     q(width=i)  => \my $width,
 ) or pod2usage(q(-verbose) => 1);
@@ -77,13 +79,27 @@ print $ticks[$norm * $load[2]] if $c < $width;
 
 battery() if $show_battery;
 
-print color(q(reset)) => qq(\n) unless $tmux;
+if ($screen) {
+    print qq(\5{= dd});
+} elsif ($tmux) {
+} else {
+    print color(q(reset)) => qq(\n);
+}
 
 sub my_color {
     my ($fg, $bg) = @_;
     my $out;
 
-    if ($tmux) {
+   if ($screen) {
+        $out = qq(\5{);
+        $out .= defined($bg)
+            ? chr ord $bg
+            : q(.);
+        $out .= $bright
+            ? uc chr ord $fg
+            : chr ord $fg;
+        $out .= q(});
+    } elsif ($tmux) {
         $fg .= q(,bright) if $bright;
         $out = qq(#[fg=$fg]);
         $out .= qq(#[bg=$bg]) if defined $bg;
@@ -283,6 +299,13 @@ Load stats are persistently stored in the F<~/.rainbarf.dat> file.
 Every C<rainbarf> execution will update and rotate that file.
 Since C<tmux> calls C<rainbarf> periodically (every 15 seconds, by default), the chart will display load for the last ~9.5 minutes (15 * 38).
 Thus, several C<tmux> instances running simultaneously for the same user will result in a faster chart scrolling.
+
+=head2 screen
+
+F<~/.screenrc> contents:
+
+ backtick 1 15 15 rainbarf --bright --screen
+ hardstatus string "%1`"
 
 =head1 REFERENCES
 
