@@ -24,11 +24,15 @@ If available, battery charge is displayed on the right.
 
 # SCREENSHOTS
 
-## iTerm2 with solarized theme and ProFont (`rainbarf --battery --no-bright`):
+## iTerm2 with solarized theme and ProFont
+
+    rainbarf --battery --no-bright
 
 ![Mac OS X screenshot](http://i.imgur.com/XhtmoTY.png?1)
 
-## Ubuntu Terminal with default theme and Monospace font (`rainbarf --battery --bolt --bright`):
+## Ubuntu Terminal with default theme and Monospace font
+
+    rainbarf --battery --bolt --bright
 
 ![Ubuntu screenshot](http://i.imgur.com/JGvgK6B.png)
 
