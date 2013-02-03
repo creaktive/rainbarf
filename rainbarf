@@ -153,14 +153,32 @@ sub battery {
                 ? (lc chr ord $1 => $2)
                 : ()
         } qx{/usr/sbin/ioreg -n AppleSmartBattery -r};
+
         $charging = ($battery{e} =~ /^y/ix);
-        $battery = $battery{c} / $battery{m};
-    } elsif (
-        -x q{/usr/bin/acpi}
-        and qx{/usr/bin/acpi} =~ /^Battery\s+0:\s+(\w+),\s+(\d+)%/ix
-    ) {
-        $charging = $1 ne q{Discharging};
-        $battery = $2 / 100;
+        $battery = eval { $battery{c} / $battery{m} };
+    } elsif (-d q(/proc/acpi/battery)) {
+        my ($acpi_info, $acpi_state, %battery) = ('') x 2;
+        if (grep {
+                -d $_
+                and -e ($acpi_info  = catfile($_ => q(info)))
+                and -e ($acpi_state = catfile($_ => q(state)))
+            } sort glob q(/proc/acpi/battery/BAT[0-9])
+        ) {
+            for my $file ($acpi_info, $acpi_state) {
+                my $fh;
+                if (open $fh, q(<), $file) {
+                    while (<$fh>) {
+                        my ($key, $value) = /^([\w\s]+)\s*:\s*(\w+)/x;
+                        $key =~ y/A-Z /a-z_/;
+                        $battery{$key} = $value;
+                    }
+                }
+                close $fh;
+            }
+        }
+
+        $charging = $battery{charging_state} ne q(discharging);
+        $battery = eval { $battery{remaining_capacity} / $battery{last_full_capacity} };
     }
 
     if (defined $battery) {
@@ -334,7 +352,7 @@ L<ioreg(8)|http://developer.apple.com/library/mac/documentation/Darwin/Reference
 
 =item *
 
-L<acpi(1)|http://manpages.ubuntu.com/manpages/precise/man1/acpi.1.html> is used to get the battery status on I<Linux>.
+L<ACPI|http://www.tldp.org/howto/acpi-howto/usingacpi.html> is used to get the battery status on I<Linux>.
 
 =item *
 
