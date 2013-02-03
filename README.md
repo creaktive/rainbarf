@@ -1,10 +1,10 @@
 # NAME
 
-rainbarf - CPU/RAM stats for TUI
+rainbarf - CPU/RAM stats chart for tmux & screen
 
 # VERSION
 
-version 0.1
+version 0.2
 
 # SYNOPSIS
 
@@ -84,6 +84,10 @@ Reload the tmux config by running `tmux source-file ~/.tmux.conf`.
     Force `tmux` colors mode.
     By default, `rainbarf` detects automatically if it is being called from `tmux` or from the interactive shell.
 
+- \--screen
+
+    [screen(1)](http://manpages.ubuntu.com/manpages/hardy/man1/screen.1.html) colors mode. __Experimental__. See ["CAVEAT"](#CAVEAT).
+
 - \--width NUMBER
 
     Chart width. Default is 38, so both the chart and the battery indicator fit the `tmux` status line.
@@ -110,6 +114,16 @@ Load stats are persistently stored in the `~/.rainbarf.dat` file.
 Every `rainbarf` execution will update and rotate that file.
 Since `tmux` calls `rainbarf` periodically (every 15 seconds, by default), the chart will display load for the last ~9.5 minutes (15 \* 38).
 Thus, several `tmux` instances running simultaneously for the same user will result in a faster chart scrolling.
+
+## screen
+
+Stable `screen` version unfortunately has a broken UTF-8 handling specifically for the status bar.
+Thus, I have only tested the `rainbarf` with the variant from [git://git.savannah.gnu.org/screen.git](git://git.savannah.gnu.org/screen.git).
+My `~/.screenrc` contents:
+
+    backtick 1 15 15 rainbarf --bright --screen
+    hardstatus string "%1`"
+    hardstatus lastline
 
 # REFERENCES
 
