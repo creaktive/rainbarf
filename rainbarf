@@ -27,7 +27,7 @@ GetOptions(
     q(fg=s)     => \my $chart_fg,
     q(bright!)  => \my $bright,
     q(max=i)    => \my $threshold,
-    q(screen!)  => \$screen,
+    q(screen)   => \$screen,
     q(tmux!)    => \$tmux,
     q(width=i)  => \my $width,
 ) or pod2usage(q(-verbose) => 1);
@@ -262,6 +262,10 @@ Maximum load you expect before rescaling the chart. Default is 1.
 Force C<tmux> colors mode.
 By default, C<rainbarf> detects automatically if it is being called from C<tmux> or from the interactive shell.
 
+=item --screen
+
+L<screen(1)|http://manpages.ubuntu.com/manpages/hardy/man1/screen.1.html> colors mode. B<Experimental>. See L</CAVEAT>.
+
 =item --width NUMBER
 
 Chart width. Default is 38, so both the chart and the battery indicator fit the C<tmux> status line.
@@ -302,10 +306,13 @@ Thus, several C<tmux> instances running simultaneously for the same user will re
 
 =head2 screen
 
-F<~/.screenrc> contents:
+Stable C<screen> version unfortunately has a broken UTF-8 handling specifically for the status bar.
+Thus, I have only tested the C<rainbarf> with the variant from L<git://git.savannah.gnu.org/screen.git>.
+My F<~/.screenrc> contents:
 
  backtick 1 15 15 rainbarf --bright --screen
  hardstatus string "%1`"
+ hardstatus lastline
 
 =head1 REFERENCES
 
