@@ -1,6 +1,5 @@
 #!/usr/bin/perl
 use 5.008;
-use open q(:locale);
 use strict;
 use utf8;
 use warnings qw(all);
@@ -16,6 +15,7 @@ use Term::ANSIColor;
 our $VERSION = 0.2;
 
 my @ticks = qw[▁ ▂ ▃ ▄ ▅ ▆ ▇ █];
+binmode \*STDOUT => q(encoding(utf8));
 
 my $screen = 0;
 my $tmux = not -t \*STDOUT;
