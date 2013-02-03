@@ -13,7 +13,7 @@ use Storable qw(lock_retrieve lock_store);
 use Term::ANSIColor;
 
 ## no critic (ProhibitBacktickOperators ProhibitComplexRegexes ProhibitInteractiveTest)
-our $VERSION = 0.1;
+our $VERSION = 0.2;
 
 my @ticks = qw[▁ ▂ ▃ ▄ ▅ ▆ ▇ █];
 
@@ -186,7 +186,7 @@ rainbarf - CPU/RAM stats chart for tmux & screen
 
 =head1 VERSION
 
-version 0.1
+version 0.2
 
 =head1 SYNOPSIS
 
