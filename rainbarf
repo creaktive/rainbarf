@@ -4,12 +4,8 @@ use strict;
 use utf8;
 use warnings qw(all);
 
-use File::Spec::Functions;
-use Getopt::Long;
 use List::Util qw(max sum);
-use Pod::Usage;
 use Storable qw(lock_retrieve lock_store);
-use Term::ANSIColor;
 
 ## no critic (ProhibitBacktickOperators ProhibitComplexRegexes ProhibitInteractiveTest)
 our $VERSION = 0.2;
@@ -19,27 +15,27 @@ binmode \*STDOUT => q(encoding(utf8));
 
 my $screen = 0;
 my $tmux = not -t \*STDOUT;
-GetOptions(
-    q(help)     => \my $help,
-    q(battery!) => \my $show_battery,
-    q(bolt!)    => \my $bolt,
-    q(bg=s)     => \my $chart_bg,
-    q(fg=s)     => \my $chart_fg,
-    q(bright!)  => \my $bright,
-    q(max=i)    => \my $threshold,
-    q(screen)   => \$screen,
-    q(tmux!)    => \$tmux,
-    q(width=i)  => \my $width,
-) or pod2usage(q(-verbose) => 1);
-pod2usage(q(-verbose) => 99, -noperldoc => 1) if $help;
 
-$show_battery = 1 unless defined $show_battery;
-$threshold = 1 unless defined $threshold;
-$width = 38 unless defined $width;
-$bright = 0 unless defined $bright;
-$bolt = (defined $bolt and $bolt) ? q(⚡) : q(|);
+my ($help, $show_battery, $bolt, $chart_bg, $chart_fg, $bright, $threshold, $width);
+if (@ARGV) {
+    require Getopt::Long;
+    Getopt::Long::GetOptions(
+        q(help)     => \$help,
+        q(battery!) => \$show_battery,
+        q(bolt!)    => \$bolt,
+        q(bg=s)     => \$chart_bg,
+        q(fg=s)     => \$chart_fg,
+        q(bright!)  => \$bright,
+        q(max=i)    => \$threshold,
+        q(screen)   => \$screen,
+        q(tmux!)    => \$tmux,
+        q(width=i)  => \$width,
+    ) or help(-verbose => 1);
+}
 
-my $history = catfile($ENV{HOME}, q(.rainbarf.dat));
+defaults();
+
+my $history = qq($ENV{HOME}/.rainbarf.dat);
 
 my $chart = eval { lock_retrieve $history };
 $chart = [ (0) x $width ] unless defined $chart;
@@ -85,7 +81,28 @@ if ($screen) {
     print qq(\5{= dd});
 } elsif ($tmux) {
 } else {
-    print color(q(reset)) => qq(\n);
+    print Term::ANSIColor::color(q(reset)) => qq(\n);
+}
+
+# For dependencies linting
+#printf qq(%-20s\t%s\n), $_ => $INC{$_} for sort keys %INC;
+
+sub help {
+    my (@args) = @_;
+    require Pod::Usage;
+    return Pod::Usage::pod2usage(-noperldoc => 1, @args);
+}
+
+sub defaults {
+    help(-verbose => 99) if $help;
+    $show_battery = 1 unless defined $show_battery;
+    $threshold = 1 unless defined $threshold;
+    $width = 38 unless defined $width;
+    $bright = 0 unless defined $bright;
+    $bolt = (defined $bolt and $bolt) ? q(⚡) : q(|);
+    require Term::ANSIColor if not $tmux and not $screen;
+
+    return;
 }
 
 sub my_color {
@@ -107,7 +124,7 @@ sub my_color {
         $out .= qq(#[bg=$bg]) if defined $bg;
     } else {
         $fg = qq(bright_$fg) if $bright;
-        $out = color defined($bg) ? qq($fg on_$bg) : $fg;
+        $out = Term::ANSIColor::color(defined($bg) ? qq($fg on_$bg) : $fg);
     }
 
     return $out;
@@ -160,8 +177,8 @@ sub battery {
         my ($acpi_info, $acpi_state, %battery) = ('') x 2;
         if (grep {
                 -d $_
-                and -e ($acpi_info  = catfile($_ => q(info)))
-                and -e ($acpi_state = catfile($_ => q(state)))
+                and -e ($acpi_info  = qq($_/info))
+                and -e ($acpi_state = qq($_/state))
             } sort glob q(/proc/acpi/battery/BAT[0-9])
         ) {
             for my $file ($acpi_info, $acpi_state) {
