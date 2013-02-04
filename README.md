@@ -55,6 +55,7 @@ Reload the tmux config by running `tmux source-file ~/.tmux.conf`.
 - \--help
 
     This.
+    To see as a manpage, use `perldoc ~/bin/rainbarf` (if you put `rainbarf` in your `~/bin`).
 
 - \--\[no\]battery
 
