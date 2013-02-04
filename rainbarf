@@ -247,11 +247,13 @@ The load history chart is tinted with the following colors to reflect the system
 
 =item * B<green>: free memory;
 
-=item * B<red>: wired memory on I<Mac OS X>, cached memory on I<Linux>;
-
 =item * B<yellow>: active memory;
 
-=item * B<blue>: inactive memory.
+=item * B<blue>: inactive memory;
+
+=item * B<red>: wired memory on I<Mac OS X>;
+
+=item * B<cyan>: cached memory on I<Linux>.
 
 =back
 

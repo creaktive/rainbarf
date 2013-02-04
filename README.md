@@ -16,9 +16,10 @@ Fancy resource usage charts to put into the [tmux](http://tmux.sourceforge.net/)
 The load history chart is tinted with the following colors to reflect the system memory allocation:
 
 - __green__: free memory;
-- __red__: wired memory on _Mac OS X_, cached memory on _Linux_;
 - __yellow__: active memory;
-- __blue__: inactive memory.
+- __blue__: inactive memory;
+- __red__: wired memory on _Mac OS X_;
+- __cyan__: cached memory on _Linux_.
 
 If available, battery charge is displayed on the right.
 
