@@ -79,6 +79,11 @@ Reload the tmux config by running `tmux source-file ~/.tmux.conf`.
 
     Maximum load you expect before rescaling the chart. Default is 1.
 
+- \--order INDEXES
+
+    Specify the memory usage bar order.
+    The default is `fwaic` (__f__ree, __w__ired, __a__ctive, __i__nactive & __c__ached).
+
 - \--\[no\]tmux
 
     Force `tmux` colors mode.

@@ -13,8 +13,9 @@ our $VERSION = 0.2;
 my @ticks = qw[▁ ▂ ▃ ▄ ▅ ▆ ▇ █];
 binmode \*STDOUT => q(encoding(utf8));
 
-my $screen = 0;
-my $tmux = not -t \*STDOUT;
+my $order   = '';
+my $screen  = 0;
+my $tmux    = not -t \*STDOUT;
 
 my ($help, $show_battery, $bolt, $chart_bg, $chart_fg, $bright, $threshold, $width);
 if (@ARGV) {
@@ -27,6 +28,7 @@ if (@ARGV) {
         q(fg=s)     => \$chart_fg,
         q(bright!)  => \$bright,
         q(max=i)    => \$threshold,
+        q(order=s)  => \$order,
         q(screen)   => \$screen,
         q(tmux!)    => \$tmux,
         q(width=i)  => \$width,
@@ -56,6 +58,14 @@ my %colors = (
     i   => [ blue   => 4 ], # inactive
     c   => [ cyan   => 5 ], # cached
 );
+
+# Custom ordering
+my @order = split //x => lc $order;
+for my $i (0 .. $#order) {
+    my $color = $order[$i];
+    $colors{$color}->[1] = $i + 1
+        if exists $colors{$color};
+}
 
 my %memory = memory();
 
@@ -293,6 +303,11 @@ Force chart background color.
 =item --max NUMBER
 
 Maximum load you expect before rescaling the chart. Default is 1.
+
+=item --order INDEXES
+
+Specify the memory usage bar order.
+The default is C<fwaic> (B<f>ree, B<w>ired, B<a>ctive, B<i>nactive & B<c>ached).
 
 =item --[no]tmux
 
