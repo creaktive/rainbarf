@@ -202,10 +202,10 @@ sub battery {
                 }
                 close $fh;
             }
-        }
 
-        $charging = $battery{charging_state} ne q(discharging);
-        $battery = eval { $battery{remaining_capacity} / $battery{last_full_capacity} };
+            $charging = $battery{charging_state} ne q(discharging);
+            $battery = eval { $battery{remaining_capacity} / $battery{last_full_capacity} };
+        }
     }
 
     if (defined $battery) {
