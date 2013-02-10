@@ -77,9 +77,14 @@ Reload the tmux config by running `tmux source-file ~/.tmux.conf`.
 
     Force chart background color.
 
+- \--\[no\]loadavg
+
+    Use [load average](https://en.wikipedia.org/wiki/Load\_(computing)) metric instead of CPU utilization.
+    You might want to set the `--max` threshold since this is an absolute value and has varying ranges on different systems.
+
 - \--max NUMBER
 
-    Maximum load you expect before rescaling the chart. Default is 1.
+    Maximum `loadavg` you expect before rescaling the chart. Default is 1.
 
 - \--order INDEXES
 
@@ -134,8 +139,7 @@ My `~/.screenrc` contents:
 
 # REFERENCES
 
-- [uptime(1)](http://developer.apple.com/library/mac/documentation/Darwin/Reference/ManPages/man1/uptime.1.html) is used to get the load stats if `/proc/loadavg` is unavailable.
-- [vm\_stat(1)](http://developer.apple.com/library/mac/documentation/Darwin/Reference/ManPages/man1/vm\_stat.1.html) is used to get the memory stats if `/proc/meminfo` is unavailable.
+- [top(1)](http://developer.apple.com/library/mac/documentation/Darwin/Reference/ManPages/man1/top.1.html) is used to get the CPU/RAM stats if no `/proc` filesystem is available.
 - [ioreg(8)](http://developer.apple.com/library/mac/documentation/Darwin/Reference/ManPages/man8/ioreg.8.html) is used to get the battery status on _Mac OS X_.
 - [ACPI](http://www.tldp.org/howto/acpi-howto/usingacpi.html) is used to get the battery status on _Linux_.
 - [Battery](https://github.com/Goles/Battery) was a source of inspiration.

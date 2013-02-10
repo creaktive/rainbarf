@@ -17,7 +17,7 @@ my $order   = '';
 my $screen  = 0;
 my $tmux    = not -t \*STDOUT;
 
-my ($help, $show_battery, $bolt, $chart_bg, $chart_fg, $bright, $threshold, $width);
+my ($help, $show_battery, $bolt, $chart_bg, $chart_fg, $bright, $loadavg, $threshold, $width);
 if (@ARGV) {
     require Getopt::Long;
     Getopt::Long::GetOptions(
@@ -27,6 +27,7 @@ if (@ARGV) {
         q(bg=s)     => \$chart_bg,
         q(fg=s)     => \$chart_fg,
         q(bright!)  => \$bright,
+        q(loadavg!) => \$loadavg,
         q(max=i)    => \$threshold,
         q(order=s)  => \$order,
         q(screen)   => \$screen,
@@ -42,7 +43,8 @@ my $history = qq($ENV{HOME}/.rainbarf.dat);
 my $chart = eval { lock_retrieve $history };
 $chart = [ (0) x $width ] unless defined $chart;
 
-my $cpu = load();
+my %top;
+my $cpu = $loadavg ? load() : usage();
 
 push @$chart => $cpu;
 splice @$chart => 0, @$chart - $width if @$chart > $width;
@@ -104,12 +106,13 @@ sub help {
 }
 
 sub defaults {
-    help(-verbose => 99) if $help;
-    $show_battery = 1 unless defined $show_battery;
-    $threshold = 1 unless defined $threshold;
-    $width = 38 unless defined $width;
-    $bright = 0 unless defined $bright;
-    $bolt = (defined $bolt and $bolt) ? q(⚡) : q(|);
+    help(-verbose => 99)    if $help;
+    $show_battery   = 1     unless defined $show_battery;
+    $loadavg        = 0     unless defined $loadavg;
+    $threshold      = 1     unless defined $threshold;
+    $width          = 38    unless defined $width;
+    $bright         = 0     unless defined $bright;
+    $bolt           = (defined $bolt and $bolt) ? q(⚡) : q(|);
     require Term::ANSIColor if not $tmux and not $screen;
 
     return;
@@ -140,26 +143,77 @@ sub my_color {
     return $out;
 }
 
+sub top {
+    if (not %top and -x q{/usr/bin/top}) {
+        for (qx{/usr/bin/top -R -F -l1 -n0}) {
+            my ($key, $value) = /^([\w\s]+)\s*:\s*(.+)/x;
+            next unless defined $key;
+            $key =~ y/A-Z /a-z_/;
+            $top{$key} = $value;
+        }
+    }
+    return scalar keys %top;
+}
+
 sub load {
-    my @l;
+    my @l = qw(0 0 0);
     if (open my $loadavg, q{<}, q{/proc/loadavg}) {
         @l = (split /\s+/x, <$loadavg>)[0 .. 2];
         close $loadavg;
+    } elsif (top() and exists $top{load_avg}) {
+        @l = split /\s*,\s*/x, $top{load_avg};
     } elsif (-x q{/usr/bin/uptime}) {
+        # fallback
         @l = (split /\s+/x, qx{/usr/bin/uptime})[-3 .. -1];
     }
     return $l[0];
 }
 
+sub usage {
+    if (-e q{/proc/stat}) {
+        my ($diff_usage, $prev_idle, $prev_total) = qw(-1 0 0);
+        for my $i (reverse 0 .. 1) {
+            my $fh;
+            unless (open $fh, q{<}, q{/proc/stat}) {
+                close $fh;
+                return 0;
+            }
+            while (<$fh>) {
+                next unless /^cpu\s+\d+/x;
+                my @cpu = split /\s+/x;
+                shift @cpu;
+
+                my $idle = $cpu[3];
+                my $total = sum(@cpu);
+
+                my $diff_idle = $idle - $prev_idle;
+                my $diff_total = $total - $prev_total;
+                $diff_usage = ($diff_total - $diff_idle) / $diff_total;
+
+                $prev_idle = $idle;
+                $prev_total = $total;
+
+                last;
+            }
+            close $fh;
+            sleep $i;
+        }
+        return $diff_usage;
+    } elsif (top()) {
+        my %usage =
+            map { (/([\d\.]+)%\s+(\w+)/x) [1, 0] }
+            split /\s*,\s*/x, $top{cpu_usage};
+        return 1 - $usage{idle} / 100;
+    }
+}
+
 sub memory {
     my %m;
-    if (-x q{/usr/bin/vm_stat}) {
-        %m = map {
-            /\bPages\s+(free|active|inactive|speculative|wired\s+down):\s*(\d+)/ix
-                ? (chr ord $1 => $2 << 2)
-                : ();
-        } qx{/usr/bin/vm_stat};
-        $m{f} += delete $m{s};
+    if (exists $top{physmem}) {
+        %m =
+            map { (/(\d+)[KMG]\s+(\w)/x) [1, 0] }
+            split /\s*,\s*/x, $top{physmem};
+        delete $m{u};
     } elsif (open my $meminfo, q{<}, q{/proc/meminfo}) {
         %m = map {
             /\b(?:Mem)?(Free|Cached|SwapCached|Active|Inactive):\s*(\d+)/ix
@@ -168,6 +222,14 @@ sub memory {
         } <$meminfo>;
         $m{c} -= delete $m{s};
         close $meminfo;
+    } elsif (-x q{/usr/bin/vm_stat}) {
+        # fallback
+        %m = map {
+            /\bPages\s+(free|active|inactive|speculative|wired\s+down):\s*(\d+)/ix
+                ? (chr ord $1 => $2 << 2)
+                : ();
+        } qx{/usr/bin/vm_stat};
+        $m{f} += delete $m{s};
     }
     return %m;
 }
@@ -196,6 +258,7 @@ sub battery {
                 if (open $fh, q(<), $file) {
                     while (<$fh>) {
                         my ($key, $value) = /^([\w\s]+)\s*:\s*(\w+)/x;
+                        next unless defined $key;
                         $key =~ y/A-Z /a-z_/;
                         $battery{$key} = $value;
                     }
@@ -303,9 +366,14 @@ Force chart foreground color.
 
 Force chart background color.
 
+=item --[no]loadavg
+
+Use L<load average|https://en.wikipedia.org/wiki/Load_(computing)> metric instead of CPU utilization.
+You might want to set the C<--max> threshold since this is an absolute value and has varying ranges on different systems.
+
 =item --max NUMBER
 
-Maximum load you expect before rescaling the chart. Default is 1.
+Maximum C<loadavg> you expect before rescaling the chart. Default is 1.
 
 =item --order INDEXES
 
@@ -375,11 +443,7 @@ My F<~/.screenrc> contents:
 
 =item *
 
-L<uptime(1)|http://developer.apple.com/library/mac/documentation/Darwin/Reference/ManPages/man1/uptime.1.html> is used to get the load stats if F</proc/loadavg> is unavailable.
-
-=item *
-
-L<vm_stat(1)|http://developer.apple.com/library/mac/documentation/Darwin/Reference/ManPages/man1/vm_stat.1.html> is used to get the memory stats if F</proc/meminfo> is unavailable.
+L<top(1)|http://developer.apple.com/library/mac/documentation/Darwin/Reference/ManPages/man1/top.1.html> is used to get the CPU/RAM stats if no F</proc> filesystem is available.
 
 =item *
 
