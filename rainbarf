@@ -1,4 +1,4 @@
-#!/usr/bin/perl
+#!/usr/bin/env perl
 use 5.008;
 use strict;
 use utf8;
@@ -42,9 +42,9 @@ my $history = qq($ENV{HOME}/.rainbarf.dat);
 my $chart = eval { lock_retrieve $history };
 $chart = [ (0) x $width ] unless defined $chart;
 
-my @load = load();
+my $cpu = load();
 
-push @$chart => $load[0];
+push @$chart => $cpu;
 splice @$chart => 0, @$chart - $width if @$chart > $width;
 lock_store $chart => $history;
 
@@ -83,7 +83,7 @@ for my $type (sort { $colors{$a}->[1] <=> $colors{$b}->[1] } keys %memory) {
         print $ticks[$norm * shift @$chart];
     }
 }
-print $ticks[$norm * $load[2]] if $c < $width;
+print $ticks[$norm * $cpu] if $c < $width;
 
 battery() if $show_battery;
 
@@ -148,7 +148,7 @@ sub load {
     } elsif (-x q{/usr/bin/uptime}) {
         @l = (split /\s+/x, qx{/usr/bin/uptime})[-3 .. -1];
     }
-    return @l;
+    return $l[0];
 }
 
 sub memory {
