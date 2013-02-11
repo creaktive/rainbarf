@@ -29,13 +29,13 @@ If available, battery charge is displayed on the right.
 
     rainbarf --battery --no-bright
 
-![Mac OS X screenshot](http://i.imgur.com/XhtmoTY.png?1)
+![Mac OS X screenshot](http://i.imgur.com/KetTk5o.png?1)
 
 ## Ubuntu Terminal with default theme and Monospace font
 
     rainbarf --battery --bolt --bright
 
-![Ubuntu screenshot](http://i.imgur.com/JGvgK6B.png)
+![Ubuntu screenshot](http://i.imgur.com/kgIdeRa.png?1)
 
 # USAGE
 
