@@ -4,7 +4,7 @@ rainbarf - CPU/RAM stats chart for tmux & screen
 
 # VERSION
 
-version 0.2
+version 0.3
 
 # SYNOPSIS
 
