@@ -13,7 +13,7 @@ version 0.2
 # DESCRIPTION
 
 Fancy resource usage charts to put into the [tmux](http://tmux.sourceforge.net/) status line.
-The load history chart is tinted with the following colors to reflect the system memory allocation:
+The CPU utilization history chart is tinted with the following colors to reflect the system memory allocation:
 
 - __green__: free memory;
 - __yellow__: active memory;
@@ -109,7 +109,7 @@ Reload the tmux config by running `tmux source-file ~/.tmux.conf`.
 
 ## Color scheme
 
-If you only see the memory usage bars but no load chart, that's because your terminal's color scheme need an explicit distinction between foreground and background colors.
+If you only see the memory usage bars but no CPU utilization chart, that's because your terminal's color scheme need an explicit distinction between foreground and background colors.
 For instance, "red on red background" will be displayed as a red block on such terminals.
 Thus, you may need the ANSI __bright__ attribute for greater contrast.
 There are two problems with it, though:
@@ -122,9 +122,9 @@ That is, `rainbarf --bright --tmux` __is guaranteed to work__ despite the outdat
 
 ## Persistent storage
 
-Load stats are persistently stored in the `~/.rainbarf.dat` file.
+CPU utilization stats are persistently stored in the `~/.rainbarf.dat` file.
 Every `rainbarf` execution will update and rotate that file.
-Since `tmux` calls `rainbarf` periodically (every 15 seconds, by default), the chart will display load for the last ~9.5 minutes (15 \* 38).
+Since `tmux` calls `rainbarf` periodically (every 15 seconds, by default), the chart will display CPU utilization for the last ~9.5 minutes (15 \* 38).
 Thus, several `tmux` instances running simultaneously for the same user will result in a faster chart scrolling.
 
 ## screen
