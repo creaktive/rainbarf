@@ -1,0 +1,25 @@
+Changelog for App-rainbarf
+
+v0.3 2013-02-11T23:39:00
+ [Stanislaw Pusep <stas@sysd.org>]
+ - This release uses the "CPU utilization %" metric instead of the "load average" by default;
+
+ - CPU/RAM stats are pulled from a single call to top(1) on Mac OS X (Linux still accesses /proc for everything);
+
+ - Shebang has been changed to use Perl from PATH instead of the hardcoded /usr/bin/perl
+
+v0.2 2013-02-04T23:33:00
+ [Stanislaw Pusep <stas@sysd.org>]
+ - Bugfixes;
+
+ - Screen(1) compatibility;
+
+ - Fewer dependencies;
+
+ - A smaller runtime footprint;
+
+ - Memory allocation bar reordering.
+
+v0.1 2013-02-02T11:16:00
+ [Stanislaw Pusep <stas@sysd.org>]
+ - First public release.

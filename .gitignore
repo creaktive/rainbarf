@@ -11,6 +11,9 @@ Makefile
 Makefile.old
 MANIFEST.bak
 META.yml
+META.json
+MYMETA.json
 MYMETA.yml
 nytprof.out
 pm_to_blib
+App-rainbarf-*/*
