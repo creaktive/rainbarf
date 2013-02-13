@@ -32,10 +32,8 @@ If available, battery charge is displayed on the right.
 ![Mac OS X screenshot](http://i.imgur.com/KetTk5o.png?1)
 
 ## Ubuntu Terminal with default theme and Monospace font
-# USAGE
 
     rainbarf --battery --bolt --bright
-## Installation
 
 ![Ubuntu screenshot](http://i.imgur.com/kgIdeRa.png?1)
 
