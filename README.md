@@ -4,7 +4,7 @@ rainbarf - CPU/RAM/battery stats chart bar for tmux (and GNU screen)
 
 # VERSION
 
-version 0.3
+version 0.4
 
 # SYNOPSIS
 

@@ -8,7 +8,7 @@ use List::Util qw(max sum);
 use Storable qw(lock_retrieve lock_store);
 
 ## no critic (ProhibitBacktickOperators ProhibitComplexRegexes ProhibitInteractiveTest)
-our $VERSION = 0.3;
+our $VERSION = 0.4;
 
 my @ticks = qw[▁ ▂ ▃ ▄ ▅ ▆ ▇ █];
 binmode \*STDOUT => q(encoding(utf8));
@@ -295,7 +295,7 @@ rainbarf - CPU/RAM/battery stats chart bar for tmux (and GNU screen)
 
 =head1 VERSION
 
-version 0.3
+version 0.4
 
 =head1 SYNOPSIS
 

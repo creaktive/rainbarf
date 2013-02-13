@@ -3,7 +3,7 @@ package App::rainbarf;
 use strict;
 use warnings;
 
-our $VERSION = 0.3;
+our $VERSION = 0.4;
 
 1;
 
@@ -16,11 +16,12 @@ rainbarf - CPU/RAM/battery stats chart bar for tmux (and GNU screen)
 
 =head1 VERSION
 
-version 0.3
+version 0.4
 
 =head1 DESCRIPTION
 
 Fancy resource usage charts to put into the L<tmux|http://tmux.sourceforge.net/> status line.
+See L<rainbarf>.
 
 =head1 AUTHOR
 

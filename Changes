@@ -1,5 +1,11 @@
 Changelog for App-rainbarf
 
+v0.4 2013-02-12T23:55:00
+ [Stanislaw Pusep <stas@sysd.org>]
+ - Bundled with the Module::Build installer;
+
+ - Updated docs (Installation & Configuration sections).
+
 v0.3 2013-02-11T23:39:00
  [Stanislaw Pusep <stas@sysd.org>]
  - This release uses the "CPU utilization %" metric instead of the "load average" by default;
