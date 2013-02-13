@@ -389,7 +389,7 @@ The default is C<fwaic> (B<f>ree, B<w>ired, B<a>ctive, B<i>nactive & B<c>ached).
 =item --[no]tmux
 
 Force C<tmux> colors mode.
-By default, C<rainbarf> detects automatically if it is being called from C<tmux> or from the interactive shell.
+By default, L<rainbarf> detects automatically if it is being called from C<tmux> or from the interactive shell.
 
 =item --screen
 
@@ -429,14 +429,14 @@ That is, C<rainbarf --bright --tmux> B<is guaranteed to work> despite the outdat
 =head2 Persistent storage
 
 CPU utilization stats are persistently stored in the F<~/.rainbarf.dat> file.
-Every C<rainbarf> execution will update and rotate that file.
-Since C<tmux> calls C<rainbarf> periodically (every 15 seconds, by default), the chart will display CPU utilization for the last ~9.5 minutes (15 * 38).
+Every L<rainbarf> execution will update and rotate that file.
+Since C<tmux> calls L<rainbarf> periodically (every 15 seconds, by default), the chart will display CPU utilization for the last ~9.5 minutes (15 * 38).
 Thus, several C<tmux> instances running simultaneously for the same user will result in a faster chart scrolling.
 
 =head2 screen
 
 Stable C<screen> version unfortunately has a broken UTF-8 handling specifically for the status bar.
-Thus, I have only tested the C<rainbarf> with the variant from L<git://git.savannah.gnu.org/screen.git>.
+Thus, I have only tested the L<rainbarf> with the variant from L<git://git.savannah.gnu.org/screen.git>.
 My F<~/.screenrc> contents:
 
  backtick 1 15 15 rainbarf --bright --screen

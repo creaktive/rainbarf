@@ -1,5 +1,4 @@
 #!/usr/bin/perl
-use 5.008;
 use strict;
 use warnings;
 use Module::Build;
@@ -7,10 +6,12 @@ use Module::Build;
 my $build = Module::Build->new(
     module_name         => 'App::rainbarf',
     dist_abstract       => 'CPU/RAM/battery stats chart bar for tmux (and GNU screen)',
+    dist_version_from   => 'rainbarf',
     script_files        => ['rainbarf'],
 
     license             => 'perl',
     create_license      => 1,
+    create_readme       => 1,
 
     meta_add            => {
         resources       => {
@@ -31,6 +32,7 @@ my $build = Module::Build->new(
         'Pod::Usage'    => '1.14',
         'Storable'      => '2.04',
         'Term::ANSIColor' => '1.04',
+        'perl'          => '5.008',
     },
 
     dynamic_config      => 0,

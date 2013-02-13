@@ -17,3 +17,6 @@ MYMETA.yml
 nytprof.out
 pm_to_blib
 App-rainbarf-*/*
+Debian_CPANTS.txt
+README
+*.tar.gz
