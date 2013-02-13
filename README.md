@@ -95,12 +95,12 @@ Reload the tmux config by running `tmux source-file ~/.tmux.conf`.
 - \--order INDEXES
 
     Specify the memory usage bar order.
-    The default is `fwaic` (__f__ree, __w__ired, __a__ctive, __i__nactive & __c__ached).
+    The default is `fwaic` ( __f__ree, __w__ired, __a__ctive, __i__nactive & __c__ached ).
 
 - \--\[no\]tmux
 
     Force `tmux` colors mode.
-    By default, `rainbarf` detects automatically if it is being called from `tmux` or from the interactive shell.
+    By default, [rainbarf](http://search.cpan.org/perldoc?rainbarf) detects automatically if it is being called from `tmux` or from the interactive shell.
 
 - \--screen
 
@@ -129,14 +129,14 @@ That is, `rainbarf --bright --tmux` __is guaranteed to work__ despite the outdat
 ## Persistent storage
 
 CPU utilization stats are persistently stored in the `~/.rainbarf.dat` file.
-Every `rainbarf` execution will update and rotate that file.
-Since `tmux` calls `rainbarf` periodically (every 15 seconds, by default), the chart will display CPU utilization for the last ~9.5 minutes (15 \* 38).
+Every [rainbarf](http://search.cpan.org/perldoc?rainbarf) execution will update and rotate that file.
+Since `tmux` calls [rainbarf](http://search.cpan.org/perldoc?rainbarf) periodically (every 15 seconds, by default), the chart will display CPU utilization for the last ~9.5 minutes (15 \* 38).
 Thus, several `tmux` instances running simultaneously for the same user will result in a faster chart scrolling.
 
 ## screen
 
 Stable `screen` version unfortunately has a broken UTF-8 handling specifically for the status bar.
-Thus, I have only tested the `rainbarf` with the variant from [git://git.savannah.gnu.org/screen.git](git://git.savannah.gnu.org/screen.git).
+Thus, I have only tested the [rainbarf](http://search.cpan.org/perldoc?rainbarf) with the variant from [git://git.savannah.gnu.org/screen.git](git://git.savannah.gnu.org/screen.git).
 My `~/.screenrc` contents:
 
     backtick 1 15 15 rainbarf --bright --screen

@@ -384,7 +384,7 @@ Maximum C<loadavg> you expect before rescaling the chart. Default is 1.
 =item --order INDEXES
 
 Specify the memory usage bar order.
-The default is C<fwaic> (B<f>ree, B<w>ired, B<a>ctive, B<i>nactive & B<c>ached).
+The default is C<fwaic> ( B<f>ree, B<w>ired, B<a>ctive, B<i>nactive & B<c>ached ).
 
 =item --[no]tmux
 
