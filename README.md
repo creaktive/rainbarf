@@ -1,6 +1,6 @@
 # NAME
 
-rainbarf - CPU/RAM stats chart for tmux & screen
+rainbarf - CPU/RAM/battery stats chart bar for tmux (and GNU screen)
 
 # VERSION
 
@@ -32,14 +32,23 @@ If available, battery charge is displayed on the right.
 ![Mac OS X screenshot](http://i.imgur.com/KetTk5o.png?1)
 
 ## Ubuntu Terminal with default theme and Monospace font
+# USAGE
 
     rainbarf --battery --bolt --bright
+## Installation
 
 ![Ubuntu screenshot](http://i.imgur.com/kgIdeRa.png?1)
 
 # USAGE
 
-Put `rainbarf` into your `$PATH`.
+## Installation
+
+    perl Build.PL
+    ./Build test
+    ./Build install
+
+## Configuration
+
 Add the following line to your `~/.tmux.conf` file:
 
     set -g status-right '#(rainbarf)'
@@ -151,7 +160,7 @@ Stanislaw Pusep <stas@sysd.org>
 
 # COPYRIGHT AND LICENSE
 
-This software is copyright (c) 2013 by Stanislaw Pusep.
+This software is copyright (c) 2013 by Stanislaw Pusep <stas@sysd.org>.
 
 This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.

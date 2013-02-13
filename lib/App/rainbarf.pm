@@ -12,7 +12,7 @@ __DATA__
 
 =head1 NAME
 
-rainbarf - CPU/RAM stats chart for tmux & screen
+rainbarf - CPU/RAM/battery stats chart bar for tmux (and GNU screen)
 
 =head1 VERSION
 

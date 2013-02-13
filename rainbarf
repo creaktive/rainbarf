@@ -291,7 +291,7 @@ __DATA__
 
 =head1 NAME
 
-rainbarf - CPU/RAM stats chart for tmux & screen
+rainbarf - CPU/RAM/battery stats chart bar for tmux (and GNU screen)
 
 =head1 VERSION
 
@@ -326,7 +326,14 @@ Just go to L<https://github.com/creaktive/rainbarf> to see some screenshots.
 
 =head1 USAGE
 
-Put F<rainbarf> into your C<$PATH>.
+=head2 Installation
+
+ perl Build.PL
+ ./Build test
+ ./Build install
+
+=head2 Configuration
+
 Add the following line to your F<~/.tmux.conf> file:
 
  set -g status-right '#(rainbarf)'

@@ -1,17 +1,4 @@
 #!/usr/bin/perl
-
-=head1 NAME
-
-Build.PL - Build script generator for App::rainbarf
-
-=head1 SYNOPSIS
-
- perl Build.PL
- ./Build test
- ./Build install
-
-=cut
-
 use 5.008;
 use strict;
 use warnings;
@@ -25,6 +12,14 @@ my $build = Module::Build->new(
     license             => 'perl',
     create_license      => 1,
 
+    meta_add            => {
+        resources       => {
+            bugtracker  => 'https://github.com/creaktive/rainbarf/issues',
+            homepage    => 'https://github.com/creaktive/rainbarf',
+            repository  => 'git://github.com/creaktive/rainbarf.git',
+        },
+    },
+
     build_requires      => {
         'English'       => '1.00',
         'Test::More'    => '0.45',
@@ -37,13 +32,7 @@ my $build = Module::Build->new(
         'Storable'      => '2.04',
         'Term::ANSIColor' => '1.04',
     },
+
+    dynamic_config      => 0,
 );
 $build->create_build_script;
-
-__END__
-
-=head1 AUTHOR
-
-Stanislaw Pusep <stas@sysd.org>
-
-=cut
