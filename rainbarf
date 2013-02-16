@@ -209,12 +209,7 @@ sub usage {
 
 sub memory {
     my %m;
-    if (exists $top{physmem}) {
-        %m =
-            map { (/(\d+)[KMG]\s+(\w)/x) [1, 0] }
-            split /\s*,\s*/x, $top{physmem};
-        delete $m{u};
-    } elsif (open my $meminfo, q{<}, q{/proc/meminfo}) {
+    if (open my $meminfo, q{<}, q{/proc/meminfo}) {
         %m = map {
             /\b(?:Mem)?(Free|Cached|SwapCached|Active|Inactive):\s*(\d+)/ix
                 ? (lc chr ord $1 => $2)
