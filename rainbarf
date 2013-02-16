@@ -230,14 +230,16 @@ sub memory {
 }
 
 sub battery {
-    my ($battery, $charging);
+    my ($battery, $charging, $time);
     if (-x q{/usr/sbin/ioreg}) {
         my %battery = map {
-            /"((?:Max|Current)Capacity|ExternalConnected)"\s*=\s*(\d+|Yes|No)/ix
+            /"(TimeRemaining|(?:Max|Current)Capacity|FullyCharged|ExternalConnected)"\s*=\s*(\d+|Yes|No)/ix
                 ? (lc chr ord $1 => $2)
                 : ()
         } qx{/usr/sbin/ioreg -n AppleSmartBattery -r};
 
+        my $sec = $battery{t} * 60;
+        $time = eval { (($sec/(60*60))%24). "h" . (($sec/60)%60) . "m" } if ($battery{f} eq "No");
         $charging = ($battery{e} =~ /^y/ix);
         $battery = eval { $battery{c} / $battery{m} };
     } elsif (-d q(/proc/acpi/battery)) {
@@ -276,6 +278,7 @@ sub battery {
             print my_color(q(green));
         }
         print $ticks[$#ticks * $battery];
+        print " $time " if defined $time;
     }
 
     return;
