@@ -145,7 +145,7 @@ sub my_color {
 
 sub top {
     if (not %top and -x q{/usr/bin/top}) {
-        for (qx{/usr/bin/top -R -F -l1 -n0}) {
+        for (qx{/usr/bin/top -R -F -l1 -n0 -s0}) {
             my ($key, $value) = /^([\w\s]+)\s*:\s*(.+)/x;
             next unless defined $key;
             $key =~ y/A-Z /a-z_/;
