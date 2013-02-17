@@ -31,6 +31,12 @@ If available, battery charge is displayed on the right.
 
 ![Mac OS X screenshot](http://i.imgur.com/KetTk5o.png?1)
 
+## OSX Terminal with [Tomorrow Night](https://github.com/chriskempson/tomorrow-theme#tomorrow-night) theme and Menlo font
+
+    rainbarf --battery --remaining --no-bright
+
+![Mac OS X screenshot, v2](http://i.imgur.com/g4wNnRj.png?1)
+
 ## Ubuntu Terminal with default theme and Monospace font
 
     rainbarf --battery --bolt --bright
