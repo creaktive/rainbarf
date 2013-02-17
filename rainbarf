@@ -17,22 +17,23 @@ my $order   = '';
 my $screen  = 0;
 my $tmux    = not -t \*STDOUT;
 
-my ($help, $show_battery, $bolt, $chart_bg, $chart_fg, $bright, $loadavg, $threshold, $width);
+my ($help, $show_battery, $remaining, $bolt, $chart_bg, $chart_fg, $bright, $loadavg, $threshold, $width);
 if (@ARGV) {
     require Getopt::Long;
     Getopt::Long::GetOptions(
-        q(help)     => \$help,
-        q(battery!) => \$show_battery,
-        q(bolt!)    => \$bolt,
-        q(bg=s)     => \$chart_bg,
-        q(fg=s)     => \$chart_fg,
-        q(bright!)  => \$bright,
-        q(loadavg!) => \$loadavg,
-        q(max=i)    => \$threshold,
-        q(order=s)  => \$order,
-        q(screen)   => \$screen,
-        q(tmux!)    => \$tmux,
-        q(width=i)  => \$width,
+        q(help)         => \$help,
+        q(battery!)     => \$show_battery,
+        q(remaining)   => \$remaining,
+        q(bolt!)        => \$bolt,
+        q(bg=s)         => \$chart_bg,
+        q(fg=s)         => \$chart_fg,
+        q(bright!)      => \$bright,
+        q(loadavg!)     => \$loadavg,
+        q(max=i)        => \$threshold,
+        q(order=s)      => \$order,
+        q(screen)       => \$screen,
+        q(tmux!)        => \$tmux,
+        q(width=i)      => \$width,
     ) or help(-verbose => 1);
 }
 
@@ -108,6 +109,7 @@ sub help {
 sub defaults {
     help(-verbose => 99)    if $help;
     $show_battery   = 1     unless defined $show_battery;
+    $remaining      = undef unless defined $remaining;
     $loadavg        = 0     unless defined $loadavg;
     $threshold      = 1     unless defined $threshold;
     $width          = 38    unless defined $width;
@@ -145,7 +147,7 @@ sub my_color {
 
 sub top {
     if (not %top and -x q{/usr/bin/top}) {
-        for (qx{/usr/bin/top -R -F -l1 -n0}) {
+        for (qx{/usr/bin/top -R -F -l1 -n0 -s0}) {
             my ($key, $value) = /^([\w\s]+)\s*:\s*(.+)/x;
             next unless defined $key;
             $key =~ y/A-Z /a-z_/;
@@ -210,8 +212,10 @@ sub usage {
 sub memory {
     my %m;
     if (exists $top{physmem}) {
+        my %n = (K => 1/2**10, M => 1, G => 2**10);
         %m =
-            map { (/(\d+)[KMG]\s+(\w)/x) [1, 0] }
+            map { $_->[2] => $_->[0] * $n{$_->[1]} }
+            map { [/(\d+)([KMG])\s+(\w)/x] }
             split /\s*,\s*/x, $top{physmem};
         delete $m{u};
     } elsif (open my $meminfo, q{<}, q{/proc/meminfo}) {
@@ -235,14 +239,19 @@ sub memory {
 }
 
 sub battery {
-    my ($battery, $charging);
+    my ($battery, $charging, $time);
     if (-x q{/usr/sbin/ioreg}) {
         my %battery = map {
-            /"((?:Max|Current)Capacity|ExternalConnected)"\s*=\s*(\d+|Yes|No)/ix
+            /"(TimeRemaining|(?:Max|Current)Capacity|FullyCharged|ExternalConnected)"\s*=\s*(\d+|Yes|No)/ix
                 ? (lc chr ord $1 => $2)
                 : ()
         } qx{/usr/sbin/ioreg -n AppleSmartBattery -r};
 
+        if ($battery{f} eq q(No)
+            || ($battery{f} eq q(No) && $battery{e} eq q(Yes))
+            || ($battery{f} eq q(Yes) && $battery{e} eq q(No))) {
+            $time = $battery{t};
+        }
         $charging = ($battery{e} =~ /^y/ix);
         $battery = eval { $battery{c} / $battery{m} };
     } elsif (-d q(/proc/acpi/battery)) {
@@ -266,6 +275,7 @@ sub battery {
                 close $fh;
             }
 
+            $time = ($battery{remaining_capacity} / $battery{present_rate}) * 60 if $battery{charging_state} eq q(discharging);
             $charging = $battery{charging_state} ne q(discharging);
             $battery = eval { $battery{remaining_capacity} / $battery{last_full_capacity} };
         }
@@ -281,6 +291,11 @@ sub battery {
             print my_color(q(green));
         }
         print $ticks[$#ticks * $battery];
+    }
+
+    if (defined $remaining && defined $time) {
+        my $sec = $time * 60;
+        print " " . (($sec/(60*60))%24) . "h" . (($sec/60)%60) . "m ";
     }
 
     return;
@@ -355,6 +370,10 @@ This.
 =item --[no]battery
 
 Display the battery charge indicator.
+
+=item --remaining
+
+Display the time remaining until the battery is fully charged/empty.
 
 =item --[no]bolt
 

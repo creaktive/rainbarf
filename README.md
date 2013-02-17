@@ -31,6 +31,12 @@ If available, battery charge is displayed on the right.
 
 ![Mac OS X screenshot](http://i.imgur.com/KetTk5o.png?1)
 
+## OSX Terminal with [Tomorrow Night](https://github.com/chriskempson/tomorrow-theme#tomorrow-night) theme and Menlo font
+
+    rainbarf --battery --remaining --no-bright
+
+![Mac OS X screenshot, v2](http://i.imgur.com/g4wNnRj.png?1)
+
 ## Ubuntu Terminal with default theme and Monospace font
 
     rainbarf --battery --bolt --bright
@@ -66,6 +72,10 @@ Reload the tmux config by running `tmux source-file ~/.tmux.conf`.
 - \--\[no\]battery
 
     Display the battery charge indicator.
+
+- \--remaining
+
+    Display the time remaining until the battery is fully charged/empty. See ["CAVEAT"](#CAVEAT).
 
 - \--\[no\]bolt
 
@@ -112,6 +122,10 @@ Reload the tmux config by running `tmux source-file ~/.tmux.conf`.
     Higher values may require disabling the battery indicator or raising the `status-right-length` value in `~/.tmux.conf`.
 
 # CAVEAT
+
+## Time remaining
+
+If the `--remaining` option is present but you do not see the time in your status bar, you may need to increase the value of `status-right-length` to 48.
 
 ## Color scheme
 
