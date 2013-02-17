@@ -23,7 +23,7 @@ if (@ARGV) {
     Getopt::Long::GetOptions(
         q(help)         => \$help,
         q(battery!)     => \$show_battery,
-        q(remaining!)   => \$remaining,
+        q(remaining)   => \$remaining,
         q(bolt!)        => \$bolt,
         q(bg=s)         => \$chart_bg,
         q(fg=s)         => \$chart_fg,
@@ -109,6 +109,7 @@ sub help {
 sub defaults {
     help(-verbose => 99)    if $help;
     $show_battery   = 1     unless defined $show_battery;
+    $remaining      = undef unless defined $remaining;
     $loadavg        = 0     unless defined $loadavg;
     $threshold      = 1     unless defined $threshold;
     $width          = 38    unless defined $width;
@@ -370,7 +371,7 @@ This.
 
 Display the battery charge indicator.
 
-=item --[no]remaining
+=item --remaining
 
 Display the time remaining until the battery is fully charged/empty.
 
