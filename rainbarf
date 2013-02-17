@@ -379,7 +379,7 @@ Display the battery charge indicator.
 
 =item --[no]remaining
 
-Display the time remaining until the battery is fully charged/empty.
+Display the time remaining until the battery is fully charged/empty. See L</CAVEAT>.
 
 =item --[no]bolt
 
@@ -428,6 +428,10 @@ Higher values may require disabling the battery indicator or raising the C<statu
 =back
 
 =head1 CAVEAT
+
+=head2 Time remaining
+
+If the C<--remaining> option is present but you do not see the time in your status bar, you may need to increase the value of C<status-right-length> to 48.
 
 =head2 Color scheme
 

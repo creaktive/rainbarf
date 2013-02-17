@@ -1,6 +1,6 @@
 Changelog for App-rainbarf
 
-v0.5 2013-02-17T17:24:00
+v0.5 2013-02-17T17:36:00
  [Joe Hassick <joe.hassick@gmail.com>]
  - Add option that will display the time remaining until the battery is fully charged/empty;
  - Remove one second delay after executing top;
