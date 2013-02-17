@@ -246,7 +246,11 @@ sub battery {
                 : ()
         } qx{/usr/sbin/ioreg -n AppleSmartBattery -r};
 
-        $time = $battery{t} if $battery{f} eq q(No);
+        if ($battery{f} eq q(No)
+            || ($battery{f} eq q(No) && $battery{e} eq q(Yes))
+            || ($battery{f} eq q(Yes) && $battery{e} eq q(No))) {
+            $time = $battery{t};
+        }
         $charging = ($battery{e} =~ /^y/ix);
         $battery = eval { $battery{c} / $battery{m} };
     } elsif (-d q(/proc/acpi/battery)) {
