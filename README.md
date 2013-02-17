@@ -67,6 +67,10 @@ Reload the tmux config by running `tmux source-file ~/.tmux.conf`.
 
     Display the battery charge indicator.
 
+- \--\[no\]remaining
+
+    Display the time remaining until the battery is fully charged/empty.
+
 - \--\[no\]bolt
 
     Display even fancier battery indicator `⚡`.
