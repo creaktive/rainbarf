@@ -211,8 +211,10 @@ sub usage {
 sub memory {
     my %m;
     if (exists $top{physmem}) {
+        my %n = (K => 1/2**10, M => 1, G => 2**10);
         %m =
-            map { (/(\d+)[KMG]\s+(\w)/x) [1, 0] }
+            map { $_->[2] => $_->[0] * $n{$_->[1]} }
+            map { [/(\d+)([KMG])\s+(\w)/x] }
             split /\s*,\s*/x, $top{physmem};
         delete $m{u};
     } elsif (open my $meminfo, q{<}, q{/proc/meminfo}) {
