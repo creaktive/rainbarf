@@ -75,7 +75,7 @@ Reload the tmux config by running `tmux source-file ~/.tmux.conf`.
 
 - \--remaining
 
-    Display the time remaining until the battery is fully charged/empty.
+    Display the time remaining until the battery is fully charged/empty. See ["CAVEAT"](#CAVEAT).
 
 - \--\[no\]bolt
 
@@ -122,6 +122,10 @@ Reload the tmux config by running `tmux source-file ~/.tmux.conf`.
     Higher values may require disabling the battery indicator or raising the `status-right-length` value in `~/.tmux.conf`.
 
 # CAVEAT
+
+## Time remaining
+
+If the `--remaining` option is present but you do not see the time in your status bar, you may need to increase the value of `status-right-length` to 48.
 
 ## Color scheme
 
