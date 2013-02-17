@@ -498,6 +498,24 @@ L<Spark|http://zachholman.com/spark/> was another source of inspiration.
 
 Stanislaw Pusep <stas@sysd.org>
 
+=head1 CONTRIBUTORS
+
+=over 4
+
+=item *
+
+L<Clemens Hammacher|https://github.com/hammacher>
+
+=item *
+
+L<Joe Hassick|https://github.com/jh3>
+
+=item *
+
+L<Tuomas Jormola|https://github.com/tjormola>
+
+=back
+
 =head1 COPYRIGHT AND LICENSE
 
 This software is copyright (c) 2013 by Stanislaw Pusep <stas@sysd.org>.

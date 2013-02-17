@@ -165,6 +165,12 @@ My `~/.screenrc` contents:
 
 Stanislaw Pusep <stas@sysd.org>
 
+# CONTRIBUTORS
+
+- [Clemens Hammacher](https://github.com/hammacher)
+- [Joe Hassick](https://github.com/jh3)
+- [Tuomas Jormola](https://github.com/tjormola)
+
 # COPYRIGHT AND LICENSE
 
 This software is copyright (c) 2013 by Stanislaw Pusep <stas@sysd.org>.
