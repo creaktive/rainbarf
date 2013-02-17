@@ -23,7 +23,7 @@ if (@ARGV) {
     Getopt::Long::GetOptions(
         q(help)         => \$help,
         q(battery!)     => \$show_battery,
-        q(remaining)   => \$remaining,
+        q(remaining!)   => \$remaining,
         q(bolt!)        => \$bolt,
         q(bg=s)         => \$chart_bg,
         q(fg=s)         => \$chart_fg,
@@ -109,7 +109,6 @@ sub help {
 sub defaults {
     help(-verbose => 99)    if $help;
     $show_battery   = 1     unless defined $show_battery;
-    $remaining      = undef unless defined $remaining;
     $loadavg        = 0     unless defined $loadavg;
     $threshold      = 1     unless defined $threshold;
     $width          = 38    unless defined $width;
@@ -215,7 +214,7 @@ sub memory {
         my %n = (K => 1/2**10, M => 1, G => 2**10);
         %m =
             map { $_->[2] => $_->[0] * $n{$_->[1]} }
-            map { [/(\d+)([KMG])\s+(\w)/x] }
+            map { [(/(\d+)([KMG])\s+(\w)/x)] }
             split /\s*,\s*/x, $top{physmem};
         delete $m{u};
     } elsif (open my $meminfo, q{<}, q{/proc/meminfo}) {
@@ -275,12 +274,21 @@ sub battery {
                 close $fh;
             }
 
-            $time = ($battery{remaining_capacity} / $battery{present_rate}) * 60 if $battery{charging_state} eq q(discharging);
             $charging = $battery{charging_state} ne q(discharging);
+            $time = eval { ($battery{remaining_capacity} / $battery{present_rate}) * 60 }
+                if not $charging
+                and defined $battery{present_rate}
+                and $battery{present_rate} =~ /^\d+$/x;
             $battery = eval { $battery{remaining_capacity} / $battery{last_full_capacity} };
         }
     }
 
+    battery_print($battery, $charging, $time);
+    return;
+}
+
+sub battery_print {
+    my ($battery, $charging, $time);
     if (defined $battery) {
         print my_color(($charging ? q(green) : q(red)), q(black)) => $bolt;
         if ($battery < 0.333) {
@@ -292,12 +300,10 @@ sub battery {
         }
         print $ticks[$#ticks * $battery];
     }
-
     if (defined $remaining && defined $time) {
         my $sec = $time * 60;
         print " " . (($sec/(60*60))%24) . "h" . (($sec/60)%60) . "m ";
     }
-
     return;
 }
 
@@ -371,7 +377,7 @@ This.
 
 Display the battery charge indicator.
 
-=item --remaining
+=item --[no]remaining
 
 Display the time remaining until the battery is fully charged/empty.
 
