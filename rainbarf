@@ -288,7 +288,7 @@ sub battery {
 }
 
 sub battery_print {
-    my ($battery, $charging, $time);
+    my ($battery, $charging, $time) = @_;
     if (defined $battery) {
         print my_color(($charging ? q(green) : q(red)), q(black)) => $bolt;
         if ($battery < 0.333) {
