@@ -1,7 +1,6 @@
 #!/usr/bin/env perl
 use 5.008;
 use strict;
-use utf8;
 use warnings qw(all);
 
 use List::Util qw(max sum);
@@ -10,7 +9,7 @@ use Storable qw(lock_retrieve lock_store);
 ## no critic (ProhibitBacktickOperators ProhibitComplexRegexes ProhibitInteractiveTest)
 our $VERSION = 0.5;
 
-my @ticks = qw[▁ ▂ ▃ ▄ ▅ ▆ ▇ █];
+my @ticks = map { chr 0x2580 + $_ } 1 .. 8;
 binmode \*STDOUT => q(encoding(utf8));
 
 my $order   = '';
@@ -113,7 +112,7 @@ sub defaults {
     $threshold      = 1     unless defined $threshold;
     $width          = 38    unless defined $width;
     $bright         = 0     unless defined $bright;
-    $bolt           = (defined $bolt and $bolt) ? q(⚡) : q(|);
+    $bolt           = (defined $bolt and $bolt) ? chr 0x26a1 : q(|);
     require Term::ANSIColor if not $tmux and not $screen;
 
     return;
