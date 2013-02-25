@@ -30,6 +30,20 @@ my $rgb     = 0;
 
 my ($help, $show_battery, $remaining, $bolt, $chart_bg,
     $chart_fg, $bright, $loadavg, $threshold, $width);
+
+# parse the options file
+my $rcname = qq($ENV{HOME}/.rainbarf.conf);
+if (open(my $rcfile, q(<), $rcname)) {
+    while (<$rcfile>) {
+        s/\#.*$//x;
+        s/\s+//gx;
+        if (/^(?:\-{2})?(\w+(?:=\w+)?)$/x) {
+            unshift @ARGV => q(--) . $1;
+        }
+    }
+    close $rcfile;
+}
+
 if (@ARGV) {
     require Getopt::Long;
     Getopt::Long::GetOptions(
@@ -400,6 +414,18 @@ Or, under I<GNOME Terminal>:
  set -g status-right '#(rainbarf --bright)'
 
 Reload the tmux config by running C<tmux source-file ~/.tmux.conf>.
+
+=head1 CONFIGURATION FILE
+
+C<~/.rainbarf.conf> can be used to persistently store L</OPTIONS>:
+
+ # example configuration file
+ width=20   # widget width
+ bolt       # fancy charging character
+ remaining  # display remaining battery
+ rgb        # 256-colored palette
+
+L</OPTIONS> specified via command line override that values.
 
 =head1 OPTIONS
 

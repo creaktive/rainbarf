@@ -63,6 +63,18 @@ Or, under _GNOME Terminal_:
 
 Reload the tmux config by running `tmux source-file ~/.tmux.conf`.
 
+# CONFIGURATION FILE
+
+`~/.rainbarf.conf` can be used to persistently store ["OPTIONS"](#OPTIONS):
+
+    # example configuration file
+    width=20   # widget width
+    bolt       # fancy charging character
+    remaining  # display remaining battery
+    rgb        # 256-colored palette
+
+["OPTIONS"](#OPTIONS) specified via command line override that values.
+
 # OPTIONS
 
 - \--help
