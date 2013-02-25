@@ -9,14 +9,27 @@ use Storable qw(lock_retrieve lock_store);
 ## no critic (ProhibitBacktickOperators ProhibitComplexRegexes ProhibitInteractiveTest)
 our $VERSION = 0.5;
 
+my %rgb = (
+    black   => [qw[0 0 0]],
+    red     => [qw[1 0 0]],
+    green   => [qw[0 1 0]],
+    yellow  => [qw[1 1 0]],
+    blue    => [qw[0 0 1]],
+    magenta => [qw[1 0 1]],
+    cyan    => [qw[0 1 1]],
+    white   => [qw[1 1 1]],
+);
+
 my @ticks = map { chr 0x2580 + $_ } 1 .. 8;
 binmode \*STDOUT => q(encoding(utf8));
 
 my $order   = '';
 my $screen  = 0;
 my $tmux    = not -t \*STDOUT;
+my $rgb     = 1;
 
-my ($help, $show_battery, $remaining, $bolt, $chart_bg, $chart_fg, $bright, $loadavg, $threshold, $width);
+my ($help, $show_battery, $remaining, $bolt, $chart_bg,
+    $chart_fg, $bright, $loadavg, $threshold, $width);
 if (@ARGV) {
     require Getopt::Long;
     Getopt::Long::GetOptions(
@@ -32,6 +45,7 @@ if (@ARGV) {
         q(order=s)      => \$order,
         q(screen)       => \$screen,
         q(tmux!)        => \$tmux,
+        q(rgb!)         => \$rgb,
         q(width=i)      => \$width,
     ) or help(-verbose => 1);
 }
@@ -118,11 +132,24 @@ sub defaults {
     return;
 }
 
+sub color_idx {
+    my ($color, $brightness) = @_;
+    return unless defined $color;
+    my ($r, $g, $b) = map { $_ * $brightness } @{$rgb{$color}};
+    return q(colour) . (16 + (6 * 6 * $r) + (6 * $g) + $b);
+}
+
+sub color_rgb {
+    my ($color, $brightness) = @_;
+    return unless defined $color;
+    return q(rgb) . join '' => map { $_ * $brightness } @{$rgb{$color}};
+}
+
 sub my_color {
     my ($fg, $bg) = @_;
     my $out;
 
-   if ($screen) {
+    if ($screen) {
         $out = qq(\5{);
         $out .= defined($bg)
             ? chr ord $bg
@@ -132,11 +159,21 @@ sub my_color {
             : chr ord $fg;
         $out .= q(});
     } elsif ($tmux) {
-        $fg .= q(,bright) if $bright;
+        if ($rgb) {
+            $fg = color_idx($fg => 5);
+            $bg = color_idx($bg => 2);
+        } else {
+            $fg .= q(,bright) if $bright;
+        }
         $out = qq(#[fg=$fg]);
         $out .= qq(#[bg=$bg]) if defined $bg;
     } else {
-        $fg = qq(bright_$fg) if $bright;
+        if ($rgb) {
+            $fg = color_rgb($fg => 5);
+            $bg = color_rgb($bg => 2);
+        } else {
+            $fg = qq(bright_$fg) if $bright;
+        }
         $out = Term::ANSIColor::color(defined($bg) ? qq($fg on_$bg) : $fg);
     }
 
@@ -388,6 +425,11 @@ Display even fancier battery indicator.
 
 Tricky one. Disabled by default. See L</CAVEAT>.
 
+=item --[no]rgb
+
+Use the B<RGB> palette instead of the system colors.
+Also disabled by default, for the same reasons as above.
+
 =item --fg COLOR_NAME
 
 Force chart foreground color.
@@ -437,7 +479,7 @@ If the C<--remaining> option is present but you do not see the time in your stat
 If you only see the memory usage bars but no CPU utilization chart, that's because your terminal's color scheme need an explicit distinction between foreground and background colors.
 For instance, "red on red background" will be displayed as a red block on such terminals.
 Thus, you may need the ANSI B<bright> attribute for greater contrast.
-There are two problems with it, though:
+There are two issues with it, though:
 
 =over 4
 
@@ -453,6 +495,10 @@ However, the whole L<Term::ANSIColor> is optional, it is only required to previe
 That is, C<rainbarf --bright --tmux> B<is guaranteed to work> despite the outdated L<Term::ANSIColor>!
 
 =back
+
+Another option is skipping the system colors altogether and use the B<RGB> palette (C<rainbarf --rgb>).
+This fixes the I<issue 1>, but doesn't affect the I<issue 2>.
+It still looks better, though.
 
 =head2 Persistent storage
 

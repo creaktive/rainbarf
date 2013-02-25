@@ -85,6 +85,11 @@ Reload the tmux config by running `tmux source-file ~/.tmux.conf`.
 
     Tricky one. Disabled by default. See ["CAVEAT"](#CAVEAT).
 
+- \--\[no\]rgb
+
+    Use the __RGB__ palette instead of the system colors.
+    Also disabled by default, for the same reasons as above.
+
 - \--fg COLOR\_NAME
 
     Force chart foreground color.
@@ -132,13 +137,17 @@ If the `--remaining` option is present but you do not see the time in your statu
 If you only see the memory usage bars but no CPU utilization chart, that's because your terminal's color scheme need an explicit distinction between foreground and background colors.
 For instance, "red on red background" will be displayed as a red block on such terminals.
 Thus, you may need the ANSI __bright__ attribute for greater contrast.
-There are two problems with it, though:
+There are two issues with it, though:
 
 1. Other color schemes (notably, [solarized](http://ethanschoonover.com/solarized)) have different meaning for the ANSI __bright__ attribute.
 So using it will result in a quite psychedelic appearance.
 2. The older versions of [Term::ANSIColor](http://search.cpan.org/perldoc?Term::ANSIColor) dependency do not recognize it at all, resulting in a confusing error message _Invalid attribute name bright\_yellow at ..._.
 However, the whole [Term::ANSIColor](http://search.cpan.org/perldoc?Term::ANSIColor) is optional, it is only required to preview the effects of the ["OPTIONS"](#OPTIONS) via command line before actually editing the `~/.tmux.conf`.
 That is, `rainbarf --bright --tmux` __is guaranteed to work__ despite the outdated [Term::ANSIColor](http://search.cpan.org/perldoc?Term::ANSIColor)!
+
+Another option is skipping the system colors altogether and use the __RGB__ palette (`rainbarf --rgb`).
+This fixes the _issue 1_, but doesn't affect the _issue 2_.
+It still looks better, though.
 
 ## Persistent storage
 
