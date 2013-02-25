@@ -26,7 +26,7 @@ binmode \*STDOUT => q(encoding(utf8));
 my $order   = '';
 my $screen  = 0;
 my $tmux    = not -t \*STDOUT;
-my $rgb     = 1;
+my $rgb     = 0;
 
 my ($help, $show_battery, $remaining, $bolt, $chart_bg,
     $chart_fg, $bright, $loadavg, $threshold, $width);
