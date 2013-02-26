@@ -348,12 +348,22 @@ sub battery_print {
     if (defined $battery) {
         my_reset();
         print my_color(($charging ? q(green) : q(red))) => $bolt;
-        if ($battery < 0.333) {
-            print my_color(q(red));
-        } elsif ($battery < 0.666) {
-            print my_color(q(yellow));
+        if ($rgb) {
+            if ($battery > 0.5) {
+                # green => yellow
+                print Term::ANSIColor::color(sprintf q(rgb%d50) => int((1 - $battery) * 12));
+            } else {
+                # yellow => red
+                print Term::ANSIColor::color(sprintf q(rgb5%d0) => int($battery * 12));
+            }
         } else {
-            print my_color(q(green));
+            if ($battery < 0.333) {
+                print my_color(q(red));
+            } elsif ($battery < 0.666) {
+                print my_color(q(yellow));
+            } else {
+                print my_color(q(green));
+            }
         }
         print $ticks[$#ticks * $battery];
     }
