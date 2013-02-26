@@ -1,5 +1,11 @@
 Changelog for App-rainbarf
 
+v0.6 2013-02-26T08:15:00
+ [Stanislaw Pusep <stas@sysd.org>]
+ - Added support for the 256-color palette;
+ - Added support for ~/.rainbarf.conf;
+ - Code cleanup.
+
 v0.5 2013-02-17T17:36:00
  [Joe Hassick <joe.hassick@gmail.com>]
  - Add option that will display the time remaining until the battery is fully charged/empty;
