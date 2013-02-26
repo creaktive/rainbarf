@@ -116,13 +116,7 @@ for my $type (sort { $colors{$a}->[1] <=> $colors{$b}->[1] } keys %memory) {
 print $ticks[$norm * $cpu] if $c < $width;
 
 battery() if $show_battery;
-
-if ($screen) {
-    print qq(\5{= dd});
-} elsif ($tmux) {
-} else {
-    print Term::ANSIColor::color(q(reset)) => qq(\n);
-}
+my_reset(1);
 
 # For dependencies linting
 #printf qq(%-20s\t%s\n), $_ => $INC{$_} for sort keys %INC;
@@ -179,8 +173,7 @@ sub my_color {
         } else {
             $fg .= q(,bright) if $bright;
         }
-        $out = qq(#[fg=$fg]);
-        $out .= qq(#[bg=$bg]) if defined $bg;
+        $out = defined($bg) ? qq(#[fg=$fg,bg=$bg]) : qq(#[fg=$fg]);
     } else {
         if ($rgb) {
             $fg = color_rgb($fg => 5);
@@ -192,6 +185,19 @@ sub my_color {
     }
 
     return $out;
+}
+
+sub my_reset {
+    my ($eof) = @_;
+    if ($screen) {
+        print qq(\5{= dd});
+    } elsif ($tmux) {
+        print q(#[fg=default,bg=default]);
+    } else {
+        print Term::ANSIColor::color(q(reset));
+    }
+    print qq(\n) if defined $eof;
+    return;
 }
 
 sub top {
@@ -340,7 +346,8 @@ sub battery {
 sub battery_print {
     my ($battery, $charging, $time) = @_;
     if (defined $battery) {
-        print my_color(($charging ? q(green) : q(red)), q(black)) => $bolt;
+        my_reset();
+        print my_color(($charging ? q(green) : q(red))) => $bolt;
         if ($battery < 0.333) {
             print my_color(q(red));
         } elsif ($battery < 0.666) {
