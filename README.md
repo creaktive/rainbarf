@@ -25,11 +25,11 @@ If available, battery charge is displayed on the right.
 
 # SCREENSHOTS
 
-## iTerm2 with solarized theme and ProFont
+## iTerm2 with [tmux-powerline](https://github.com/erikw/tmux-powerline), Solarized theme and Terminus font
 
-    rainbarf --battery --no-bright
+    rainbarf --battery --remaining --rgb
 
-![Mac OS X screenshot](http://i.imgur.com/KetTk5o.png?1)
+![Mac OS X screenshot](http://i.imgur.com/mxtz72V.png?1)
 
 ## OSX Terminal with [Tomorrow Night](https://github.com/chriskempson/tomorrow-theme#tomorrow-night) theme and Menlo font
 
