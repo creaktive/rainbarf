@@ -19,6 +19,11 @@ my $build = Module::Build->new(
             homepage    => 'https://github.com/creaktive/rainbarf',
             repository  => 'git://github.com/creaktive/rainbarf.git',
         },
+        x_contributors  => [
+            'Clemens Hammacher <hammacher@cs.uni-saarland.de>',
+            'Joe Hassick <joe.hassick@gmail.com>',
+            'Tuomas Jormola <tj@solitudo.net>',
+        ],
     },
 
     build_requires      => {
