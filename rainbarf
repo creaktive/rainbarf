@@ -116,7 +116,7 @@ for my $type (sort { $colors{$a}->[1] <=> $colors{$b}->[1] } keys %memory) {
 }
 print $ticks[$norm * $cpu] if $c < $width;
 
-battery() if $show_battery || $remaining;
+battery() if $show_battery or $remaining;
 my_reset(1);
 
 # For dependencies linting
@@ -135,6 +135,7 @@ sub defaults {
     $threshold      = 1     unless defined $threshold;
     $width          = 38    unless defined $width;
     $bright         = 0     unless defined $bright;
+    $remaining      = 0     unless defined $remaining;
     $bolt           = (defined $bolt and $bolt) ? chr 0x26a1 : q(|);
     require Term::ANSIColor if not $tmux and not $screen;
 
@@ -349,7 +350,7 @@ sub battery_print {
     if (defined $battery) {
         my_reset();
         print my_color(($charging ? q(green) : q(red)));
-        if($show_battery) {
+        if ($show_battery) {
             print $bolt;
             if ($rgb and not $screen) {
                 my @color;
@@ -377,9 +378,9 @@ sub battery_print {
             print $ticks[$#ticks * $battery];
         }
     }
-    if (defined $remaining && defined $time) {
+    if ($remaining and defined $time) {
         my $sec = $time * 60;
-        print " " . (($sec/(60*60))%24) . "h" . (($sec/60)%60) . "m ";
+        print q( ) . (($sec / (60 * 60)) % 24) . q(h) . (($sec / 60) % 60) . q(m);
     }
     return;
 }
@@ -611,6 +612,10 @@ L<Clemens Hammacher|https://github.com/hammacher>
 =item *
 
 L<Joe Hassick|https://github.com/jh3>
+
+=item *
+
+L<Tom Cammann|https://github.com/takac>
 
 =item *
 

@@ -194,6 +194,7 @@ Stanislaw Pusep <stas@sysd.org>
 
 - [Clemens Hammacher](https://github.com/hammacher)
 - [Joe Hassick](https://github.com/jh3)
+- [Tom Cammann](https://github.com/takac)
 - [Tuomas Jormola](https://github.com/tjormola)
 
 # COPYRIGHT AND LICENSE
