@@ -88,6 +88,7 @@ my %colors = (
     a   => [ yellow => 3 ], # active
     i   => [ blue   => 4 ], # inactive
     c   => [ cyan   => 5 ], # cached
+    b   => [ cyan   => 5 ], # buf (FreeBSD)
 );
 
 # Custom ordering
@@ -204,12 +205,20 @@ sub my_reset {
 
 sub top {
     if (not %top and -x q{/usr/bin/top}) {
-        for (qx{/usr/bin/top -R -F -l1 -n0 -s0}) {
+        my @top;
+        if ($^O eq q(darwin)) {
+            @top = qx{/usr/bin/top -R -F -l1 -n0 -s0};
+        } elsif ($^O eq q(freebsd)) {
+            @top = qx{/usr/bin/top -b -d2 -I -s1 -z};
+        }
+        for (@top) {
             my ($key, $value) = /^([\w\s]+)\s*:\s*(.+)/x;
             next unless defined $key;
             $key =~ y/A-Z /a-z_/;
             $top{$key} = $value;
         }
+        $top{cpu_usage} = delete $top{cpu} unless exists $top{cpu_usage};
+        $top{physmem}   = delete $top{mem} unless exists $top{physmem};
     }
     return scalar keys %top;
 }
@@ -271,7 +280,7 @@ sub memory {
     if (exists $top{physmem}) {
         my %n = (K => 1/2**10, M => 1, G => 2**10);
         %m =
-            map { $_->[2] => $_->[0] * $n{$_->[1]} }
+            map { lc $_->[2] => $_->[0] * $n{$_->[1]} }
             map { [(/(\d+)([KMG])\s+(\w)/x)] }
             split /\s*,\s*/x, $top{physmem};
         delete $m{u};
