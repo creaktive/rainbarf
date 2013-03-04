@@ -8,7 +8,7 @@ use List::Util qw(max sum);
 use Storable qw(lock_retrieve lock_store);
 
 ## no critic (ProhibitBacktickOperators ProhibitComplexRegexes ProhibitInteractiveTest)
-our $VERSION = 0.6;
+our $VERSION = 0.7;
 
 my %rgb = (
     black   => [qw[0 0 0]],
@@ -403,7 +403,7 @@ rainbarf - CPU/RAM/battery stats chart bar for tmux (and GNU screen)
 
 =head1 VERSION
 
-version 0.6
+version 0.7
 
 =head1 SYNOPSIS
 
@@ -422,9 +422,9 @@ The CPU utilization history chart is tinted with the following colors to reflect
 
 =item * B<blue>: inactive memory;
 
-=item * B<red>: wired memory on I<Mac OS X>;
+=item * B<red>: wired memory on I<Mac OS X>/I<FreeBSD>;
 
-=item * B<cyan>: cached memory on I<Linux>.
+=item * B<cyan>: cached memory on I<Linux>, buf on I<FreeBSD>.
 
 =back
 

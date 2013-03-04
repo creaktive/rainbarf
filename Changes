@@ -1,5 +1,12 @@
 Changelog for App-rainbarf
 
+v0.7 2013-03-04T13:15:00
+ [Tom Cammann <tom.cammann@vmci.net>]
+ - Allow --nobattery --remaining (show remaining time with no battery symbol).
+ [Stanislaw Pusep <stas@sysd.org>]
+ - FreeBSD compatibility;
+ - Code cleanup.
+
 v0.6 2013-02-26T08:15:00
  [Stanislaw Pusep <stas@sysd.org>]
  - Added support for the 256-color palette;

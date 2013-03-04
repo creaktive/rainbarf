@@ -4,7 +4,7 @@ rainbarf - CPU/RAM/battery stats chart bar for tmux (and GNU screen)
 
 # VERSION
 
-version 0.6
+version 0.7
 
 # SYNOPSIS
 
@@ -18,8 +18,8 @@ The CPU utilization history chart is tinted with the following colors to reflect
 - __green__: free memory;
 - __yellow__: active memory;
 - __blue__: inactive memory;
-- __red__: wired memory on _Mac OS X_;
-- __cyan__: cached memory on _Linux_.
+- __red__: wired memory on _Mac OS X_/_FreeBSD_;
+- __cyan__: cached memory on _Linux_, buf on _FreeBSD_.
 
 If available, battery charge is displayed on the right.
 
