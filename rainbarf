@@ -422,7 +422,7 @@ The CPU utilization history chart is tinted with the following colors to reflect
 
 =item * B<blue>: inactive memory;
 
-=item * B<red>: wired memory on I<Mac OS X>/I<FreeBSD>;
+=item * B<red>: wired memory on I<Mac OS X> / I<FreeBSD>;
 
 =item * B<cyan>: cached memory on I<Linux>, buf on I<FreeBSD>.
 
