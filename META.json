@@ -1,0 +1,62 @@
+{
+   "abstract" : "CPU/RAM/battery stats chart bar for tmux (and GNU screen)",
+   "author" : [
+      "Stanislaw Pusep <stas@sysd.org>"
+   ],
+   "dynamic_config" : 0,
+   "generated_by" : "Module::Build version 0.4003, CPAN::Meta::Converter version 2.120921",
+   "license" : [
+      "perl_5"
+   ],
+   "meta-spec" : {
+      "url" : "http://search.cpan.org/perldoc?CPAN::Meta::Spec",
+      "version" : "2"
+   },
+   "name" : "App-rainbarf",
+   "prereqs" : {
+      "build" : {
+         "requires" : {
+            "English" : "1.00",
+            "Test::More" : "0.45"
+         }
+      },
+      "configure" : {
+         "requires" : {
+            "Module::Build" : "0.28"
+         }
+      },
+      "runtime" : {
+         "requires" : {
+            "Getopt::Long" : "2.32",
+            "List::Util" : "1.07_00",
+            "Pod::Usage" : "1.14",
+            "Storable" : "2.04",
+            "Term::ANSIColor" : "1.04",
+            "perl" : "5.008"
+         }
+      }
+   },
+   "provides" : {
+      "App::rainbarf" : {
+         "file" : "lib/App/rainbarf.pm",
+         "version" : "0.7"
+      }
+   },
+   "release_status" : "stable",
+   "resources" : {
+      "bugtracker" : {
+         "web" : "https://github.com/creaktive/rainbarf/issues"
+      },
+      "homepage" : "https://github.com/creaktive/rainbarf",
+      "repository" : {
+         "url" : "git://github.com/creaktive/rainbarf.git"
+      }
+   },
+   "version" : "0.7",
+   "x_contributors" : [
+      "Clemens Hammacher <hammacher@cs.uni-saarland.de>",
+      "Joe Hassick <joe.hassick@gmail.com>",
+      "Tom Cammann <tom.cammann@vmci.net>",
+      "Tuomas Jormola <tj@solitudo.net>"
+   ]
+}

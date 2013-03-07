@@ -1,0 +1,37 @@
+---
+abstract: 'CPU/RAM/battery stats chart bar for tmux (and GNU screen)'
+author:
+  - 'Stanislaw Pusep <stas@sysd.org>'
+build_requires:
+  English: 1.00
+  Test::More: 0.45
+configure_requires:
+  Module::Build: 0.28
+dynamic_config: 0
+generated_by: 'Module::Build version 0.4003, CPAN::Meta::Converter version 2.120921'
+license: perl
+meta-spec:
+  url: http://module-build.sourceforge.net/META-spec-v1.4.html
+  version: 1.4
+name: App-rainbarf
+provides:
+  App::rainbarf:
+    file: lib/App/rainbarf.pm
+    version: 0.7
+requires:
+  Getopt::Long: 2.32
+  List::Util: 1.07_00
+  Pod::Usage: 1.14
+  Storable: 2.04
+  Term::ANSIColor: 1.04
+  perl: 5.008
+resources:
+  bugtracker: https://github.com/creaktive/rainbarf/issues
+  homepage: https://github.com/creaktive/rainbarf
+  repository: git://github.com/creaktive/rainbarf.git
+version: 0.7
+x_contributors:
+  - 'Clemens Hammacher <hammacher@cs.uni-saarland.de>'
+  - 'Joe Hassick <joe.hassick@gmail.com>'
+  - 'Tom Cammann <tom.cammann@vmci.net>'
+  - 'Tuomas Jormola <tj@solitudo.net>'
