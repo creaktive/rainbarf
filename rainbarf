@@ -264,7 +264,9 @@ sub usage {
                 last;
             }
             close $fh;
-            sleep $i;
+            #sleep $i;
+            ## no critic (ProhibitSleepViaSelect)
+            select(undef, undef, undef, $i / 10);
         }
         return $diff_usage;
     } elsif (top()) {
