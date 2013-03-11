@@ -47,9 +47,20 @@ If available, battery charge is displayed on the right.
 
 ## Installation
 
-    perl Build.PL
-    ./Build test
-    ./Build install
+- Traditional way:
+
+        perl Build.PL
+        ./Build test
+        ./Build install
+- [MacPorts](http://www.macports.org/) way:
+
+        port install rainbarf
+- CPAN way:
+
+        cpan -i App::rainbarf
+- Modern Perl way:
+
+        cpanm git://github.com/creaktive/rainbarf.git
 
 ## Configuration
 

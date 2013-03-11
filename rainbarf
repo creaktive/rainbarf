@@ -438,9 +438,35 @@ Just go to L<https://github.com/creaktive/rainbarf> to see some screenshots.
 
 =head2 Installation
 
+=over 4
+
+=item *
+
+Traditional way:
+
  perl Build.PL
  ./Build test
  ./Build install
+
+=item *
+
+L<MacPorts|http://www.macports.org/> way:
+
+ port install rainbarf
+
+=item *
+
+CPAN way:
+
+ cpan -i App::rainbarf
+
+=item *
+
+Modern Perl way:
+
+ cpanm git://github.com/creaktive/rainbarf.git
+
+=back
 
 =head2 Configuration
 
