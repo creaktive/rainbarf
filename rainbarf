@@ -472,11 +472,13 @@ Modern Perl way:
 
 Add the following line to your F<~/.tmux.conf> file:
 
+ set-option -g status-utf8 on
  set -g status-right '#(rainbarf)'
 
 Or, under I<GNOME Terminal>:
 
- set -g status-right '#(rainbarf --bright)'
+ set-option -g status-utf8 on
+ set -g status-right '#(rainbarf --rgb)'
 
 Reload the tmux config by running C<tmux source-file ~/.tmux.conf>.
 

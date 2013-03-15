@@ -66,11 +66,13 @@ If available, battery charge is displayed on the right.
 
 Add the following line to your `~/.tmux.conf` file:
 
+    set-option -g status-utf8 on
     set -g status-right '#(rainbarf)'
 
 Or, under _GNOME Terminal_:
 
-    set -g status-right '#(rainbarf --bright)'
+    set-option -g status-utf8 on
+    set -g status-right '#(rainbarf --rgb)'
 
 Reload the tmux config by running `tmux source-file ~/.tmux.conf`.
 
