@@ -8,7 +8,7 @@ build_requires:
 configure_requires:
   Module::Build: 0.28
 dynamic_config: 0
-generated_by: 'Module::Build version 0.4003, CPAN::Meta::Converter version 2.120921'
+generated_by: 'Module::Build version 0.4004, CPAN::Meta::Converter version 2.130880'
 license: perl
 meta-spec:
   url: http://module-build.sourceforge.net/META-spec-v1.4.html
@@ -17,7 +17,7 @@ name: App-rainbarf
 provides:
   App::rainbarf:
     file: lib/App/rainbarf.pm
-    version: 0.7
+    version: 0.8
 requires:
   Getopt::Long: 2.32
   List::Util: 1.07_00
@@ -29,7 +29,7 @@ resources:
   bugtracker: https://github.com/creaktive/rainbarf/issues
   homepage: https://github.com/creaktive/rainbarf
   repository: git://github.com/creaktive/rainbarf.git
-version: 0.7
+version: 0.8
 x_contributors:
   - 'Clemens Hammacher <hammacher@cs.uni-saarland.de>'
   - 'Joe Hassick <joe.hassick@gmail.com>'

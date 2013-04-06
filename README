@@ -2,7 +2,7 @@ NAME
     rainbarf - CPU/RAM/battery stats chart bar for tmux (and GNU screen)
 
 VERSION
-    version 0.7
+    version 0.8
 
 SYNOPSIS
      rainbarf --tmux --width 40 --no-battery
@@ -70,7 +70,10 @@ CONFIGURATION FILE
      remaining  # display remaining battery
      rgb        # 256-colored palette
 
-    "OPTIONS" specified via command line override that values.
+    "OPTIONS" specified via command line override that values. Configuration
+    file can be specified via "RAINBARF" environment variable:
+
+     RAINBARF=~/.rainbarf.conf rainbarf
 
 OPTIONS
     --help
