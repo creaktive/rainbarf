@@ -87,6 +87,9 @@ Reload the tmux config by running `tmux source-file ~/.tmux.conf`.
     rgb        # 256-colored palette
 
 ["OPTIONS"](#OPTIONS) specified via command line override that values.
+Configuration file can be specified via `RAINBARF` environment variable:
+
+    RAINBARF=~/.rainbarf.conf rainbarf
 
 # OPTIONS
 

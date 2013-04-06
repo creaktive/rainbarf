@@ -33,7 +33,9 @@ my ($help, $show_battery, $remaining, $bolt, $chart_bg,
     $chart_fg, $bright, $loadavg, $threshold, $width);
 
 # parse the options file
-my $rcname = qq($ENV{HOME}/.rainbarf.conf);
+my $rcname = exists($ENV{RAINBARF})
+    ? $ENV{RAINBARF}
+    : qq($ENV{HOME}/.rainbarf.conf);
 if (open(my $rcfile, q(<), $rcname)) {
     while (<$rcfile>) {
         s/\#.*$//x;
@@ -493,6 +495,9 @@ C<~/.rainbarf.conf> can be used to persistently store L</OPTIONS>:
  rgb        # 256-colored palette
 
 L</OPTIONS> specified via command line override that values.
+Configuration file can be specified via C<RAINBARF> environment variable:
+
+ RAINBARF=~/.rainbarf.conf rainbarf
 
 =head1 OPTIONS
 
