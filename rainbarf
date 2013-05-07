@@ -503,63 +503,63 @@ Configuration file can be specified via C<RAINBARF> environment variable:
 
 =over 4
 
-=item --help
+=item C<--help>
 
 This.
 
-=item --[no]battery
+=item C<--[no]battery>
 
 Display the battery charge indicator.
 
-=item --[no]remaining
+=item C<--[no]remaining>
 
 Display the time remaining until the battery is fully charged/empty. See L</CAVEAT>.
 
-=item --[no]bolt
+=item C<--[no]bolt>
 
 Display even fancier battery indicator.
 
-=item --[no]bright
+=item C<--[no]bright>
 
 Tricky one. Disabled by default. See L</CAVEAT>.
 
-=item --[no]rgb
+=item C<--[no]rgb>
 
 Use the B<RGB> palette instead of the system colors.
 Also disabled by default, for the same reasons as above.
 
-=item --fg COLOR_NAME
+=item C<--fg COLOR_NAME>
 
 Force chart foreground color.
 
-=item --bg COLOR_NAME
+=item C<--bg COLOR_NAME>
 
 Force chart background color.
 
-=item --[no]loadavg
+=item C<--[no]loadavg>
 
 Use L<load average|https://en.wikipedia.org/wiki/Load_(computing)> metric instead of CPU utilization.
 You might want to set the C<--max> threshold since this is an absolute value and has varying ranges on different systems.
 
-=item --max NUMBER
+=item C<--max NUMBER>
 
 Maximum C<loadavg> you expect before rescaling the chart. Default is 1.
 
-=item --order INDEXES
+=item C<--order INDEXES>
 
 Specify the memory usage bar order.
 The default is C<fwaic> ( B<f>ree, B<w>ired, B<a>ctive, B<i>nactive & B<c>ached ).
 
-=item --[no]tmux
+=item C<--[no]tmux>
 
 Force C<tmux> colors mode.
 By default, L<rainbarf> detects automatically if it is being called from C<tmux> or from the interactive shell.
 
-=item --screen
+=item C<--screen>
 
 L<screen(1)|http://manpages.ubuntu.com/manpages/hardy/man1/screen.1.html> colors mode. B<Experimental>. See L</CAVEAT>.
 
-=item --width NUMBER
+=item C<--width NUMBER>
 
 Chart width. Default is 38, so both the chart and the battery indicator fit the C<tmux> status line.
 Higher values may require disabling the battery indicator or raising the C<status-right-length> value in F<~/.tmux.conf>.
