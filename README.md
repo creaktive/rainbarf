@@ -93,63 +93,63 @@ Configuration file can be specified via `RAINBARF` environment variable:
 
 # OPTIONS
 
-- \--help
+- `--help`
 
     This.
 
-- \--\[no\]battery
+- `--[no]battery`
 
     Display the battery charge indicator.
 
-- \--\[no\]remaining
+- `--[no]remaining`
 
     Display the time remaining until the battery is fully charged/empty. See ["CAVEAT"](#CAVEAT).
 
-- \--\[no\]bolt
+- `--[no]bolt`
 
     Display even fancier battery indicator `⚡`.
 
-- \--\[no\]bright
+- `--[no]bright`
 
     Tricky one. Disabled by default. See ["CAVEAT"](#CAVEAT).
 
-- \--\[no\]rgb
+- `--[no]rgb`
 
     Use the __RGB__ palette instead of the system colors.
     Also disabled by default, for the same reasons as above.
 
-- \--fg COLOR\_NAME
+- `--fg COLOR_NAME`
 
     Force chart foreground color.
 
-- \--bg COLOR\_NAME
+- `--bg COLOR_NAME`
 
     Force chart background color.
 
-- \--\[no\]loadavg
+- `--[no]loadavg`
 
     Use [load average](https://en.wikipedia.org/wiki/Load\_(computing)) metric instead of CPU utilization.
     You might want to set the `--max` threshold since this is an absolute value and has varying ranges on different systems.
 
-- \--max NUMBER
+- `--max NUMBER`
 
     Maximum `loadavg` you expect before rescaling the chart. Default is 1.
 
-- \--order INDEXES
+- `--order INDEXES`
 
     Specify the memory usage bar order.
     The default is `fwaic` ( __f__ree, __w__ired, __a__ctive, __i__nactive & __c__ached ).
 
-- \--\[no\]tmux
+- `--[no]tmux`
 
     Force `tmux` colors mode.
     By default, [rainbarf](http://search.cpan.org/perldoc?rainbarf) detects automatically if it is being called from `tmux` or from the interactive shell.
 
-- \--screen
+- `--screen`
 
     [screen(1)](http://manpages.ubuntu.com/manpages/hardy/man1/screen.1.html) colors mode. __Experimental__. See ["CAVEAT"](#CAVEAT).
 
-- \--width NUMBER
+- `--width NUMBER`
 
     Chart width. Default is 38, so both the chart and the battery indicator fit the `tmux` status line.
     Higher values may require disabling the battery indicator or raising the `status-right-length` value in `~/.tmux.conf`.
