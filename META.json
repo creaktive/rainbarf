@@ -39,7 +39,7 @@
    "provides" : {
       "App::rainbarf" : {
          "file" : "lib/App/rainbarf.pm",
-         "version" : "0.8"
+         "version" : "0.9"
       }
    },
    "release_status" : "stable",
@@ -52,7 +52,7 @@
          "url" : "git://github.com/creaktive/rainbarf.git"
       }
    },
-   "version" : "0.8",
+   "version" : "0.9",
    "x_contributors" : [
       "Chris Knadler <takeshi91k@gmail.com>",
       "Clemens Hammacher <hammacher@cs.uni-saarland.de>",
