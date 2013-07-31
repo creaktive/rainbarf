@@ -1,5 +1,18 @@
 Changelog for App-rainbarf
 
+0.9 2013-07-31T17:28:00
+ [Chris Knadler <takeshi91k@gmail.com>]
+ - Wrap the flags in the readme in code blocks to make them stand out more.
+
+ [Sergey Romanov <complefor@rambler.ru>]
+ - Fix Changes to comply w/ CPAN::Changes Kwalitee.
+
+ [Stanislaw Pusep <stas@sysd.org>]
+ - Compute "unaccounted" memory on Linux (difference between MemTotal value
+   and the sum of all the rest);
+ - Fallback to the plain 16 colors if the installed version of
+   Term::ANSIColor is outdated (also, complain to STDERR).
+
 0.8 2013-04-06T10:55:00
  [Stanislaw Pusep <stas@sysd.org>]
  - Config file can be specified via RAINBARF environment variable;
@@ -8,11 +21,13 @@ Changelog for App-rainbarf
  - Better CPAN compliance.
 
 0.7 2013-03-04T13:15:00
- [Tom Cammann <tom.cammann@vmci.net>]
- - Allow --nobattery --remaining (show remaining time with no battery symbol).
  [Stanislaw Pusep <stas@sysd.org>]
  - FreeBSD compatibility;
  - Code cleanup.
+
+ [Tom Cammann <tom.cammann@vmci.net>]
+ - Allow --nobattery --remaining (show remaining time with no battery
+   symbol).
 
 0.6 2013-02-26T08:15:00
  [Stanislaw Pusep <stas@sysd.org>]
@@ -22,9 +37,11 @@ Changelog for App-rainbarf
 
 0.5 2013-02-17T17:36:00
  [Joe Hassick <joe.hassick@gmail.com>]
- - Add option that will display the time remaining until the battery is fully charged/empty;
+ - Add option that will display the time remaining until the battery is
+   fully charged/empty;
  - Remove one second delay after executing top;
  - Add new screenshot to readme.
+
  [Stanislaw Pusep <stas@sysd.org>]
  - Bookkeeping.
 
@@ -36,9 +53,12 @@ Changelog for App-rainbarf
 
 0.3 2013-02-11T23:39:00
  [Stanislaw Pusep <stas@sysd.org>]
- - This release uses the "CPU utilization %" metric instead of the "load average" by default;
- - CPU/RAM stats are pulled from a single call to top(1) on Mac OS X (Linux still accesses /proc for everything);
- - Shebang has been changed to use Perl from PATH instead of the hardcoded /usr/bin/perl
+ - This release uses the "CPU utilization %" metric instead of the "load
+   average" by default;
+ - CPU/RAM stats are pulled from a single call to top(1) on Mac OS X (Linux
+   still accesses /proc for everything);
+ - Shebang has been changed to use Perl from PATH instead of the hardcoded
+   /usr/bin/perl
 
 0.2 2013-02-04T23:33:00
  [Stanislaw Pusep <stas@sysd.org>]
