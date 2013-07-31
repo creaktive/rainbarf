@@ -76,56 +76,56 @@ CONFIGURATION FILE
      RAINBARF=~/.rainbarf.conf rainbarf
 
 OPTIONS
-    --help
+    "--help"
         This.
 
-    --[no]battery
+    "--[no]battery"
         Display the battery charge indicator.
 
-    --[no]remaining
+    "--[no]remaining"
         Display the time remaining until the battery is fully charged/empty.
         See "CAVEAT".
 
-    --[no]bolt
+    "--[no]bolt"
         Display even fancier battery indicator.
 
-    --[no]bright
+    "--[no]bright"
         Tricky one. Disabled by default. See "CAVEAT".
 
-    --[no]rgb
+    "--[no]rgb"
         Use the RGB palette instead of the system colors. Also disabled by
         default, for the same reasons as above.
 
-    --fg COLOR_NAME
+    "--fg COLOR_NAME"
         Force chart foreground color.
 
-    --bg COLOR_NAME
+    "--bg COLOR_NAME"
         Force chart background color.
 
-    --[no]loadavg
+    "--[no]loadavg"
         Use load average <https://en.wikipedia.org/wiki/Load_(computing)>
         metric instead of CPU utilization. You might want to set the "--max"
         threshold since this is an absolute value and has varying ranges on
         different systems.
 
-    --max NUMBER
+    "--max NUMBER"
         Maximum "loadavg" you expect before rescaling the chart. Default is
         1.
 
-    --order INDEXES
+    "--order INDEXES"
         Specify the memory usage bar order. The default is "fwaic" ( free,
         wired, active, inactive & cached ).
 
-    --[no]tmux
+    "--[no]tmux"
         Force "tmux" colors mode. By default, rainbarf detects automatically
         if it is being called from "tmux" or from the interactive shell.
 
-    --screen
+    "--screen"
         screen(1)
         <http://manpages.ubuntu.com/manpages/hardy/man1/screen.1.html>
         colors mode. Experimental. See "CAVEAT".
 
-    --width NUMBER
+    "--width NUMBER"
         Chart width. Default is 38, so both the chart and the battery
         indicator fit the "tmux" status line. Higher values may require
         disabling the battery indicator or raising the "status-right-length"
@@ -142,21 +142,23 @@ CAVEAT
     that's because your terminal's color scheme need an explicit distinction
     between foreground and background colors. For instance, "red on red
     background" will be displayed as a red block on such terminals. Thus,
-    you may need the ANSI bright attribute for greater contrast. There are
-    two issues with it, though:
+    you may need the ANSI bright attribute for greater contrast, or maybe
+    consider switching to the 256-color palette. There are some issues with
+    that, though:
 
     1.  Other color schemes (notably, solarized
         <http://ethanschoonover.com/solarized>) have different meaning for
         the ANSI bright attribute. So using it will result in a quite
-        psychedelic appearance.
+        psychedelic appearance. 256-color pallette, activated by the "--rgb"
+        flag, is unaffected by that.
 
-    2.  The older versions of Term::ANSIColor dependency do not recognize it
-        at all, resulting in a confusing error message *Invalid attribute
-        name bright_yellow at ...*. However, the whole Term::ANSIColor is
-        optional, it is only required to preview the effects of the
-        "OPTIONS" via command line before actually editing the ~/.tmux.conf.
-        That is, "rainbarf --bright --tmux" is guaranteed to work despite
-        the outdated Term::ANSIColor!
+    2.  The older versions of Term::ANSIColor dependency do not recognize
+        bright/RGB settings, falling back to the default behavior (plain 16
+        colors). However, the whole Term::ANSIColor is optional, it is only
+        required to preview the effects of the "OPTIONS" via command line
+        before actually editing the ~/.tmux.conf. That is, "rainbarf
+        --bright --tmux" is guaranteed to work despite the outdated
+        Term::ANSIColor!
 
     Another option is skipping the system colors altogether and use the RGB
     palette ("rainbarf --rgb"). This fixes the *issue 1*, but doesn't affect
@@ -204,9 +206,13 @@ AUTHOR
     Stanislaw Pusep <stas@sysd.org>
 
 CONTRIBUTORS
+    *   Chris Knadler <https://github.com/cknadler>
+
     *   Clemens Hammacher <https://github.com/hammacher>
 
     *   Joe Hassick <https://github.com/jh3>
+
+    *   Sergey Romanov <https://github.com/sergeyromanov>
 
     *   Tom Cammann <https://github.com/takac>
 

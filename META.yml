@@ -8,7 +8,7 @@ build_requires:
 configure_requires:
   Module::Build: 0.28
 dynamic_config: 0
-generated_by: 'Module::Build version 0.4004, CPAN::Meta::Converter version 2.130880'
+generated_by: 'Module::Build version 0.4007, CPAN::Meta::Converter version 2.131560'
 license: perl
 meta-spec:
   url: http://module-build.sourceforge.net/META-spec-v1.4.html
@@ -31,7 +31,9 @@ resources:
   repository: git://github.com/creaktive/rainbarf.git
 version: 0.8
 x_contributors:
+  - 'Chris Knadler <takeshi91k@gmail.com>'
   - 'Clemens Hammacher <hammacher@cs.uni-saarland.de>'
   - 'Joe Hassick <joe.hassick@gmail.com>'
+  - 'Sergey Romanov <complefor@rambler.ru>'
   - 'Tom Cammann <tom.cammann@vmci.net>'
   - 'Tuomas Jormola <tj@solitudo.net>'
