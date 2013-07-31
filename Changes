@@ -1,26 +1,26 @@
 Changelog for App-rainbarf
 
-v0.8 2013-04-06T10:55:00
+0.8 2013-04-06T10:55:00
  [Stanislaw Pusep <stas@sysd.org>]
  - Config file can be specified via RAINBARF environment variable;
  - Use select() instead of sleep() for faster execution under Linux;
  - Documentation enhancements;
  - Better CPAN compliance.
 
-v0.7 2013-03-04T13:15:00
+0.7 2013-03-04T13:15:00
  [Tom Cammann <tom.cammann@vmci.net>]
  - Allow --nobattery --remaining (show remaining time with no battery symbol).
  [Stanislaw Pusep <stas@sysd.org>]
  - FreeBSD compatibility;
  - Code cleanup.
 
-v0.6 2013-02-26T08:15:00
+0.6 2013-02-26T08:15:00
  [Stanislaw Pusep <stas@sysd.org>]
  - Added support for the 256-color palette;
  - Added support for ~/.rainbarf.conf;
  - Code cleanup.
 
-v0.5 2013-02-17T17:36:00
+0.5 2013-02-17T17:36:00
  [Joe Hassick <joe.hassick@gmail.com>]
  - Add option that will display the time remaining until the battery is fully charged/empty;
  - Remove one second delay after executing top;
@@ -28,19 +28,19 @@ v0.5 2013-02-17T17:36:00
  [Stanislaw Pusep <stas@sysd.org>]
  - Bookkeeping.
 
-v0.4 2013-02-13T10:43:00
+0.4 2013-02-13T10:43:00
  [Stanislaw Pusep <stas@sysd.org>]
  - Bundled with the Module::Build installer;
  - Updated docs (Installation & Configuration sections);
  - Released to CPAN!
 
-v0.3 2013-02-11T23:39:00
+0.3 2013-02-11T23:39:00
  [Stanislaw Pusep <stas@sysd.org>]
  - This release uses the "CPU utilization %" metric instead of the "load average" by default;
  - CPU/RAM stats are pulled from a single call to top(1) on Mac OS X (Linux still accesses /proc for everything);
  - Shebang has been changed to use Perl from PATH instead of the hardcoded /usr/bin/perl
 
-v0.2 2013-02-04T23:33:00
+0.2 2013-02-04T23:33:00
  [Stanislaw Pusep <stas@sysd.org>]
  - Bugfixes;
  - Screen(1) compatibility;
@@ -48,6 +48,6 @@ v0.2 2013-02-04T23:33:00
  - A smaller runtime footprint;
  - Memory allocation bar reordering.
 
-v0.1 2013-02-02T11:16:00
+0.1 2013-02-02T11:16:00
  [Stanislaw Pusep <stas@sysd.org>]
  - First public release.
