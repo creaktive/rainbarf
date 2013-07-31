@@ -19,7 +19,8 @@ DESCRIPTION
 
     *   blue: inactive memory;
 
-    *   red: wired memory on *Mac OS X* / *FreeBSD*;
+    *   red: wired memory on *Mac OS X* / *FreeBSD*; "unaccounted" memory on
+        *Linux*;
 
     *   cyan: cached memory on *Linux*, buf on *FreeBSD*.
 

@@ -12,6 +12,7 @@ my $build = Module::Build->new(
     license             => 'perl',
     create_license      => 1,
     create_readme       => 1,
+    sign                => 1,
 
     meta_add            => {
         resources       => {
