@@ -305,11 +305,13 @@ sub memory {
         delete $m{u};
     } elsif (open my $meminfo, q{<}, q{/proc/meminfo}) {
         %m = map {
-            /\b(?:Mem)?(Free|Cached|SwapCached|Active|Inactive):\s*(\d+)/ix
+            /\b(?:Mem)?(Free|Cached|SwapCached|Active|Inactive|Total):\s*(\d+)/ix
                 ? (lc chr ord $1 => $2)
                 : ();
         } <$meminfo>;
         $m{c} -= delete $m{s};
+        delete $m{c} if $m{c} < 0;
+        $m{w} = delete($m{t}) - sum values %m;
         close $meminfo;
     } elsif (-x q{/usr/bin/vm_stat}) {
         # fallback
@@ -441,7 +443,7 @@ The CPU utilization history chart is tinted with the following colors to reflect
 
 =item * B<blue>: inactive memory;
 
-=item * B<red>: wired memory on I<Mac OS X> / I<FreeBSD>;
+=item * B<red>: wired memory on I<Mac OS X> / I<FreeBSD>; "unaccounted" memory on I<Linux>;
 
 =item * B<cyan>: cached memory on I<Linux>, buf on I<FreeBSD>.
 
