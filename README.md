@@ -164,12 +164,13 @@ If the `--remaining` option is present but you do not see the time in your statu
 
 If you only see the memory usage bars but no CPU utilization chart, that's because your terminal's color scheme need an explicit distinction between foreground and background colors.
 For instance, "red on red background" will be displayed as a red block on such terminals.
-Thus, you may need the ANSI __bright__ attribute for greater contrast.
-There are two issues with it, though:
+Thus, you may need the ANSI __bright__ attribute for greater contrast, or maybe consider switching to the 256-color palette.
+There are some issues with that, though:
 
 1. Other color schemes (notably, [solarized](http://ethanschoonover.com/solarized)) have different meaning for the ANSI __bright__ attribute.
 So using it will result in a quite psychedelic appearance.
-2. The older versions of [Term::ANSIColor](http://search.cpan.org/perldoc?Term::ANSIColor) dependency do not recognize it at all, resulting in a confusing error message _Invalid attribute name bright\_yellow at ..._.
+256-color pallette, activated by the `--rgb` flag, is unaffected by that.
+2. The older versions of [Term::ANSIColor](http://search.cpan.org/perldoc?Term::ANSIColor) dependency do not recognize bright/RGB settings, falling back to the default behavior (plain 16 colors).
 However, the whole [Term::ANSIColor](http://search.cpan.org/perldoc?Term::ANSIColor) is optional, it is only required to preview the effects of the ["OPTIONS"](#OPTIONS) via command line before actually editing the `~/.tmux.conf`.
 That is, `rainbarf --bright --tmux` __is guaranteed to work__ despite the outdated [Term::ANSIColor](http://search.cpan.org/perldoc?Term::ANSIColor)!
 
@@ -208,8 +209,10 @@ Stanislaw Pusep <stas@sysd.org>
 
 # CONTRIBUTORS
 
+- [Chris Knadler](https://github.com/cknadler)
 - [Clemens Hammacher](https://github.com/hammacher)
 - [Joe Hassick](https://github.com/jh3)
+- [Sergey Romanov](https://github.com/sergeyromanov)
 - [Tom Cammann](https://github.com/takac)
 - [Tuomas Jormola](https://github.com/tjormola)
 

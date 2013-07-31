@@ -1,5 +1,5 @@
 #!/usr/bin/env perl
-# vim:fenc=utf-8:ft=perl:et:sw=4:ts=4:sts=4:fdm=syntax:fdl=0
+# vim:fenc=utf-8:ft=perl:et:sw=4:ts=4:sts=4
 use 5.008;
 use strict;
 use warnings qw(all);
@@ -180,13 +180,29 @@ sub my_color {
         }
         $out = defined($bg) ? qq(#[fg=$fg,bg=$bg]) : qq(#[fg=$fg]);
     } else {
+        my ($old_fg, $old_bg) = ($fg, $bg);
         if ($rgb) {
             $fg = color_rgb($fg => 5);
             $bg = color_rgb($bg => 2);
         } else {
             $fg = qq(bright_$fg) if $bright;
         }
-        $out = Term::ANSIColor::color(defined($bg) ? qq($fg on_$bg) : $fg);
+        my $color = defined($bg) ? qq($fg on_$bg) : $fg;
+        $out = eval { Term::ANSIColor::color($color) };
+        if (not defined $out or $@) {
+            if ($@ =~ /bright/x) {
+                $bright = 0;
+                print STDERR qq(Term::ANSIColor < 3.00 does not support the "bright" attribute!\n);
+                $color =~ s/,?bright_?//x;
+            } elsif ($@ =~ /\brgb\d+\b/x) {
+                $rgb = 0;
+                print STDERR qq(Term::ANSIColor < 4.00 does not support the 256-color palette!\n);
+                $color = qq($old_fg on_$old_bg);
+            } else {
+                die qq(Unknown error: $@\n);
+            }
+            $out = Term::ANSIColor::color($color);
+        }
     }
 
     return $out;
@@ -266,7 +282,6 @@ sub usage {
                 last;
             }
             close $fh;
-            #sleep $i;
             ## no critic (ProhibitSleepViaSelect)
             select(undef, undef, undef, $i / 10);
         }
@@ -576,8 +591,8 @@ If the C<--remaining> option is present but you do not see the time in your stat
 
 If you only see the memory usage bars but no CPU utilization chart, that's because your terminal's color scheme need an explicit distinction between foreground and background colors.
 For instance, "red on red background" will be displayed as a red block on such terminals.
-Thus, you may need the ANSI B<bright> attribute for greater contrast.
-There are two issues with it, though:
+Thus, you may need the ANSI B<bright> attribute for greater contrast, or maybe consider switching to the 256-color palette.
+There are some issues with that, though:
 
 =over 4
 
@@ -585,10 +600,11 @@ There are two issues with it, though:
 
 Other color schemes (notably, L<solarized|http://ethanschoonover.com/solarized>) have different meaning for the ANSI B<bright> attribute.
 So using it will result in a quite psychedelic appearance.
+256-color pallette, activated by the C<--rgb> flag, is unaffected by that.
 
 =item 2.
 
-The older versions of L<Term::ANSIColor> dependency do not recognize it at all, resulting in a confusing error message I<Invalid attribute name bright_yellow at ...>.
+The older versions of L<Term::ANSIColor> dependency do not recognize bright/RGB settings, falling back to the default behavior (plain 16 colors).
 However, the whole L<Term::ANSIColor> is optional, it is only required to preview the effects of the L</OPTIONS> via command line before actually editing the F<~/.tmux.conf>.
 That is, C<rainbarf --bright --tmux> B<is guaranteed to work> despite the outdated L<Term::ANSIColor>!
 
