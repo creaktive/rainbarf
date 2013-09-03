@@ -369,6 +369,33 @@ sub battery {
                 and $battery{present_rate} =~ /^\d+$/x;
             $battery = eval { $battery{remaining_capacity} / $battery{last_full_capacity} };
         }
+    } elsif (-d q(/sys/class/power_supply)) {
+        my ($uevent, %battery) = ('');
+        if (grep {
+                -d $_
+                and -e qq($_/energy_full)
+                and -e qq($_/energy_now)
+                and -e ($uevent = qq($_/uevent))
+            } sort glob q(/sys/class/power_supply/BAT[0-9])
+        ) {
+            my $fh;
+            if (open $fh, q(<), $uevent) {
+                while (<$fh>) {
+                    my ($key, $value) = /^POWER_SUPPLY_([^=]+)=(.*)$/;
+                    next unless defined $key;
+                    $key =~ y/A-Z/a-z/;
+                    $battery{$key} = $value;
+                }
+            }
+            close $fh;
+
+            $charging = $battery{status} ne q(Discharging);
+            $time = eval { ($battery{energy_now} * 60 / $battery{power_now}) }
+                if not $charging
+                and defined $battery{power_now}
+                and $battery{power_now} =~ /^\d+$/x;
+            $battery = $battery{capacity} / 100;
+        }
     }
 
     battery_print($battery, $charging, $time);
