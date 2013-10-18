@@ -56,5 +56,5 @@
 ^MYMETA\.
 #!end included /home/stas/perl5/perlbrew/perls/perl-5.16.0/lib/5.16.1/ExtUtils/MANIFEST.SKIP
 
-App-rainbarf-\d+\.\d+\.tar\.gz
+^App-rainbarf-\d+\.\d+
 README.md

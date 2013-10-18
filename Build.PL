@@ -23,6 +23,7 @@ my $build = Module::Build->new(
         x_contributors  => [
             'Chris Knadler <takeshi91k@gmail.com>',
             'Clemens Hammacher <hammacher@cs.uni-saarland.de>',
+            'Henrik Hodne <henrik@hodne.io>',
             'Joe Hassick <joe.hassick@gmail.com>',
             'Sergey Romanov <complefor@rambler.ru>',
             'Tom Cammann <tom.cammann@vmci.net>',
