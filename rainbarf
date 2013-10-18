@@ -91,6 +91,7 @@ my %colors = (
     i   => [ blue   => 4 ], # inactive
     c   => [ cyan   => 5 ], # cached
     b   => [ cyan   => 5 ], # buf (FreeBSD)
+    x   => [ magenta=> 6 ], # swap
 );
 
 # Custom ordering
@@ -225,7 +226,7 @@ sub top {
     if (not %top and -x q{/usr/bin/top}) {
         my @top;
         if ($^O eq q(darwin)) {
-            @top = qx{/usr/bin/top -R -F -l1 -n0 -s0};
+            @top = qx{/usr/bin/top -R -F -l1 -n0 -s0 -S};
         } elsif ($^O eq q(freebsd)) {
             @top = qx{/usr/bin/top -b -d2 -I -s1 -z};
         }
@@ -296,8 +297,8 @@ sub usage {
 
 sub memory {
     my %m;
+    my %n = (K => 1/2**10, M => 1, G => 2**10);
     if (exists $top{physmem}) {
-        my %n = (K => 1/2**10, M => 1, G => 2**10);
         %m =
             map { lc $_->[2] => $_->[0] * $n{$_->[1]} }
             map { [(/(\d+)([KMG])\s+(\w)/x)] }
@@ -321,6 +322,9 @@ sub memory {
                 : ();
         } qx{/usr/bin/vm_stat};
         $m{f} += delete $m{s};
+    }
+    if ($top{swap} and $top{swap} =~ /(\d+)([KMG])\s+(?:\+|Used,?)/ix) {
+        $m{x} = $1 * $n{$2} * 10;
     }
     return %m;
 }
