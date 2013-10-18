@@ -30,7 +30,7 @@ my $tmux    = not -t \*STDOUT;
 my $rgb     = 0;
 
 my ($help, $show_battery, $remaining, $bolt, $chart_bg,
-    $chart_fg, $bright, $loadavg, $threshold, $width);
+    $chart_fg, $bright, $loadavg, $swap, $threshold, $width);
 
 # parse the options file
 my $rcname = exists($ENV{RAINBARF})
@@ -58,6 +58,7 @@ if (@ARGV) {
         q(fg=s)         => \$chart_fg,
         q(bright!)      => \$bright,
         q(loadavg!)     => \$loadavg,
+        q(swap!)        => \$swap,
         q(max=i)        => \$threshold,
         q(order=s)      => \$order,
         q(screen)       => \$screen,
@@ -103,6 +104,7 @@ for my $i (0 .. $#order) {
 }
 
 my %memory = memory();
+delete $memory{x} unless $swap;
 
 my $scale = @$chart / sum values %memory;
 my $norm = $#ticks / max @$chart => $threshold;
@@ -136,6 +138,7 @@ sub defaults {
     help(-verbose => 99)    if $help;
     $show_battery   = 1     unless defined $show_battery;
     $loadavg        = 0     unless defined $loadavg;
+    $swap           = 0     unless defined $swap;
     $threshold      = 1     unless defined $threshold;
     $width          = 38    unless defined $width;
     $bright         = 0     unless defined $bright;
@@ -591,6 +594,11 @@ Force chart background color.
 
 Use L<load average|https://en.wikipedia.org/wiki/Load_(computing)> metric instead of CPU utilization.
 You might want to set the C<--max> threshold since this is an absolute value and has varying ranges on different systems.
+
+=item C<--[no]swap>
+
+Display the swap usage.
+Used swap amount is added to the total amount, but the free swap amount is not!
 
 =item C<--max NUMBER>
 
