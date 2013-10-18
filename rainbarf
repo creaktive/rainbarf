@@ -315,11 +315,11 @@ sub memory {
                     : (       lc chr ord $2 => $3)
                 ) : ();
         } <$meminfo>;
+        close $meminfo;
         $m{c} -= delete $m{sc};
         delete $m{c} if $m{c} < 0;
         $m{w} = delete($m{t}) - sum values %m;
         $m{x} = delete($m{st}) - delete($m{sf});
-        close $meminfo;
     } elsif (-x q{/usr/bin/vm_stat}) {
         # fallback
         %m = map {
@@ -391,7 +391,7 @@ sub battery {
             my $fh;
             if (open $fh, q(<), $uevent) {
                 while (<$fh>) {
-                    my ($key, $value) = /^POWER_SUPPLY_([^=]+)=(.*)$/;
+                    my ($key, $value) = /^POWER_SUPPLY_([^=]+)=(.*)$/x;
                     next unless defined $key;
                     $key =~ y/A-Z/a-z/;
                     $battery{$key} = $value;
