@@ -4,7 +4,7 @@
       "Stanislaw Pusep <stas@sysd.org>"
    ],
    "dynamic_config" : 0,
-   "generated_by" : "Module::Build version 0.4007, CPAN::Meta::Converter version 2.131560",
+   "generated_by" : "Module::Build version 0.4007, CPAN::Meta::Converter version 2.132830",
    "license" : [
       "perl_5"
    ],

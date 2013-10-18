@@ -109,6 +109,10 @@ OPTIONS
         threshold since this is an absolute value and has varying ranges on
         different systems.
 
+    "--[no]swap"
+        Display the swap usage. Used swap amount is added to the total
+        amount, but the free swap amount is not!
+
     "--max NUMBER"
         Maximum "loadavg" you expect before rescaling the chart. Default is
         1.
