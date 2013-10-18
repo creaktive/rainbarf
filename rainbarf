@@ -306,13 +306,16 @@ sub memory {
         delete $m{u};
     } elsif (open my $meminfo, q{<}, q{/proc/meminfo}) {
         %m = map {
-            /\b(?:Mem)?(Free|Cached|SwapCached|Active|Inactive|Total):\s*(\d+)/ix
-                ? (lc chr ord $1 => $2)
-                : ();
+            /\b(Mem|Swap)?(Free|Cached|Active|Inactive|Total):\s*(\d+)/ix
+                ? (($1 and $1 eq q(Swap))
+                    ? (q(s) . lc chr ord $2 => $3)
+                    : (       lc chr ord $2 => $3)
+                ) : ();
         } <$meminfo>;
-        $m{c} -= delete $m{s};
+        $m{c} -= delete $m{sc};
         delete $m{c} if $m{c} < 0;
         $m{w} = delete($m{t}) - sum values %m;
+        $m{x} = delete($m{st}) - delete($m{sf});
         close $meminfo;
     } elsif (-x q{/usr/bin/vm_stat}) {
         # fallback
@@ -324,7 +327,7 @@ sub memory {
         $m{f} += delete $m{s};
     }
     if ($top{swap} and $top{swap} =~ /(\d+)([KMG])\s+(?:\+|Used,?)/ix) {
-        $m{x} = $1 * $n{$2} * 10;
+        $m{x} = $1 * $n{$2};
     }
     return %m;
 }
