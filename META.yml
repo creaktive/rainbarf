@@ -17,7 +17,7 @@ name: App-rainbarf
 provides:
   App::rainbarf:
     file: lib/App/rainbarf.pm
-    version: 0.9
+    version: 1.0
 requires:
   Getopt::Long: 2.32
   List::Util: 1.07_00

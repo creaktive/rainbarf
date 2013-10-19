@@ -39,7 +39,7 @@
    "provides" : {
       "App::rainbarf" : {
          "file" : "lib/App/rainbarf.pm",
-         "version" : "0.9"
+         "version" : "1.0"
       }
    },
    "release_status" : "stable",
