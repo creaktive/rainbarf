@@ -10,6 +10,7 @@ perlcritic.rc
 rainbarf
 README
 t/00-compile.t
+t/01-tmux.t
 t/author-critic.t
 t/author-test-eol.t
 t/release-cpan-changes.t

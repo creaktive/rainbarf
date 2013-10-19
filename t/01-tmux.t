@@ -1,0 +1,58 @@
+#!perl
+use strict;
+use utf8;
+use warnings qw(all);
+
+use File::Temp;
+use Test::More;
+
+plan skip_all => q(I'm pretty sure rainbarf will not run on Windows)
+    if $^O =~ m{^(?:MSWin\d+|cygwin)$}ix;
+
+my $tmp = File::Temp->newdir;
+
+local $ENV{RAINBARF} = q(/dev/null);
+local $ENV{HOME} = $tmp->dirname;
+
+my $n = 10;
+
+my $color_set = qr{
+    \#\[
+        fg=\w+
+        (?:,bg=\w+)?
+    \]
+}x;
+my $color_reset = qr{
+    \#\[
+        (?:[bf]g=default,?) {2}
+    \]
+}x;
+my $chart = qr{
+    [\x{2581}-\x{2588}]+
+}x;
+
+for my $i (1 .. $n) {
+    ok(
+        open(my $out, q(-|:encoding(utf8)), qw[rainbarf --nobattery --swap --tmux]),
+        qq(pipe $i),
+    );
+    chomp(my $line = <$out>);
+    close $out;
+    like(
+        $line,
+        qr{
+            ^
+            (?:
+                $color_set
+                $chart
+            ) {2,5}
+            $color_reset
+            $
+        }msx,
+        qq(pattern $i),
+    );
+
+    sleep 1;
+}
+
+done_testing 2 * $n;
