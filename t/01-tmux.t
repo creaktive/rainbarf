@@ -5,8 +5,8 @@ use warnings qw(all);
 use File::Temp;
 use Test::More;
 
-plan skip_all => q(I'm pretty sure rainbarf will not run on Windows)
-    if $^O =~ m{^(?:MSWin\d+|cygwin)$}ix;
+plan skip_all => qq(The platform $^O is unsupported)
+    if $^O !~ m{(?:darwin|freebsd|linux)}ix;
 
 my $tmp = File::Temp->newdir;
 
