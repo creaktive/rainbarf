@@ -29,7 +29,7 @@ resources:
   bugtracker: https://github.com/creaktive/rainbarf/issues
   homepage: https://github.com/creaktive/rainbarf
   repository: git://github.com/creaktive/rainbarf.git
-version: 0.9
+version: 1.0
 x_contributors:
   - 'Chris Knadler <takeshi91k@gmail.com>'
   - 'Clemens Hammacher <hammacher@cs.uni-saarland.de>'

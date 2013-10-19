@@ -20,6 +20,7 @@ The CPU utilization history chart is tinted with the following colors to reflect
 - __blue__: inactive memory;
 - __red__: wired memory on _Mac OS X_ / _FreeBSD_; "unaccounted" memory on _Linux_;
 - __cyan__: cached memory on _Linux_, buf on _FreeBSD_.
+- __magenta__: used swap memory.
 
 If available, battery charge is displayed on the right.
 
@@ -131,6 +132,11 @@ Configuration file can be specified via `RAINBARF` environment variable:
     Use [load average](https://en.wikipedia.org/wiki/Load\_(computing)) metric instead of CPU utilization.
     You might want to set the `--max` threshold since this is an absolute value and has varying ranges on different systems.
 
+- `--[no]swap`
+
+    Display the swap usage.
+    Used swap amount is added to the total amount, but the free swap amount is not!
+
 - `--max NUMBER`
 
     Maximum `loadavg` you expect before rescaling the chart. Default is 1.
@@ -211,6 +217,7 @@ Stanislaw Pusep <stas@sysd.org>
 
 - [Chris Knadler](https://github.com/cknadler)
 - [Clemens Hammacher](https://github.com/hammacher)
+- [Henrik Hodne](https://github.com/henrikhodne)
 - [Joe Hassick](https://github.com/jh3)
 - [Sergey Romanov](https://github.com/sergeyromanov)
 - [Tom Cammann](https://github.com/takac)

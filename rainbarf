@@ -8,7 +8,7 @@ use List::Util qw(max sum);
 use Storable qw(lock_retrieve lock_store);
 
 ## no critic (ProhibitBacktickOperators ProhibitComplexRegexes ProhibitInteractiveTest)
-our $VERSION = 0.9;
+our $VERSION = q(1.0);
 
 my %rgb = (
     black   => [qw[0 0 0]],
@@ -483,6 +483,8 @@ The CPU utilization history chart is tinted with the following colors to reflect
 =item * B<red>: wired memory on I<Mac OS X> / I<FreeBSD>; "unaccounted" memory on I<Linux>;
 
 =item * B<cyan>: cached memory on I<Linux>, buf on I<FreeBSD>.
+
+=item * B<magenta>: used swap memory.
 
 =back
 

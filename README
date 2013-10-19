@@ -24,6 +24,8 @@ DESCRIPTION
 
     *   cyan: cached memory on *Linux*, buf on *FreeBSD*.
 
+    *   magenta: used swap memory.
+
     If available, battery charge is displayed on the right.
 
     Just go to <https://github.com/creaktive/rainbarf> to see some
