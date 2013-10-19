@@ -1,6 +1,5 @@
 #!perl
 use strict;
-use utf8;
 use warnings qw(all);
 
 use File::Temp;
@@ -33,7 +32,15 @@ my $chart = qr{
 
 for my $i (1 .. $n) {
     ok(
-        open(my $out, q(-|:encoding(utf8)), qw[rainbarf --nobattery --swap --tmux]),
+        open(
+            my $out,
+            q(-|:encoding(utf8)),
+            $^X => qw[
+                rainbarf
+                    --nobattery
+                    --swap
+                    --tmux
+            ]),
         qq(pipe $i),
     );
     chomp(my $line = <$out>);
