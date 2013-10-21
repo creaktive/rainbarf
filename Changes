@@ -1,5 +1,13 @@
 Changelog for App-rainbarf
 
+1.0 2013-10-21T12:06:00
+ [Stanislaw Pusep <stas@sysd.org>]
+ - Show swap usage (enabled by --swap parameter);
+ - Simple output testing.
+
+ [Henrik Hodne <henrik@hodne.io>]
+ - Add support for /sys/class ACPI.
+
 0.9 2013-07-31T17:28:00
  [Chris Knadler <takeshi91k@gmail.com>]
  - Wrap the flags in the readme in code blocks to make them stand out more.
