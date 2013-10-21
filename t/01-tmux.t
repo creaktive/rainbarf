@@ -27,7 +27,7 @@ my $color_reset = qr{
     \]
 }x;
 my $chart = qr{
-    [\x{2581}-\x{2588}]+
+    [\x{2581}-\x{2588}]*
 }x;
 
 for my $i (1 .. $n) {
@@ -52,7 +52,7 @@ for my $i (1 .. $n) {
             (?:
                 $color_set
                 $chart
-            ) {2,5}
+            ) {2,6}
             $color_reset
             $
         }msx,
