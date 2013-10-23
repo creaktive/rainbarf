@@ -384,8 +384,8 @@ sub battery {
         my ($uevent, %battery) = ('');
         if (grep {
                 -d $_
-                and -e qq($_/energy_full)
-                and -e qq($_/energy_now)
+                and ( ( -e qq($_/energy_full) and -e qq($_/energy_now) ) or
+                      ( -e qq($_/charge_now) and -e qq($_/current_now) ) )
                 and -e ($uevent = qq($_/uevent))
             } sort glob q(/sys/class/power_supply/BAT[0-9])
         ) {
@@ -401,10 +401,13 @@ sub battery {
             close $fh;
 
             $charging = $battery{status} ne q(Discharging);
-            $time = eval { ($battery{energy_now} * 60 / $battery{power_now}) }
-                if not $charging
-                and defined $battery{power_now}
-                and $battery{power_now} =~ /^\d+$/x;
+            if (not $charging) {
+                if (defined $battery{power_now} and $battery{power_now} =~ /^\d+$/x) {
+                    $time = eval { ($battery{energy_now} * 60 / $battery{power_now}) }
+                } elsif (defined $battery{charge_now} and $battery{charge_now} =~ /^\d+$/x) {
+                    $time = eval { (60 * ($battery{charge_now} / 1000) / ($battery{current_now} / 1000)) }
+                }
+            }
             $battery = $battery{capacity} / 100;
         }
     }
