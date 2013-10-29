@@ -10,4 +10,4 @@ equivalent_modules = common::sense
 severity = gentle
 
 [Subroutines::ProhibitExcessComplexity]
-max_mccabe = 30
+max_mccabe = 35

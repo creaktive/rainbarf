@@ -570,14 +570,17 @@ This.
 =item C<--[no]battery>
 
 Display the battery charge indicator.
+Enabled by default.
 
 =item C<--[no]remaining>
 
 Display the time remaining until the battery is fully charged/empty. See L</CAVEAT>.
+Disabled by default.
 
 =item C<--[no]bolt>
 
 Display even fancier battery indicator.
+Disabled by default.
 
 =item C<--[no]bright>
 
@@ -600,11 +603,13 @@ Force chart background color.
 
 Use L<load average|https://en.wikipedia.org/wiki/Load_(computing)> metric instead of CPU utilization.
 You might want to set the C<--max> threshold since this is an absolute value and has varying ranges on different systems.
+Disabled by default.
 
 =item C<--[no]swap>
 
 Display the swap usage.
 Used swap amount is added to the total amount, but the free swap amount is not!
+Disabled by default.
 
 =item C<--max NUMBER>
 
@@ -730,6 +735,10 @@ L<Henrik Hodne|https://github.com/henrikhodne>
 =item *
 
 L<Joe Hassick|https://github.com/jh3>
+
+=item *
+
+L<Josh Matthews|https://github.com/jmatth>
 
 =item *
 

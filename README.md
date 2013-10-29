@@ -101,14 +101,17 @@ Configuration file can be specified via `RAINBARF` environment variable:
 - `--[no]battery`
 
     Display the battery charge indicator.
+    Enabled by default.
 
 - `--[no]remaining`
 
     Display the time remaining until the battery is fully charged/empty. See ["CAVEAT"](#CAVEAT).
+    Disabled by default.
 
 - `--[no]bolt`
 
     Display even fancier battery indicator `⚡`.
+    Disabled by default.
 
 - `--[no]bright`
 
@@ -131,11 +134,13 @@ Configuration file can be specified via `RAINBARF` environment variable:
 
     Use [load average](https://en.wikipedia.org/wiki/Load\_(computing)) metric instead of CPU utilization.
     You might want to set the `--max` threshold since this is an absolute value and has varying ranges on different systems.
+    Disabled by default.
 
 - `--[no]swap`
 
     Display the swap usage.
     Used swap amount is added to the total amount, but the free swap amount is not!
+    Disabled by default.
 
 - `--max NUMBER`
 
@@ -219,6 +224,7 @@ Stanislaw Pusep <stas@sysd.org>
 - [Clemens Hammacher](https://github.com/hammacher)
 - [Henrik Hodne](https://github.com/henrikhodne)
 - [Joe Hassick](https://github.com/jh3)
+- [Josh Matthews](https://github.com/jmatth)
 - [Sergey Romanov](https://github.com/sergeyromanov)
 - [Tom Cammann](https://github.com/takac)
 - [Tuomas Jormola](https://github.com/tjormola)
