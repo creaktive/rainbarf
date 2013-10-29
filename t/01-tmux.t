@@ -18,8 +18,8 @@ my $n = 10;
 
 my $color_set = qr{
     \#\[
-        fg=\w+
-        (?:,bg=\w+)?
+        fg=(\w+)
+        (?:,bg=\1)?
     \]
 }x;
 my $color_reset = qr{
