@@ -12,7 +12,7 @@ plan skip_all => qq(The platform $^O is unsupported)
 my $tmp = File::Temp->newdir;
 
 local $ENV{RAINBARF} = q(/dev/null);
-local $ENV{HOME} = $tmp->dirname;
+my $file = $tmp->dirname . '/rainbarf.dat';
 
 my $n = 10;
 
@@ -41,7 +41,8 @@ for my $i (1 .. $n) {
                     --nobattery
                     --swap
                     --tmux
-            ]),
+                    --datfile
+            ], $file),
         qq(pipe $i),
     );
     chomp(my $line = <$out>);

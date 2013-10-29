@@ -29,8 +29,8 @@ my $screen  = 0;
 my $tmux    = not -t \*STDOUT;
 my $rgb     = 0;
 
-my ($help, $show_battery, $remaining, $bolt, $chart_bg,
-    $chart_fg, $bright, $loadavg, $swap, $threshold, $width);
+my ($help, $show_battery, $remaining, $bolt, $chart_bg, $chart_fg,
+    $bright, $loadavg, $swap, $threshold, $width, $history);
 
 # parse the options file
 my $rcname = exists($ENV{RAINBARF})
@@ -65,12 +65,11 @@ if (@ARGV) {
         q(tmux!)        => \$tmux,
         q(rgb!)         => \$rgb,
         q(width=i)      => \$width,
+        q(datfile=s)    => \$history,
     ) or help(-verbose => 1);
 }
 
 defaults();
-
-my $history = qq($ENV{HOME}/.rainbarf.dat);
 
 my $chart = eval { lock_retrieve $history };
 $chart = [ (0) x $width ] unless defined $chart;
@@ -145,6 +144,9 @@ sub defaults {
     $remaining      = 0     unless defined $remaining;
     $bolt           = (defined $bolt and $bolt) ? chr 0x26a1 : q(|);
     require Term::ANSIColor if not $tmux and not $screen;
+
+    $history        = qq($ENV{HOME}/.rainbarf.dat)
+                            unless defined $history;
 
     return;
 }
@@ -633,6 +635,11 @@ L<screen(1)|http://manpages.ubuntu.com/manpages/hardy/man1/screen.1.html> colors
 
 Chart width. Default is 38, so both the chart and the battery indicator fit the C<tmux> status line.
 Higher values may require disabling the battery indicator or raising the C<status-right-length> value in F<~/.tmux.conf>.
+
+=item C<--datfile FILENAME>
+
+Specify the file to log CPU stats to.
+Default: F<$HOME/.rainbarf.dat>
 
 =back
 

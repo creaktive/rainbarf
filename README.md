@@ -165,6 +165,11 @@ Configuration file can be specified via `RAINBARF` environment variable:
     Chart width. Default is 38, so both the chart and the battery indicator fit the `tmux` status line.
     Higher values may require disabling the battery indicator or raising the `status-right-length` value in `~/.tmux.conf`.
 
+- `--datfile FILENAME`
+
+    Specify the file to log CPU stats to.
+    Default: `$HOME/.rainbarf.dat`
+
 # CAVEAT
 
 ## Time remaining

@@ -138,6 +138,9 @@ OPTIONS
         disabling the battery indicator or raising the "status-right-length"
         value in ~/.tmux.conf.
 
+    "--datfile FILENAME"
+        Specify the file to log CPU stats to. Default: $HOME/.rainbarf.dat
+
 CAVEAT
   Time remaining
     If the "--remaining" option is present but you do not see the time in
