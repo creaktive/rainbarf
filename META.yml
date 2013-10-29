@@ -17,7 +17,7 @@ name: App-rainbarf
 provides:
   App::rainbarf:
     file: lib/App/rainbarf.pm
-    version: 1.0
+    version: 1.1
 requires:
   Getopt::Long: 2.32
   List::Util: 1.07_00
@@ -29,7 +29,7 @@ resources:
   bugtracker: https://github.com/creaktive/rainbarf/issues
   homepage: https://github.com/creaktive/rainbarf
   repository: git://github.com/creaktive/rainbarf.git
-version: 1.0
+version: 1.1
 x_contributors:
   - 'Chris Knadler <takeshi91k@gmail.com>'
   - 'Clemens Hammacher <hammacher@cs.uni-saarland.de>'
