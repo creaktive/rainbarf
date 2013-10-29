@@ -302,6 +302,8 @@ sub memory {
     my %m;
     my %n = (K => 1/2**10, M => 1, G => 2**10);
     if (exists $top{physmem}) {
+        $top{physmem} =~ s/[\(\),]+/,/gx
+            if $top{physmem} =~ s/\bunused\b/free/x;
         %m =
             map { lc $_->[2] => $_->[0] * $n{$_->[1]} }
             map { [(/(\d+)([KMG])\s+(\w)/x)] }

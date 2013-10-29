@@ -1,5 +1,6 @@
 #!perl
 use strict;
+use open IO => ':locale';
 use warnings qw(all);
 
 use File::Temp;
@@ -52,7 +53,7 @@ for my $i (1 .. $n) {
             (?:
                 $color_set
                 $chart
-            ) {2,6}
+            ) {2,}
             $color_reset
             $
         }msx,
