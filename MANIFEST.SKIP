@@ -58,3 +58,4 @@
 
 ^App-rainbarf-\d+\.\d+
 README.md
+.travis.yml
