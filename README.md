@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/creaktive/rainbarf.png?branch=master)](https://travis-ci.org/creaktive/rainbarf)
+
 # NAME
 
 rainbarf - CPU/RAM/battery stats chart bar for tmux (and GNU screen)
