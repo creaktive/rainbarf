@@ -53,6 +53,9 @@ If available, battery charge is displayed on the right.
         perl Build.PL
         ./Build test
         ./Build install
+- [Homebrew](http://brew.sh/) way:
+
+        brew install rainbarf
 - [MacPorts](http://www.macports.org/) way:
 
         port install rainbarf
@@ -79,7 +82,7 @@ Reload the tmux config by running `tmux source-file ~/.tmux.conf`.
 
 # CONFIGURATION FILE
 
-`~/.rainbarf.conf` can be used to persistently store ["OPTIONS"](#OPTIONS):
+`~/.rainbarf.conf` can be used to persistently store ["OPTIONS"](#options):
 
     # example configuration file
     width=20   # widget width
@@ -87,7 +90,7 @@ Reload the tmux config by running `tmux source-file ~/.tmux.conf`.
     remaining  # display remaining battery
     rgb        # 256-colored palette
 
-["OPTIONS"](#OPTIONS) specified via command line override that values.
+["OPTIONS"](#options) specified via command line override that values.
 Configuration file can be specified via `RAINBARF` environment variable:
 
     RAINBARF=~/.rainbarf.conf rainbarf
@@ -105,7 +108,7 @@ Configuration file can be specified via `RAINBARF` environment variable:
 
 - `--[no]remaining`
 
-    Display the time remaining until the battery is fully charged/empty. See ["CAVEAT"](#CAVEAT).
+    Display the time remaining until the battery is fully charged/empty. See ["CAVEAT"](#caveat).
     Disabled by default.
 
 - `--[no]bolt`
@@ -115,7 +118,7 @@ Configuration file can be specified via `RAINBARF` environment variable:
 
 - `--[no]bright`
 
-    Tricky one. Disabled by default. See ["CAVEAT"](#CAVEAT).
+    Tricky one. Disabled by default. See ["CAVEAT"](#caveat).
 
 - `--[no]rgb`
 
@@ -132,7 +135,7 @@ Configuration file can be specified via `RAINBARF` environment variable:
 
 - `--[no]loadavg`
 
-    Use [load average](https://en.wikipedia.org/wiki/Load\_(computing)) metric instead of CPU utilization.
+    Use [load average](https://en.wikipedia.org/wiki/Load_(computing)) metric instead of CPU utilization.
     You might want to set the `--max` threshold since this is an absolute value and has varying ranges on different systems.
     Disabled by default.
 
@@ -154,11 +157,11 @@ Configuration file can be specified via `RAINBARF` environment variable:
 - `--[no]tmux`
 
     Force `tmux` colors mode.
-    By default, [rainbarf](http://search.cpan.org/perldoc?rainbarf) detects automatically if it is being called from `tmux` or from the interactive shell.
+    By default, [rainbarf](https://metacpan.org/pod/rainbarf) detects automatically if it is being called from `tmux` or from the interactive shell.
 
 - `--screen`
 
-    [screen(1)](http://manpages.ubuntu.com/manpages/hardy/man1/screen.1.html) colors mode. __Experimental__. See ["CAVEAT"](#CAVEAT).
+    [screen(1)](http://manpages.ubuntu.com/manpages/hardy/man1/screen.1.html) colors mode. __Experimental__. See ["CAVEAT"](#caveat).
 
 - `--width NUMBER`
 
@@ -186,9 +189,9 @@ There are some issues with that, though:
 1. Other color schemes (notably, [solarized](http://ethanschoonover.com/solarized)) have different meaning for the ANSI __bright__ attribute.
 So using it will result in a quite psychedelic appearance.
 256-color pallette, activated by the `--rgb` flag, is unaffected by that.
-2. The older versions of [Term::ANSIColor](http://search.cpan.org/perldoc?Term::ANSIColor) dependency do not recognize bright/RGB settings, falling back to the default behavior (plain 16 colors).
-However, the whole [Term::ANSIColor](http://search.cpan.org/perldoc?Term::ANSIColor) is optional, it is only required to preview the effects of the ["OPTIONS"](#OPTIONS) via command line before actually editing the `~/.tmux.conf`.
-That is, `rainbarf --bright --tmux` __is guaranteed to work__ despite the outdated [Term::ANSIColor](http://search.cpan.org/perldoc?Term::ANSIColor)!
+2. The older versions of [Term::ANSIColor](https://metacpan.org/pod/Term::ANSIColor) dependency do not recognize bright/RGB settings, falling back to the default behavior (plain 16 colors).
+However, the whole [Term::ANSIColor](https://metacpan.org/pod/Term::ANSIColor) is optional, it is only required to preview the effects of the ["OPTIONS"](#options) via command line before actually editing the `~/.tmux.conf`.
+That is, `rainbarf --bright --tmux` __is guaranteed to work__ despite the outdated [Term::ANSIColor](https://metacpan.org/pod/Term::ANSIColor)!
 
 Another option is skipping the system colors altogether and use the __RGB__ palette (`rainbarf --rgb`).
 This fixes the _issue 1_, but doesn't affect the _issue 2_.
@@ -197,14 +200,14 @@ It still looks better, though.
 ## Persistent storage
 
 CPU utilization stats are persistently stored in the `~/.rainbarf.dat` file.
-Every [rainbarf](http://search.cpan.org/perldoc?rainbarf) execution will update and rotate that file.
-Since `tmux` calls [rainbarf](http://search.cpan.org/perldoc?rainbarf) periodically (every 15 seconds, by default), the chart will display CPU utilization for the last ~9.5 minutes (15 \* 38).
+Every [rainbarf](https://metacpan.org/pod/rainbarf) execution will update and rotate that file.
+Since `tmux` calls [rainbarf](https://metacpan.org/pod/rainbarf) periodically (every 15 seconds, by default), the chart will display CPU utilization for the last ~9.5 minutes (15 \* 38).
 Thus, several `tmux` instances running simultaneously for the same user will result in a faster chart scrolling.
 
 ## screen
 
 Stable `screen` version unfortunately has a broken UTF-8 handling specifically for the status bar.
-Thus, I have only tested the [rainbarf](http://search.cpan.org/perldoc?rainbarf) with the variant from [git://git.savannah.gnu.org/screen.git](git://git.savannah.gnu.org/screen.git).
+Thus, I have only tested the [rainbarf](https://metacpan.org/pod/rainbarf) with the variant from [git://git.savannah.gnu.org/screen.git](git://git.savannah.gnu.org/screen.git).
 My `~/.screenrc` contents:
 
     backtick 1 15 15 rainbarf --bright --screen

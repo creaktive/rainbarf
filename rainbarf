@@ -514,6 +514,12 @@ Traditional way:
 
 =item *
 
+L<Homebrew|http://brew.sh/> way:
+
+ brew install rainbarf
+
+=item *
+
 L<MacPorts|http://www.macports.org/> way:
 
  port install rainbarf

@@ -39,6 +39,10 @@ USAGE
          ./Build test
          ./Build install
 
+    *   Homebrew <http://brew.sh/> way:
+
+         brew install rainbarf
+
     *   MacPorts <http://www.macports.org/> way:
 
          port install rainbarf
