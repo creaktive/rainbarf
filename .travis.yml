@@ -6,5 +6,7 @@ perl:
     - 5.14
     - 5.16
     - 5.18
+before_install:
+    - cpanm Test::CPAN::Changes Test::CPAN::Meta Test::DistManifest Test::EOL Test::Kwalitee Test::MinimumVersion Test::Mojibake Test::NoTabs Test::Perl::Critic Test::Pod Test::Pod::Coverage Test::Pod::LinkCheck Test::Portability::Files Test::Version
 env:
     - AUTOMATED_TESTING=1 AUTHOR_TESTING=1 EXTENDED_TESTING=1 RELEASE_TESTING=1
