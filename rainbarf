@@ -318,7 +318,7 @@ sub memory {
                 ) : ();
         } <$meminfo>;
         close $meminfo;
-        $m{c} -= delete $m{sc};
+        $m{c} -= delete $m{sc} || 0;
         delete $m{c} if $m{c} < 0;
         my $x = delete($m{st}) - delete($m{sf});
         $m{w} = delete($m{t}) - sum values %m;
