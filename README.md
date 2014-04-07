@@ -1,4 +1,5 @@
-[![Build Status](https://travis-ci.org/creaktive/rainbarf.png?branch=master)](https://travis-ci.org/creaktive/rainbarf)
+[![Build Status](https://travis-ci.org/creaktive/rainbarf.png?branch=master)](https://travis-ci.org/creaktive/rainbarf "Build Status")
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/creaktive/rainbarf/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
 
 # NAME
 
@@ -245,7 +246,3 @@ This software is copyright (c) 2014 by Stanislaw Pusep <stas@sysd.org>.
 
 This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.
-
-
-[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/creaktive/rainbarf/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
-
