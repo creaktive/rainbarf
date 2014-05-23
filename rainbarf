@@ -28,6 +28,7 @@ my $order   = '';
 my $screen  = 0;
 my $tmux    = not -t \*STDOUT;
 my $rgb     = 0;
+my $skip    = 0;
 
 my ($help, $show_battery, $remaining, $bolt, $chart_bg, $chart_fg,
     $bright, $loadavg, $swap, $threshold, $width, $history);
@@ -54,6 +55,7 @@ if (@ARGV) {
         q(rgb!)         => \$rgb,
         q(width=i)      => \$width,
         q(datfile=s)    => \$history,
+        q(skip=i)       => \$skip,
     ) or help(-verbose => 1);
 }
 
@@ -67,7 +69,8 @@ my $cpu = $loadavg ? load() : usage();
 
 push @$chart => $cpu;
 splice @$chart => 0, @$chart - $width if @$chart > $width;
-lock_store $chart => $history;
+lock_store $chart => $history
+    if time - ((stat $history)[9] || 0) >= $skip;
 
 unshift @$chart => (0) x ($width - @$chart);
 
