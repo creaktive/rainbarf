@@ -33,19 +33,7 @@ my ($help, $show_battery, $remaining, $bolt, $chart_bg, $chart_fg,
     $bright, $loadavg, $swap, $threshold, $width, $history);
 
 # parse the options file
-my $rcname = exists($ENV{RAINBARF})
-    ? $ENV{RAINBARF}
-    : qq($ENV{HOME}/.rainbarf.conf);
-if (open(my $rcfile, q(<), $rcname)) {
-    while (<$rcfile>) {
-        s/\#.*$//x;
-        s/\s+//gx;
-        if (/^(?:\-{2})?(\w+(?:=\w+)?)$/x) {
-            unshift @ARGV => q(--) . $1;
-        }
-    }
-    close $rcfile;
-}
+parse_config();
 
 if (@ARGV) {
     require Getopt::Long;
@@ -126,6 +114,24 @@ my_reset(1);
 
 # For dependencies linting
 #printf qq(%-20s\t%s\n), $_ => $INC{$_} for sort keys %INC;
+
+sub parse_config {
+    my $rcname = exists($ENV{RAINBARF})
+        ? $ENV{RAINBARF}
+        : qq($ENV{HOME}/.rainbarf.conf);
+    if (open(my $rcfile, q(<), $rcname)) {
+        while (<$rcfile>) {
+            s/\#.*$//x;
+            s/\s+//gx;
+            if (/^(?:\-{2})?(\w+(?:=\w+)?)$/x) {
+                unshift @ARGV => q(--) . $1;
+            }
+        }
+        close $rcfile;
+    }
+
+    return;
+}
 
 sub help {
     my (@args) = @_;
