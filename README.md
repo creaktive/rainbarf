@@ -1,5 +1,4 @@
 [![Build Status](https://travis-ci.org/creaktive/rainbarf.png?branch=master)](https://travis-ci.org/creaktive/rainbarf "Build Status")
-[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/creaktive/rainbarf/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
 
 # NAME
 
@@ -159,7 +158,7 @@ Configuration file can be specified via `RAINBARF` environment variable:
 - `--order INDEXES`
 
     Specify the memory usage bar order.
-    The default is `fwaic` ( **f**ree, **w**ired, **a**ctive, **i**nactive & **c**ached ).
+    The default is `fwaic` (free, wired, active, inactive & cached).
 
 - `--[no]tmux`
 
