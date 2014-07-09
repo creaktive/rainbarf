@@ -656,6 +656,11 @@ Higher values may require disabling the battery indicator or raising the C<statu
 Specify the file to log CPU stats to.
 Default: F<$HOME/.rainbarf.dat>
 
+=item C<--skip NUMBER>
+
+Do not write CPU stats if file already exists and is newer than this many seconds.
+Useful if you refresh C<tmux> status quite frequently.
+
 =back
 
 =head1 CAVEAT

@@ -18,12 +18,12 @@ version 1.1
 Fancy resource usage charts to put into the [tmux](http://tmux.sourceforge.net/) status line.
 The CPU utilization history chart is tinted with the following colors to reflect the system memory allocation:
 
-- __green__: free memory;
-- __yellow__: active memory;
-- __blue__: inactive memory;
-- __red__: wired memory on _Mac OS X_ / _FreeBSD_; "unaccounted" memory on _Linux_;
-- __cyan__: cached memory on _Linux_, buf on _FreeBSD_.
-- __magenta__: used swap memory.
+- **green**: free memory;
+- **yellow**: active memory;
+- **blue**: inactive memory;
+- **red**: wired memory on _Mac OS X_ / _FreeBSD_; "unaccounted" memory on _Linux_;
+- **cyan**: cached memory on _Linux_, buf on _FreeBSD_.
+- **magenta**: used swap memory.
 
 If available, battery charge is displayed on the right.
 
@@ -56,15 +56,19 @@ If available, battery charge is displayed on the right.
         perl Build.PL
         ./Build test
         ./Build install
+
 - [Homebrew](http://brew.sh/) way:
 
         brew install rainbarf
+
 - [MacPorts](http://www.macports.org/) way:
 
         port install rainbarf
+
 - CPAN way:
 
         cpan -i App::rainbarf
+
 - Modern Perl way:
 
         cpanm git://github.com/creaktive/rainbarf.git
@@ -125,7 +129,7 @@ Configuration file can be specified via `RAINBARF` environment variable:
 
 - `--[no]rgb`
 
-    Use the __RGB__ palette instead of the system colors.
+    Use the **RGB** palette instead of the system colors.
     Also disabled by default, for the same reasons as above.
 
 - `--fg COLOR_NAME`
@@ -138,7 +142,7 @@ Configuration file can be specified via `RAINBARF` environment variable:
 
 - `--[no]loadavg`
 
-    Use [load average](https://en.wikipedia.org/wiki/Load_(computing)) metric instead of CPU utilization.
+    Use [load average](https://en.wikipedia.org/wiki/Load_\(computing\)) metric instead of CPU utilization.
     You might want to set the `--max` threshold since this is an absolute value and has varying ranges on different systems.
     Disabled by default.
 
@@ -155,7 +159,7 @@ Configuration file can be specified via `RAINBARF` environment variable:
 - `--order INDEXES`
 
     Specify the memory usage bar order.
-    The default is `fwaic` ( __f__ree, __w__ired, __a__ctive, __i__nactive & __c__ached ).
+    The default is `fwaic` ( **f**ree, **w**ired, **a**ctive, **i**nactive & **c**ached ).
 
 - `--[no]tmux`
 
@@ -164,7 +168,7 @@ Configuration file can be specified via `RAINBARF` environment variable:
 
 - `--screen`
 
-    [screen(1)](http://manpages.ubuntu.com/manpages/hardy/man1/screen.1.html) colors mode. __Experimental__. See ["CAVEAT"](#caveat).
+    [screen(1)](http://manpages.ubuntu.com/manpages/hardy/man1/screen.1.html) colors mode. **Experimental**. See ["CAVEAT"](#caveat).
 
 - `--width NUMBER`
 
@@ -176,6 +180,11 @@ Configuration file can be specified via `RAINBARF` environment variable:
     Specify the file to log CPU stats to.
     Default: `$HOME/.rainbarf.dat`
 
+- `--skip NUMBER`
+
+    Do not write CPU stats if file already exists and is newer than this many seconds.
+    Useful if you refresh `tmux` status quite frequently.
+
 # CAVEAT
 
 ## Time remaining
@@ -186,17 +195,17 @@ If the `--remaining` option is present but you do not see the time in your statu
 
 If you only see the memory usage bars but no CPU utilization chart, that's because your terminal's color scheme need an explicit distinction between foreground and background colors.
 For instance, "red on red background" will be displayed as a red block on such terminals.
-Thus, you may need the ANSI __bright__ attribute for greater contrast, or maybe consider switching to the 256-color palette.
+Thus, you may need the ANSI **bright** attribute for greater contrast, or maybe consider switching to the 256-color palette.
 There are some issues with that, though:
 
-1. Other color schemes (notably, [solarized](http://ethanschoonover.com/solarized)) have different meaning for the ANSI __bright__ attribute.
+1. Other color schemes (notably, [solarized](http://ethanschoonover.com/solarized)) have different meaning for the ANSI **bright** attribute.
 So using it will result in a quite psychedelic appearance.
 256-color pallette, activated by the `--rgb` flag, is unaffected by that.
 2. The older versions of [Term::ANSIColor](https://metacpan.org/pod/Term::ANSIColor) dependency do not recognize bright/RGB settings, falling back to the default behavior (plain 16 colors).
 However, the whole [Term::ANSIColor](https://metacpan.org/pod/Term::ANSIColor) is optional, it is only required to preview the effects of the ["OPTIONS"](#options) via command line before actually editing the `~/.tmux.conf`.
-That is, `rainbarf --bright --tmux` __is guaranteed to work__ despite the outdated [Term::ANSIColor](https://metacpan.org/pod/Term::ANSIColor)!
+That is, `rainbarf --bright --tmux` **is guaranteed to work** despite the outdated [Term::ANSIColor](https://metacpan.org/pod/Term::ANSIColor)!
 
-Another option is skipping the system colors altogether and use the __RGB__ palette (`rainbarf --rgb`).
+Another option is skipping the system colors altogether and use the **RGB** palette (`rainbarf --rgb`).
 This fixes the _issue 1_, but doesn't affect the _issue 2_.
 It still looks better, though.
 

@@ -145,6 +145,10 @@ OPTIONS
     "--datfile FILENAME"
         Specify the file to log CPU stats to. Default: $HOME/.rainbarf.dat
 
+    "--skip NUMBER"
+        Do not write CPU stats if file already exists and is newer than this
+        many seconds. Useful if you refresh "tmux" status quite frequently.
+
 CAVEAT
   Time remaining
     If the "--remaining" option is present but you do not see the time in
