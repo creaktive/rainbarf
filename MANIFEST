@@ -13,6 +13,7 @@ t/00-compile.t
 t/01-tmux.t
 t/author-critic.t
 t/author-test-eol.t
+t/release-consistent-version.t
 t/release-cpan-changes.t
 t/release-dist-manifest.t
 t/release-distmeta.t
