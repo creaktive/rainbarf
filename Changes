@@ -1,5 +1,12 @@
 Changelog for App-rainbarf
 
+1.2 2014-07-10T08:00:00
+ [Stanislaw Pusep <stas@sysd.org>]
+ - Added the --skip option;
+ - Updated CPAN release tests;
+ - Minor code/documentation cleanups;
+ - Now using Travis CI.
+
 1.1 2013-10-30T09:54:00
  [Stanislaw Pusep <stas@sysd.org>]
  - Fixed for OS X Mavericks;
