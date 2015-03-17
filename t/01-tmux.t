@@ -9,6 +9,11 @@ use Test::More;
 plan skip_all => qq(The platform $^O is unsupported)
     if $^O !~ m{(?:darwin|freebsd|linux)}ix;
 
+plan skip_all => q(UTF-8 not detected)
+    unless grep {
+        defined and m{\bUTF-?8\b}ix
+    } @ENV{qw{LANG LC_ALL LC_CTYPE}};
+
 my $tmp = File::Temp->newdir;
 
 local $ENV{RAINBARF} = q(/dev/null);
