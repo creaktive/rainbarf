@@ -1,13 +1,4 @@
 severity = harsh
 
-[TestingAndDebugging::RequireUseWarnings]
-equivalent_modules = common::sense
-
-[TestingAndDebugging::RequireUseStrict]
-equivalent_modules = common::sense
-
 [Modules::ProhibitModuleShebang]
 severity = gentle
-
-[Subroutines::ProhibitExcessComplexity]
-max_mccabe = 35

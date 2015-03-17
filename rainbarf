@@ -347,83 +347,100 @@ sub memory {
     return %m;
 }
 
-sub battery {
-    my ($battery, $charging, $time);
-    if (-x q{/usr/sbin/ioreg}) {
-        my %battery = map {
-            /"(TimeRemaining|(?:Max|Current)Capacity|FullyCharged|ExternalConnected)"\s*=\s*(\d+|Yes|No)/ix
-                ? (lc chr ord $1 => $2)
-                : ()
-        } qx{/usr/sbin/ioreg -n AppleSmartBattery -r};
+sub battery_osx {
+    my %battery = map {
+        /"(TimeRemaining|(?:Max|Current)Capacity|FullyCharged|ExternalConnected)"\s*=\s*(\d+|Yes|No)/ix
+            ? (lc chr ord $1 => $2)
+            : ()
+    } qx{/usr/sbin/ioreg -n AppleSmartBattery -r};
 
-        if ($battery{f} eq q(No)
-            || ($battery{f} eq q(No) && $battery{e} eq q(Yes))
-            || ($battery{f} eq q(Yes) && $battery{e} eq q(No))) {
-            $time = $battery{t};
-        }
-        $charging = ($battery{e} =~ /^y/ix);
-        $battery = eval { $battery{c} / $battery{m} };
-    } elsif (-d q(/proc/acpi/battery)) {
-        my ($acpi_info, $acpi_state, %battery) = ('') x 2;
-        if (grep {
-                -d $_
-                and -e ($acpi_info  ||= qq($_/info))
-                and -e ($acpi_state ||= qq($_/state))
-            } sort glob q(/proc/acpi/battery/BAT[0-9])
-        ) {
-            for my $file ($acpi_info, $acpi_state) {
-                my $fh;
-                if (open $fh, q(<), $file) {
-                    while (<$fh>) {
-                        my ($key, $value) = /^([\w\s]+)\s*:\s*(\w+)/x;
-                        next unless defined $key;
-                        $key =~ y/A-Z /a-z_/;
-                        $battery{$key} = $value;
-                    }
-                }
-                close $fh;
-            }
+    my $time;
+    if ($battery{f} eq q(No)
+        || ($battery{f} eq q(No) && $battery{e} eq q(Yes))
+        || ($battery{f} eq q(Yes) && $battery{e} eq q(No))) {
+        $time = $battery{t};
+    }
+    my $charging = ($battery{e} =~ /^y/ix);
+    my $battery = eval { $battery{c} / $battery{m} };
 
-            $charging = $battery{charging_state} ne q(discharging);
-            $time = eval { ($battery{remaining_capacity} / $battery{present_rate}) * 60 }
-                if not $charging
-                and defined $battery{present_rate}
-                and $battery{present_rate} =~ /^\d+$/x;
-            $battery = eval { $battery{remaining_capacity} / $battery{last_full_capacity} };
-        }
-    } elsif (-d q(/sys/class/power_supply)) {
-        my ($uevent, %battery) = ('');
-        if (grep {
-                -d $_
-                and ( ( -e qq($_/energy_full) and -e qq($_/energy_now) ) or
-                      ( -e qq($_/charge_now) and -e qq($_/current_now) ) )
-                and -e ($uevent ||= qq($_/uevent))
-            } sort glob q(/sys/class/power_supply/BAT[0-9])
-        ) {
-            my $fh;
-            if (open $fh, q(<), $uevent) {
-                while (<$fh>) {
-                    my ($key, $value) = /^POWER_SUPPLY_([^=]+)=(.*)$/x;
-                    next unless defined $key;
-                    $key =~ y/A-Z/a-z/;
-                    $battery{$key} = $value;
-                }
-            }
-            close $fh;
+    return ($battery, $charging, $time);
+}
 
-            $charging = $battery{status} ne q(Discharging);
-            if (not $charging) {
-                if (defined $battery{power_now} and $battery{power_now} =~ /^\d+$/x) {
-                    $time = eval { ($battery{energy_now} * 60 / $battery{power_now}) }
-                } elsif (defined $battery{charge_now} and $battery{charge_now} =~ /^\d+$/x) {
-                    $time = eval { (60 * ($battery{charge_now} / 1000) / ($battery{current_now} / 1000)) }
-                }
+sub battery_acpi {
+    my ($acpi_info, $acpi_state, %battery) = ('') x 2;
+    return () unless grep {
+        -d $_
+        and -e ($acpi_info  ||= qq($_/info))
+        and -e ($acpi_state ||= qq($_/state))
+    } sort glob q(/proc/acpi/battery/BAT[0-9]);
+
+    for my $file ($acpi_info, $acpi_state) {
+        my $fh;
+        if (open $fh, q(<), $file) {
+            while (<$fh>) {
+                my ($key, $value) = /^([\w\s]+)\s*:\s*(\w+)/x;
+                next unless defined $key;
+                $key =~ y/A-Z /a-z_/;
+                $battery{$key} = $value;
             }
-            $battery = $battery{capacity} / 100;
         }
+        close $fh;
     }
 
-    battery_print($battery, $charging, $time);
+    my $charging = $battery{charging_state} ne q(discharging);
+    my $time;
+    $time = eval { ($battery{remaining_capacity} / $battery{present_rate}) * 60 }
+        if not $charging
+        and defined $battery{present_rate}
+        and $battery{present_rate} =~ /^\d+$/x;
+    my $battery = eval { $battery{remaining_capacity} / $battery{last_full_capacity} };
+    return ($battery, $charging, $time);
+}
+
+sub battery_sys {
+    my ($uevent, %battery) = ('');
+    return () unless grep {
+        -d $_
+        and ( ( -e qq($_/energy_full) and -e qq($_/energy_now) ) or
+              ( -e qq($_/charge_now) and -e qq($_/current_now) ) )
+        and -e ($uevent ||= qq($_/uevent))
+    } sort glob q(/sys/class/power_supply/BAT[0-9]);
+
+    my $fh;
+    if (open $fh, q(<), $uevent) {
+        while (<$fh>) {
+            my ($key, $value) = /^POWER_SUPPLY_([^=]+)=(.*)$/x;
+            next unless defined $key;
+            $key =~ y/A-Z/a-z/;
+            $battery{$key} = $value;
+        }
+    }
+    close $fh;
+
+    my $charging = $battery{status} ne q(Discharging);
+    my $time;
+    if (not $charging) {
+        if (defined $battery{power_now} and $battery{power_now} =~ /^\d+$/x) {
+            $time = eval { ($battery{energy_now} * 60 / $battery{power_now}) }
+        } elsif (defined $battery{charge_now} and $battery{charge_now} =~ /^\d+$/x) {
+            $time = eval { (60 * ($battery{charge_now} / 1000) / ($battery{current_now} / 1000)) }
+        }
+    }
+    my $battery = $battery{capacity} / 100;
+    return ($battery, $charging, $time);
+}
+
+sub battery {
+    my @battery;
+    if (-x q{/usr/sbin/ioreg}) {
+        @battery = battery_osx();
+    } elsif (-d q(/proc/acpi/battery)) {
+        @battery = battery_acpi();
+    } elsif (-d q(/sys/class/power_supply)) {
+        @battery = battery_sys();
+    }
+
+    battery_print(@battery);
     return;
 }
 
