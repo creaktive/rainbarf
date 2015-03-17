@@ -241,6 +241,7 @@ Stanislaw Pusep <stas@sysd.org>
 
 - [Chris Knadler](https://github.com/cknadler)
 - [Clemens Hammacher](https://github.com/hammacher)
+- [H.Merijn Brand](https://github.com/Tux)
 - [Henrik Hodne](https://github.com/henrikhodne)
 - [Joe Hassick](https://github.com/jh3)
 - [Josh Matthews](https://github.com/jmatth)

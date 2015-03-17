@@ -12,7 +12,8 @@ README
 t/00-compile.t
 t/01-tmux.t
 t/author-critic.t
-t/author-test-eol.t
+t/author-eol.t
+t/author-no-tabs.t
 t/release-consistent-version.t
 t/release-cpan-changes.t
 t/release-dist-manifest.t
@@ -20,7 +21,6 @@ t/release-distmeta.t
 t/release-kwalitee.t
 t/release-minimum-version.t
 t/release-mojibake.t
-t/release-no-tabs.t
 t/release-pod-coverage.t
 t/release-pod-linkcheck.t
 t/release-pod-syntax.t

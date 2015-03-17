@@ -4,7 +4,7 @@
       "Stanislaw Pusep <stas@sysd.org>"
    ],
    "dynamic_config" : 0,
-   "generated_by" : "Module::Build version 0.4205",
+   "generated_by" : "Module::Build version 0.4211",
    "license" : [
       "perl_5"
    ],
@@ -49,6 +49,7 @@
       },
       "homepage" : "https://github.com/creaktive/rainbarf",
       "repository" : {
+         "type" : "git",
          "url" : "git://github.com/creaktive/rainbarf.git"
       }
    },
@@ -56,6 +57,7 @@
    "x_contributors" : [
       "Chris Knadler <takeshi91k@gmail.com>",
       "Clemens Hammacher <hammacher@cs.uni-saarland.de>",
+      "H.Merijn Brand <h.m.brand@xs4all.nl>",
       "Henrik Hodne <henrik@hodne.io>",
       "Joe Hassick <joe.hassick@gmail.com>",
       "Josh Matthews <josh@jmatthews.us>",

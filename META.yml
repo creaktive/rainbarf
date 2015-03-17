@@ -8,7 +8,7 @@ build_requires:
 configure_requires:
   Module::Build: '0.28'
 dynamic_config: 0
-generated_by: 'Module::Build version 0.4205, CPAN::Meta::Converter version 2.141520'
+generated_by: 'Module::Build version 0.4211, CPAN::Meta::Converter version 2.150001'
 license: perl
 meta-spec:
   url: http://module-build.sourceforge.net/META-spec-v1.4.html
@@ -33,6 +33,7 @@ version: '1.2'
 x_contributors:
   - 'Chris Knadler <takeshi91k@gmail.com>'
   - 'Clemens Hammacher <hammacher@cs.uni-saarland.de>'
+  - 'H.Merijn Brand <h.m.brand@xs4all.nl>'
   - 'Henrik Hodne <henrik@hodne.io>'
   - 'Joe Hassick <joe.hassick@gmail.com>'
   - 'Josh Matthews <josh@jmatthews.us>'
