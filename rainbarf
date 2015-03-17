@@ -367,8 +367,8 @@ sub battery {
         my ($acpi_info, $acpi_state, %battery) = ('') x 2;
         if (grep {
                 -d $_
-                and -e ($acpi_info  = qq($_/info))
-                and -e ($acpi_state = qq($_/state))
+                and -e ($acpi_info  ||= qq($_/info))
+                and -e ($acpi_state ||= qq($_/state))
             } sort glob q(/proc/acpi/battery/BAT[0-9])
         ) {
             for my $file ($acpi_info, $acpi_state) {
@@ -397,7 +397,7 @@ sub battery {
                 -d $_
                 and ( ( -e qq($_/energy_full) and -e qq($_/energy_now) ) or
                       ( -e qq($_/charge_now) and -e qq($_/current_now) ) )
-                and -e ($uevent = qq($_/uevent))
+                and -e ($uevent ||= qq($_/uevent))
             } sort glob q(/sys/class/power_supply/BAT[0-9])
         ) {
             my $fh;
@@ -754,6 +754,10 @@ L<Chris Knadler|https://github.com/cknadler>
 =item *
 
 L<Clemens Hammacher|https://github.com/hammacher>
+
+=item *
+
+L<H.Merijn Brand|https://github.com/Tux>
 
 =item *
 
