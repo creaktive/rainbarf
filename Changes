@@ -1,5 +1,11 @@
 Changelog for App-rainbarf
 
+1.3 2015-06-22T11:00:00
+ [Stanislaw Pusep <stas@sysd.org>]
+ - Improved battery() subroutine as suggested by Tux;
+ - Properly checking UTF-8 environment in tests;
+ - Cosmetic changes due to boilerplate updates.
+
 1.2 2014-07-10T08:00:00
  [Stanislaw Pusep <stas@sysd.org>]
  - Added the --skip option;
