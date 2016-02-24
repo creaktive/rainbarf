@@ -372,7 +372,7 @@ sub battery_acpi {
         -d $_
         and -e ($acpi_info  ||= qq($_/info))
         and -e ($acpi_state ||= qq($_/state))
-    } sort glob q(/proc/acpi/battery/BAT[0-9]);
+    } sort glob q(/proc/acpi/battery/{BAT,CMB}[0-9]);
 
     for my $file ($acpi_info, $acpi_state) {
         my $fh;
@@ -404,7 +404,7 @@ sub battery_sys {
         and ( ( -e qq($_/energy_full) and -e qq($_/energy_now) ) or
               ( -e qq($_/charge_now) and -e qq($_/current_now) ) )
         and -e ($uevent ||= qq($_/uevent))
-    } sort glob q(/sys/class/power_supply/BAT[0-9]);
+    } sort glob q(/sys/class/power_supply/{BAT,CMB}[0-9]);
 
     my $fh;
     if (open $fh, q(<), $uevent) {
