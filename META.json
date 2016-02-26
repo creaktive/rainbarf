@@ -4,7 +4,7 @@
       "Stanislaw Pusep <stas@sysd.org>"
    ],
    "dynamic_config" : 0,
-   "generated_by" : "Module::Build version 0.4214",
+   "generated_by" : "Module::Build version 0.4216",
    "license" : [
       "perl_5"
    ],
@@ -56,6 +56,7 @@
    "version" : "1.3",
    "x_contributors" : [
       "Chris Knadler <takeshi91k@gmail.com>",
+      "cinaeco",
       "Clemens Hammacher <hammacher@cs.uni-saarland.de>",
       "H.Merijn Brand <h.m.brand@xs4all.nl>",
       "Henrik Hodne <henrik@hodne.io>",

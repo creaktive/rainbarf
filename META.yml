@@ -8,7 +8,7 @@ build_requires:
 configure_requires:
   Module::Build: '0.28'
 dynamic_config: 0
-generated_by: 'Module::Build version 0.4214, CPAN::Meta::Converter version 2.150005'
+generated_by: 'Module::Build version 0.4216, CPAN::Meta::Converter version 2.150005'
 license: perl
 meta-spec:
   url: http://module-build.sourceforge.net/META-spec-v1.4.html
@@ -32,6 +32,7 @@ resources:
 version: '1.3'
 x_contributors:
   - 'Chris Knadler <takeshi91k@gmail.com>'
+  - cinaeco
   - 'Clemens Hammacher <hammacher@cs.uni-saarland.de>'
   - 'H.Merijn Brand <h.m.brand@xs4all.nl>'
   - 'Henrik Hodne <henrik@hodne.io>'
@@ -40,4 +41,4 @@ x_contributors:
   - 'Sergey Romanov <complefor@rambler.ru>'
   - 'Tom Cammann <tom.cammann@vmci.net>'
   - 'Tuomas Jormola <tj@solitudo.net>'
-x_serialization_backend: 'CPAN::Meta::YAML version 0.016'
+x_serialization_backend: 'CPAN::Meta::YAML version 0.018'

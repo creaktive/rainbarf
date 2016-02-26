@@ -240,6 +240,7 @@ Stanislaw Pusep <stas@sysd.org>
 # CONTRIBUTORS
 
 - [Chris Knadler](https://github.com/cknadler)
+- [cinaeco](https://github.com/cinaeco)
 - [Clemens Hammacher](https://github.com/hammacher)
 - [H.Merijn Brand](https://github.com/Tux)
 - [Henrik Hodne](https://github.com/henrikhodne)
