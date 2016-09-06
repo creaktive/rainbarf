@@ -4,7 +4,7 @@
       "Stanislaw Pusep <stas@sysd.org>"
    ],
    "dynamic_config" : 0,
-   "generated_by" : "Module::Build version 0.4218",
+   "generated_by" : "Module::Build version 0.422",
    "license" : [
       "perl_5"
    ],

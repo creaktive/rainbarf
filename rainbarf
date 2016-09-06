@@ -353,6 +353,7 @@ sub battery_osx {
             ? (lc chr ord $1 => $2)
             : ()
     } qx{/usr/sbin/ioreg -n AppleSmartBattery -r};
+    return () if 5 != keys %battery;
 
     my $time;
     if ($battery{f} eq q(No)
