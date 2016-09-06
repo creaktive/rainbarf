@@ -28,6 +28,7 @@ my $build = Module::Build->new(
             'Henrik Hodne <henrik@hodne.io>',
             'Joe Hassick <joe.hassick@gmail.com>',
             'Josh Matthews <josh@jmatthews.us>',
+            'Lars Engels <lars.engels@0x20.net>',
             'Sergey Romanov <complefor@rambler.ru>',
             'Tom Cammann <tom.cammann@vmci.net>',
             'Tuomas Jormola <tj@solitudo.net>',

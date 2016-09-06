@@ -6,7 +6,7 @@ rainbarf - CPU/RAM/battery stats chart bar for tmux (and GNU screen)
 
 # VERSION
 
-version 1.3
+version 1.4
 
 # SYNOPSIS
 
@@ -246,6 +246,7 @@ Stanislaw Pusep <stas@sysd.org>
 - [Henrik Hodne](https://github.com/henrikhodne)
 - [Joe Hassick](https://github.com/jh3)
 - [Josh Matthews](https://github.com/jmatth)
+- [Lars Engels](https://github.com/larsengels)
 - [Sergey Romanov](https://github.com/sergeyromanov)
 - [Tom Cammann](https://github.com/takac)
 - [Tuomas Jormola](https://github.com/tjormola)

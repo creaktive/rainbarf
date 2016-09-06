@@ -2,3 +2,6 @@ severity = harsh
 
 [Modules::ProhibitModuleShebang]
 severity = gentle
+
+[ControlStructures::ProhibitCascadingIfElse]
+max_elsif = 3
