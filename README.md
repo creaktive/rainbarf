@@ -46,6 +46,12 @@ If available, battery charge is displayed on the right.
 
 ![Ubuntu screenshot](http://i.imgur.com/kgIdeRa.png?1)
 
+## BONUS: an animated zsh prompt!
+
+[Proof of concept](https://gist.github.com/creaktive/5528983), use at your own risk!
+
+![animated zsh prompt](https://gist.githubusercontent.com/creaktive/5528983/raw/b96a35f8aea773ed664c4b183d46f7d53496b323/screencast.gif)
+
 # USAGE
 
 ## Installation
