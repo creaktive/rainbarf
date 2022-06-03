@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/creaktive/rainbarf.png?branch=master)](https://travis-ci.org/creaktive/rainbarf "Build Status")
+[![Build Status](https://app.travis-ci.com/creaktive/rainbarf.svg?branch=master)](https://travis-ci.org/creaktive/rainbarf "Build Status")
 
 # NAME
 
