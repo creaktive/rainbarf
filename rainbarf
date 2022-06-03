@@ -125,9 +125,14 @@ sub parse_config {
     if (open(my $rcfile, q(<), $rcname)) {
         while (<$rcfile>) {
             s/\#.*$//x;
-            s/\s+//gx;
-            if (/^(?:\-{2})?(\w+(?:=\w+)?)$/x) {
-                unshift @ARGV => q(--) . $1;
+            s/^\s+|\s+$//gx;
+            if (my ($k, $v) = /^(?:\-{2})?(\w+)\s*(?:=\s*(.*))?$/x) {
+                my $p = '--' . $k;
+                if ($v) {
+                    $v =~ s/\$(\w+)/$ENV{$1}/gx;
+                    $p .= '=' . $v;
+                }
+                unshift @ARGV => $p;
             }
         }
         close $rcfile;
