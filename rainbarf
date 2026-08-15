@@ -242,11 +242,31 @@ sub my_reset {
 }
 
 sub top {
-    if (not %top and -x q{/usr/bin/top}) {
+    if (not %top) {
         my @top;
-        if ($^O eq q(darwin)) {
-            @top = qx{/usr/bin/top -R -F -l1 -n0 -s0 -S};
-        } elsif ($^O eq q(freebsd)) {
+        if ($^O eq q(darwin) and -x q{/usr/sbin/iostat} and -x q{/usr/sbin/sysctl}) {
+            my ($us, $sy, $id);
+            my ($la1, $la5, $la15);
+            open my $io, '-|', qw(/usr/sbin/iostat -c 2 -w 1);
+            while (<$io>) {
+                if (/(\d+)\s+(\d+)\s+(\d+)\s+(\d+\.\d+)\s+(\d+\.\d+)\s+(\d+\.\d+)$/) {
+                    ($us, $sy, $id) = ($1, $2, $3);
+                    ($la1, $la5, $la15) = ($4, $5, $6);
+                }
+            }
+            close $io;
+            push @top, sprintf("CPU usage: %s%% user, %s%% sys, %s%% idle\n", $us, $sy, $id);
+            push @top, sprintf("Load Avg: %.2f, %.2f, %.2f\n", $la1, $la5, $la15);
+
+            my ($su, $sf);
+            open my $s, '-|', qw(/usr/sbin/sysctl vm.swapusage);
+            while (<$s>) {
+                $su = sprintf('%.0f%s', $1, $2) if /used\s*=\s*(\d+(?:\.\d+))?([KMG])/;
+                $sf = sprintf('%.0f%s', $1, $2) if /free\s*=\s*(\d+(?:\.\d+))?([KMG])/;
+            }
+            close $s;
+            push @top, sprintf("Swap: %s + %s free.\n", $su, $sf);
+        } elsif ($^O eq q(freebsd) and -x q{/usr/bin/top}) {
             @top = qx{/usr/bin/top -b -d2 -I -s1 -z};
         }
         for (@top) {
@@ -317,7 +337,7 @@ sub usage {
 sub memory {
     my %m;
     my %n = (K => 1/2**10, M => 1, G => 2**10);
-    if (exists $top{physmem} and $top{physmem} !~ /\bunused\b/ix) {
+    if (defined $top{physmem} and $top{physmem} !~ /\bunused\b/ix) {
         %m =
             map { lc $_->[2] => $_->[0] * $n{$_->[1]} }
             map { [(/(\d+)([KMG])\s+(\w)/x)] }
