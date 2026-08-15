@@ -8,7 +8,7 @@ use List::Util qw(max sum);
 use Storable qw(lock_retrieve lock_store);
 
 ## no critic (ProhibitBacktickOperators ProhibitComplexRegexes ProhibitInteractiveTest)
-our $VERSION = q(1.4);
+our $VERSION = q(1.5);
 
 my %rgb = (
     black   => [qw[0 0 0]],
@@ -539,7 +539,7 @@ rainbarf - CPU/RAM/battery stats chart bar for tmux (and GNU screen)
 
 =head1 VERSION
 
-version 1.4
+version 1.5
 
 =head1 SYNOPSIS
 
@@ -858,7 +858,7 @@ L<Tuomas Jormola|https://github.com/tjormola>
 
 =head1 COPYRIGHT AND LICENSE
 
-This software is copyright (c) 2016 by Stanislaw Pusep <stas@sysd.org>.
+This software is copyright (c) 2026 by Stanislaw Pusep <stas@sysd.org>.
 
 This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.

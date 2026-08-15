@@ -1,5 +1,9 @@
 Changelog for App-rainbarf
 
+1.5 2026-08-15T09:34:00
+ [Stanislaw Pusep <stas@sysd.org>]
+ - `top` is very expensive on macOS; use `iostat` & `sysctl` calls instead.
+
 1.4 2016-09-06T09:00:00
  [Lars Engels <lars.engels@0x20.net>]
  - Add battery support for FreeBSD.

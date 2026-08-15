@@ -6,7 +6,7 @@ rainbarf - CPU/RAM/battery stats chart bar for tmux (and GNU screen)
 
 # VERSION
 
-version 1.4
+version 1.5
 
 # SYNOPSIS
 
@@ -164,7 +164,7 @@ Configuration file can be specified via `RAINBARF` environment variable:
 - `--order INDEXES`
 
     Specify the memory usage bar order.
-    The default is `fwaic` (free, wired, active, inactive & cached).
+    The default is `fwaic` ( **f**ree, **w**ired, **a**ctive, **i**nactive & **c**ached ).
 
 - `--[no]tmux`
 
@@ -206,9 +206,9 @@ There are some issues with that, though:
 1. Other color schemes (notably, [solarized](http://ethanschoonover.com/solarized)) have different meaning for the ANSI **bright** attribute.
 So using it will result in a quite psychedelic appearance.
 256-color pallette, activated by the `--rgb` flag, is unaffected by that.
-2. The older versions of [Term::ANSIColor](https://metacpan.org/pod/Term::ANSIColor) dependency do not recognize bright/RGB settings, falling back to the default behavior (plain 16 colors).
-However, the whole [Term::ANSIColor](https://metacpan.org/pod/Term::ANSIColor) is optional, it is only required to preview the effects of the ["OPTIONS"](#options) via command line before actually editing the `~/.tmux.conf`.
-That is, `rainbarf --bright --tmux` **is guaranteed to work** despite the outdated [Term::ANSIColor](https://metacpan.org/pod/Term::ANSIColor)!
+2. The older versions of [Term::ANSIColor](https://metacpan.org/pod/Term%3A%3AANSIColor) dependency do not recognize bright/RGB settings, falling back to the default behavior (plain 16 colors).
+However, the whole [Term::ANSIColor](https://metacpan.org/pod/Term%3A%3AANSIColor) is optional, it is only required to preview the effects of the ["OPTIONS"](#options) via command line before actually editing the `~/.tmux.conf`.
+That is, `rainbarf --bright --tmux` **is guaranteed to work** despite the outdated [Term::ANSIColor](https://metacpan.org/pod/Term%3A%3AANSIColor)!
 
 Another option is skipping the system colors altogether and use the **RGB** palette (`rainbarf --rgb`).
 This fixes the _issue 1_, but doesn't affect the _issue 2_.
@@ -259,7 +259,7 @@ Stanislaw Pusep <stas@sysd.org>
 
 # COPYRIGHT AND LICENSE
 
-This software is copyright (c) 2016 by Stanislaw Pusep <stas@sysd.org>.
+This software is copyright (c) 2026 by Stanislaw Pusep <stas@sysd.org>.
 
 This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.

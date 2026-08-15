@@ -3,7 +3,7 @@ package App::rainbarf;
 use strict;
 use warnings;
 
-our $VERSION = q(1.4);
+our $VERSION = q(1.5);
 
 1;
 
@@ -16,7 +16,7 @@ rainbarf - CPU/RAM/battery stats chart bar for tmux (and GNU screen)
 
 =head1 VERSION
 
-version 1.4
+version 1.5
 
 =head1 DESCRIPTION
 
@@ -29,7 +29,7 @@ Stanislaw Pusep <stas@sysd.org>
 
 =head1 COPYRIGHT AND LICENSE
 
-This software is copyright (c) 2016 by Stanislaw Pusep <stas@sysd.org>.
+This software is copyright (c) 2026 by Stanislaw Pusep <stas@sysd.org>.
 
 This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.
