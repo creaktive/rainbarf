@@ -39,7 +39,7 @@
    "provides" : {
       "App::rainbarf" : {
          "file" : "lib/App/rainbarf.pm",
-         "version" : "1.5"
+         "version" : "1.6"
       }
    },
    "release_status" : "stable",
@@ -53,7 +53,7 @@
          "url" : "git://github.com/creaktive/rainbarf.git"
       }
    },
-   "version" : "1.5",
+   "version" : "1.6",
    "x_contributors" : [
       "Chris Knadler <takeshi91k@gmail.com>",
       "cinaeco",

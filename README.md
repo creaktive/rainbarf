@@ -6,7 +6,7 @@ rainbarf - CPU/RAM/battery stats chart bar for tmux (and GNU screen)
 
 # VERSION
 
-version 1.5
+version 1.6
 
 # SYNOPSIS
 
@@ -187,7 +187,7 @@ Configuration file can be specified via `RAINBARF` environment variable:
 
 - `--skip NUMBER`
 
-    Do not write CPU stats if file already exists and is newer than this many seconds.
+    Do not read any stats (CPU, memory, battery) if the datfile is newer than this many seconds; display the cached ones instead.
     Useful if you refresh `tmux` status quite frequently.
 
 # CAVEAT
@@ -217,7 +217,7 @@ It still looks better, though.
 ## Persistent storage
 
 CPU utilization stats are persistently stored in the `~/.rainbarf.dat` file.
-Every [rainbarf](https://metacpan.org/pod/rainbarf) execution will update and rotate that file.
+Every [rainbarf](https://metacpan.org/pod/rainbarf) execution will update and rotate that file (unless `--skip` is set).
 Since `tmux` calls [rainbarf](https://metacpan.org/pod/rainbarf) periodically (every 15 seconds, by default), the chart will display CPU utilization for the last ~9.5 minutes (15 \* 38).
 Thus, several `tmux` instances running simultaneously for the same user will result in a faster chart scrolling.
 
