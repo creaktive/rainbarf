@@ -61,16 +61,29 @@ if (@ARGV) {
 
 defaults();
 
-my $chart = eval { lock_retrieve $history };
-$chart = [ (0) x $width ] unless defined $chart;
+my $state = eval { lock_retrieve $history };
+$state = { chart => $state } if ref $state eq q(ARRAY); # pre-1.6 format
+$state = {} unless ref $state eq q(HASH);
+$state->{chart} ||= [ (0) x $width ];
+
+# reuse all cached readings if the datfile is fresh enough
+my $fresh = $skip
+    && $state->{memory}
+    && time - ((stat $history)[9] || 0) < $skip;
 
 my %top;
-my $cpu = $loadavg ? load() : usage();
+unless ($fresh) {
+    push @{ $state->{chart} } => $loadavg ? load() : usage();
+    splice @{ $state->{chart} } => 0, @{ $state->{chart} } - $width
+        if @{ $state->{chart} } > $width;
+    $state->{memory} = { memory() };
+    $state->{battery} = [ battery() ] if $show_battery or $remaining;
+    lock_store $state => $history;
+}
 
-push @$chart => $cpu;
+my $chart = [ @{ $state->{chart} } ];
+my $cpu = $chart->[-1];
 splice @$chart => 0, @$chart - $width if @$chart > $width;
-lock_store $chart => $history
-    if time - ((stat $history)[9] || 0) >= $skip;
 
 unshift @$chart => (0) x ($width - @$chart);
 
@@ -93,7 +106,7 @@ for my $i (0 .. $#order) {
         if exists $colors{$color};
 }
 
-my %memory = memory();
+my %memory = %{ $state->{memory} };
 delete $memory{x} unless $swap;
 
 my $scale = @$chart / sum values %memory;
@@ -112,7 +125,8 @@ for my $type (sort { $colors{$a}->[1] <=> $colors{$b}->[1] } keys %memory) {
 }
 print $ticks[$norm * $cpu] if $c < $width;
 
-battery() if $show_battery or $remaining;
+battery_print(@{ $state->{battery} || [ battery() ] })
+    if $show_battery or $remaining;
 my_reset(1);
 
 # For dependencies linting
@@ -486,8 +500,7 @@ sub battery {
         @battery = battery_freebsd();
     }
 
-    battery_print(@battery);
-    return;
+    return @battery;
 }
 
 sub battery_print {
@@ -721,7 +734,7 @@ Default: F<$HOME/.rainbarf.dat>
 
 =item C<--skip NUMBER>
 
-Do not write CPU stats if file already exists and is newer than this many seconds.
+Do not read any stats (CPU, memory, battery) if the datfile is newer than this many seconds; display the cached ones instead.
 Useful if you refresh C<tmux> status quite frequently.
 
 =back
