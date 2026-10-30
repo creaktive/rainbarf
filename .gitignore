@@ -1,4 +1,5 @@
 blib/
+.claude/
 .build/
 _build/
 cover_db/
