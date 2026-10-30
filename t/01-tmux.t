@@ -69,4 +69,15 @@ for my $i (1 .. $n) {
     sleep 1;
 }
 
-done_testing 2 * $n;
+# --skip: fresh datfile means no new reading
+require Storable;
+my $skip_file = $tmp->dirname . q(/skip.dat);
+my @states;
+for (1 .. 3) {
+    system $^X => qw[rainbarf --nobattery --tmux --skip 60 --datfile], $skip_file;
+    push @states => Storable::retrieve($skip_file);
+    sleep 1;
+}
+is_deeply($states[-1], $states[0], q(--skip reuses cached stats));
+
+done_testing 2 * $n + 1;
