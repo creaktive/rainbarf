@@ -2,7 +2,7 @@ NAME
     rainbarf - CPU/RAM/battery stats chart bar for tmux (and GNU screen)
 
 VERSION
-    version 1.5
+    version 1.6
 
 SYNOPSIS
      rainbarf --tmux --width 40 --no-battery
@@ -146,8 +146,9 @@ OPTIONS
         Specify the file to log CPU stats to. Default: $HOME/.rainbarf.dat
 
     "--skip NUMBER"
-        Do not write CPU stats if file already exists and is newer than this
-        many seconds. Useful if you refresh "tmux" status quite frequently.
+        Do not read any stats (CPU, memory, battery) if the datfile is newer
+        than this many seconds; display the cached ones instead. Useful if
+        you refresh "tmux" status quite frequently.
 
 CAVEAT
   Time remaining
@@ -184,11 +185,12 @@ CAVEAT
 
   Persistent storage
     CPU utilization stats are persistently stored in the ~/.rainbarf.dat
-    file. Every rainbarf execution will update and rotate that file. Since
-    "tmux" calls rainbarf periodically (every 15 seconds, by default), the
-    chart will display CPU utilization for the last ~9.5 minutes (15 * 38).
-    Thus, several "tmux" instances running simultaneously for the same user
-    will result in a faster chart scrolling.
+    file. Every rainbarf execution will update and rotate that file (unless
+    "--skip" is set). Since "tmux" calls rainbarf periodically (every 15
+    seconds, by default), the chart will display CPU utilization for the
+    last ~9.5 minutes (15 * 38). Thus, several "tmux" instances running
+    simultaneously for the same user will result in a faster chart
+    scrolling.
 
   screen
     Stable "screen" version unfortunately has a broken UTF-8 handling

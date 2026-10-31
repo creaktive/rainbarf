@@ -1,5 +1,10 @@
 Changelog for App-rainbarf
 
+1.6 2026-10-30T14:54:00
+ [Stanislaw Pusep <stas@sysd.org>]
+ - `--skip` now caches all stats (CPU, memory, battery) and reads nothing while the datfile is fresh;
+ - datfile format changed: delete `~/.rainbarf.dat` if downgrading.
+
 1.5 2026-08-15T09:34:00
  [Stanislaw Pusep <stas@sysd.org>]
  - `top` is very expensive on macOS; use `iostat` & `sysctl` calls instead.
